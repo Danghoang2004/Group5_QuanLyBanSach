@@ -1,0 +1,144 @@
+/* Reset và chuẩn hóa */
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #3b68c1; /* màu nền xanh của khung ngoài ảnh */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Khung trắng bao form */
+    .container {
+      background-color: white;
+      width: 700px; /* tăng kích thước chiều rộng */
+      height: 500px; /* tăng chiều cao */
+      border-radius: 8px;
+      display: flex;
+      padding: 30px 50px; /* thêm padding để khoảng cách bên trong rộng rãi hơn */
+      box-shadow: 0 0 15px rgba(0,0,0,0.15); /* đậm hơn tí cho đẹp */
+    }
+  
+  
+  /* Chỉnh form bên phải */
+  .login-box {
+    margin-left: auto;
+    width: 55%; /* tăng một chút so với 50% */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  /* Tiêu đề */
+  .login-box h2 {
+    font-weight: 500;
+    font-size: 22px;
+    margin-bottom: 25px;
+    color: #333;
+  }
+  
+  /* Input form */
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #3b68c1;
+  }
+  
+  /* Checkbox nhớ tài khoản */
+  .remember-me {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .remember-me input {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+  }
+  
+  /* Các nút */
+  .btn {
+    width: 100%;
+    padding: 12px 0;
+    border-radius: 25px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-btn {
+    background-color: #3b68c1;
+  }
+  
+  .login-btn:hover {
+    background-color: #2a4f8d;
+  }
+  
+  .google-btn {
+    background-color: #e64634;
+  }
+  
+  .google-btn:hover {
+    background-color: #b83729;
+  }
+  
+  .facebook-btn {
+    background-color: #325c91;
+  }
+  
+  .facebook-btn:hover {
+    background-color: #244373;
+  }
+  
+  /* Icon trong nút */
+  .btn i {
+    margin-right: 10px;
+    font-size: 16px;
+  }
+  
+  /* Các link dưới cùng */
+  .links {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #3b68c1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .links a {
+    color: #3b68c1;
+    text-decoration: none;
+  }
+  
+  .links a:hover {
+    text-decoration: underline;
+  }

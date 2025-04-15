@@ -1,0 +1,160 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    background-color: #fff;
+    color: #333;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #13c4ff;
+    padding: 10px 20px;
+    color: white;
+}
+.left-header {
+    display: flex;
+    align-items: center;
+    gap: 120px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.search-login {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-login input {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-tim,
+.btn-dangnhap {
+    background: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.login-box {
+    width: 400px;
+    padding: 30px;
+    background-color: #f9f3dc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin: 20px 0;
+}
+
+.login-box form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.remember-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.remember-box input {
+    margin-right: 5px;
+}
+
+.btn-login {
+    background-color: #4d94ff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.divider {
+    margin: 20px 0;
+    text-align: center;
+    position: relative;
+}
+
+.divider span {
+    background: white;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.divider::before {
+    content: "";
+    height: 1px;
+    background: #aaa;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    z-index: 0;
+}
+
+.login-box a {
+    color: red;
+    text-decoration: none;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    gap: 10px;
+}
+
+.logo img {
+    height: 60px; 
+    width: auto;
+    
+}
+.login-box .logo {
+    justify-content: center; /* căn giữa theo chiều ngang */
+    margin-bottom: 20px;      /* tạo khoảng cách với phần bên dưới */
+}
