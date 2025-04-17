@@ -101,3 +101,48 @@
   
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn form gửi đi
+
+            const usernameInput = document.getElementById("username");
+            const passwordInput = document.getElementById("password");
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // Kiểm tra trống
+            if (!username || !password) {
+                alert("⚠️ Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.");
+                return;
+            }
+
+            // Kiểm tra tài khoản mẫu (có thể kết nối backend sau)
+            if (username === "admin" && password === "admin123") {
+                alert("✅ Đăng nhập thành công!");
+                // Có thể thêm hiệu ứng loading trước khi chuyển trang
+                setTimeout(() => {
+                    window.location.href = "TrangChu.html";
+                }, 1000);
+            } else {
+                alert("❌ Sai tên đăng nhập hoặc mật khẩu.");
+                // Tùy chọn: Làm nổi bật lại các ô nhập
+                usernameInput.classList.add("is-invalid");
+                passwordInput.classList.add("is-invalid");
+            }
+        });
+
+        // Xoá trạng thái lỗi khi người dùng nhập lại
+        document.getElementById("username").addEventListener("input", () => {
+            usernameInput.classList.remove("is-invalid");
+        });
+
+        document.getElementById("password").addEventListener("input", () => {
+            passwordInput.classList.remove("is-invalid");
+        });
+    });
+</script>
