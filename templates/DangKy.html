@@ -177,5 +177,70 @@
 		</div>
 	</div>
 </body>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const matKhau = document.getElementById('matKhau');
+		const matKhauNhapLai = document.getElementById('matKhauNhapLai');
+		const msg = document.getElementById('msg');
+		const submitBtn = document.getElementById('submit');
+		const checkDieuKhoan = document.getElementById('dongYDieuKhoan');
+		const errorMessage = document.getElementById('error-message');
+
+		// Hiện/ẩn nút Đăng ký khi tích điều khoản
+		checkDieuKhoan.addEventListener('change', function () {
+			submitBtn.style.visibility = this.checked ? 'visible' : 'hidden';
+		});
+
+		// Cảnh báo nếu mật khẩu không khớp khi đang gõ
+		matKhauNhapLai.addEventListener('input', function () {
+			msg.textContent = (matKhau.value !== matKhauNhapLai.value) ? " - Mật khẩu không khớp!" : "";
+		});
+
+		// Xử lý khi ấn nút submit
+		document.querySelector('form').addEventListener('submit', function (e) {
+			const requiredFields = [
+				'tenDangNhap',
+				'matKhau',
+				'matKhauNhapLai',
+				'hoVaTen',
+				'dienThoai',
+				'email',
+				'diaChiKhachHang',
+				'diaChiMuaHang',
+				'diaChiNhanHang',
+				'gioiTinh',
+				'ngaySinh'
+			];
+
+			let isValid = true;
+
+			// Kiểm tra các trường bắt buộc có rỗng không
+			requiredFields.forEach(function (id) {
+				const input = document.getElementById(id);
+				if (input && input.value.trim() === '') {
+					isValid = false;
+					input.classList.add('is-invalid'); // thêm viền đỏ Bootstrap
+				} else {
+					input.classList.remove('is-invalid');
+				}
+			});
+
+			// Kiểm tra mật khẩu khớp không
+			if (matKhau.value !== matKhauNhapLai.value) {
+				msg.textContent = " - Mật khẩu không khớp!";
+				isValid = false;
+			} else {
+				msg.textContent = "";
+			}
+
+			if (!isValid) {
+				e.preventDefault();
+				errorMessage.textContent = "Bạn vui lòng nhập phần còn lại.";
+				errorMessage.classList.remove('d-none');
+				window.scrollTo(0, 0); // cuộn lên đầu để thấy thông báo lỗi
+			}
+		});
+	});
+</script>
 
 </html>
