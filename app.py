@@ -139,5 +139,6 @@ def register():
 
     return render_template("DangKy.html")
 
+
 if __name__ == "__main__":
     app.run(debug=True)
