@@ -155,6 +155,6 @@ main {
     
 }
 .login-box .logo {
-    justify-content: center; /* căn giữa theo chiều ngang */
-    margin-bottom: 20px;      /* tạo khoảng cách với phần bên dưới */
+    justify-content: center; 
+    margin-bottom: 20px;      
 }

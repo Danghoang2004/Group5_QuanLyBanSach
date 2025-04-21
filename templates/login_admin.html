@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login Form</title>
   <link rel="stylesheet" href="/static/loginAdmin.css" />
-  <!-- Thêm Font Awesome để hiển thị icon Google và Facebook -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    .logkc{
+    .logkc {
       margin-left: 100px;
+    }
+    .flash-message {
+      color: red;
+      text-align: center;
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -20,12 +21,23 @@
   <div class="container">
     <div class="login-box">
       <h2 class="logkc">Welcome Back!</h2>
-      <form>
-        <input type="email" placeholder="Enter Email Address..." required />
-        <input type="password" placeholder="Password" required />
-        
+
+      <!-- Hiển thị flash message nếu có -->
+     {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    
+
+      <form method="POST" action="/login-admin">
+        <input name="email" type="email" placeholder="Enter Email Address..." required />
+        <input name="password" type="password" placeholder="Password" required />
+
         <label class="remember-me">
-          <input type="checkbox" />
+          <input type="checkbox" name="remember" />
           Remember Me
         </label>
 
@@ -46,5 +58,36 @@
       </div>
     </div>
   </div>
+
+  <!-- JavaScript validation -->
+  <script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+      const email = document.querySelector('input[name="email"]');
+      const password = document.querySelector('input[name="password"]');
+      let valid = true;
+      let errorMessage = "";
+
+      if (!email.value) {
+        valid = false;
+        errorMessage += "Email không được để trống.\n";
+      } else if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+        valid = false;
+        errorMessage += "Email không đúng định dạng.\n";
+      }
+
+      if (!password.value) {
+        valid = false;
+        errorMessage += "Mật khẩu không được để trống.\n";
+      } else if (password.value.length < 6) {
+        valid = false;
+        errorMessage += "Mật khẩu phải có ít nhất 6 ký tự.\n";
+      }
+
+      if (!valid) {
+        e.preventDefault();
+        alert(errorMessage);
+      }
+    });
+  </script>
 </body>
 </html>
