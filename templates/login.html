@@ -19,12 +19,11 @@
     crossorigin="anonymous"></script>
 </head>
 <body>
-    <!--Header-->
     <header>
         <div class="left-header">
             <div class="logo">📚 Book_shop</div>
             <nav>
-                <a href="#">Trang Chủ</a>
+                <a href="TrangChu.html">Trang Chủ</a>
                 <a href="#">Combo giảm giá</a>
                 <a href="#">Thể Loại</a>
                 <a href="#">Hết hàng</a>
@@ -33,7 +32,7 @@
         <div class="search-login">
             <input type="text" placeholder="Nội dung tìm kiếm">
             <button class="btn-tim">Tìm</button>
-            <button class="btn-dangnhap">Đăng nhập</button>
+            <a href="login.html"><button class="btn-dangnhap">Đăng nhập</button></a>
         </div>
     </header>
 
@@ -60,19 +59,17 @@
 
             <div class="divider"><span>Hoặc</span></div>
 
-            <p>Nếu bạn chưa có tài khoản? <a href="#">Đăng ký</a></p>
+            <p>Nếu bạn chưa có tài khoản? <a href="/register" class="btn btn-tim">Đăng ký</a></p>
             <p><small>Đăng nhập với quyền admin.</small></p>
             <p class="copyright">© 2024 - 2026</p>
         </div>
     </main>
 
-    <!-- Footer-->
     <div class="footer py-4">
 	<hr />
     <div class="container">
-        <div class="row g-4">  <!-- Thêm gutter (khoảng cách giữa các cột) -->
+        <div class="row g-4">
             
-            <!-- Cột 1: Logo & MXH -->
             <div class="col-md-4">
                 <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
                 <div class="social-icons">
@@ -83,7 +80,6 @@
                 </div>
             </div>
 
-            <!-- Cột 2: Liên hệ -->
             <div class="col-md-4">
                 <ul class="list-unstyled">
                     <li class="mb-2">Liên hệ :quanlysach_360@gmail.com</li>
@@ -92,7 +88,6 @@
                 </ul>
             </div>
 
-            <!-- Cột 3: Chính sách -->
             <div class="col-md-4">
                 <ul class="list-unstyled">
                     <li class="mb-2">Chính sách hoạt động</li>
@@ -106,3 +101,48 @@
   
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn form gửi đi
+
+            const usernameInput = document.getElementById("username");
+            const passwordInput = document.getElementById("password");
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // Kiểm tra trống
+            if (!username || !password) {
+                alert("⚠️ Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.");
+                return;
+            }
+
+            // Kiểm tra tài khoản mẫu (có thể kết nối backend sau)
+            if (username === "admin" && password === "admin123") {
+                alert("✅ Đăng nhập thành công!");
+                // Có thể thêm hiệu ứng loading trước khi chuyển trang
+                setTimeout(() => {
+                    window.location.href = "TrangChu.html";
+                }, 1000);
+            } else {
+                alert("❌ Sai tên đăng nhập hoặc mật khẩu.");
+                // Tùy chọn: Làm nổi bật lại các ô nhập
+                usernameInput.classList.add("is-invalid");
+                passwordInput.classList.add("is-invalid");
+            }
+        });
+
+        // Xoá trạng thái lỗi khi người dùng nhập lại
+        document.getElementById("username").addEventListener("input", () => {
+            usernameInput.classList.remove("is-invalid");
+        });
+
+        document.getElementById("password").addEventListener("input", () => {
+            passwordInput.classList.remove("is-invalid");
+        });
+    });
+</script>

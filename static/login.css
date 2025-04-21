@@ -11,12 +11,16 @@ body {
 }
 
 header {
+    width: 100%;
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    background-image: linear-gradient(0, #3b68c1, #3b68c1);
+    min-height: 80px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background-color: #13c4ff;
-    padding: 10px 20px;
-    color: white;
+    z-index: 1;
 }
 .left-header {
     display: flex;
