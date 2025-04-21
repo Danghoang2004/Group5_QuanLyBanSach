@@ -1,38 +1,19 @@
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Đăng ký</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-	integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-	integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-	crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/static/login.css">
 <style>
-.red {
-	color: red;
-}
-.distance{
-	margin-top: 30px;
-	margin-bottom: 30px;
-}
+.red { color: red; }
+.distance { margin-top: 30px; margin-bottom: 30px; }
 </style>
 </head>
 <body>
-
-	<!--Header-->
     <!--Header-->
     <header>
         <div class="left-header">
@@ -51,196 +32,180 @@
         </div>
     </header>
 
-	<div class="container">
-		<div class="text-center distance">
-			<h1>ĐĂNG KÝ TÀI KHOẢN</h1>
-		</div>
+    <div class="container">
+        <div class="text-center distance">
+            <h1>ĐĂNG KÝ TÀI KHOẢN</h1>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
 
-
-		<form class="form" action="/khach-hang" method="post">
-			<input type="hidden" name="hanhDong" value="dang-ky" />
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="mb-3">
-						<label for="tenDangNhap" class="form-label">Tên đăng nhập<span
-							class="red">*</span></label> <input type="text" class="form-control"
-							id="tenDangNhap" name="tenDangNhap" required="required">
-					</div>
-					<div class="mb-3">
-						<label for="matKhau" class="form-label">Mật khẩu<span
-							class="red">*</span></label> <input type="password" class="form-control"
-							id="matKhau" name="matKhau" required="required">
-					</div>
-					<div class="mb-3">
-						<label for="matKhauNhapLai" class="form-label">Nhập lại
-							mật khẩu<span class="red">*</span> <span id="msg" class="red"></span>
-						</label> <input type="password" class="form-control" id="matKhauNhapLai"
-							name="matKhauNhapLai" required="required">
-					</div>
-					<hr />
-					<div class="mb-3">
-						<label for="hoVaTen" class="form-label">Họ và tên</label> <input
-							type="text" class="form-control" id="hoVaTen" name="hoVaTen"
-							value="">
-					</div>
-					<div class="mb-3">
-						<label for="gioiTinh" class="form-label">Giới tính</label> <select
-							class="form-control" id="gioiTinh" name="gioiTinh">
-							<option></option>
-							<option value="Nam">Nam</option>
-							<option value="Nữ">Nữ</option>
-							<option value="Khác">Khác</option>
-						</select>
-					</div>
-					<div class="mb-3">
-						<label for="ngaySinh" class="form-label">Ngày sinh</label> <input
-							type="date" class="form-control" id="ngaySinh" name="ngaySinh"">
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="mb-3">
-						<label for="diaChiKhachHang" class="form-label">Địa chỉ
-							khách hàng</label> <input type="text" class="form-control"
-							id="diaChiKhachHang" name="diaChiKhachHang">
-					</div>
-					<div class="mb-3">
-						<label for="diaChiMuaHang" class="form-label">Địa chỉ mua
-							hàng</label> <input type="text" class="form-control" id="diaChiMuaHang"
-							name="diaChiMuaHang">
-					</div>
-					<div class="mb-3">
-						<label for="diaChiNhanHang" class="form-label">Địa chỉ
-							nhận hàng</label> <input type="text" class="form-control"
-							id="diaChiNhanHang" name="diaChiNhanHang">
-					</div>
-					<div class="mb-3">
-						<label for="dienThoai" class="form-label">Điện thoại</label> <input
-							type="tel" class="form-control" id="dienThoai" name="dienThoai">
-					</div>
-					<div class="mb-3">
-						<label for="email" class="form-label">Email</label> <input
-							type="email" class="form-control" id="email" name="email">
-					</div>
-					<hr />
-					<div class="mb-3">
-						<label for="dongYDieuKhoan" class="form-label">Đồng ý với
-							<a>điều khoản của công ty </a><span id="red">*</span>
-						</label> <input type="checkbox" class="form-check-input"
-							id="dongYDieuKhoan" name="dongYDieuKhoan" required="required">
-					</div>
-					<div class="mb-3">
-						<label for="dongYNhanMail" class="form-label">Đồng ý nhận
-							email</label> <input type="checkbox" class="form-check-input"
-							id="dongYNhanMail" name="dongYNhanMail">
-					</div>
-					<input class="btn btn-primary form-control" type="submit"
-						value="Đăng ký" name="submit" id="submit"
-						style="visibility: hidden;" />
-				</div>
-			</div>
-		</form>
-	</div>
-	<div class="footer py-4">
-		<hr />
-		<div class="container">
-			<div class="row g-4">  <!-- Thêm gutter (khoảng cách giữa các cột) -->
-				
-				<!-- Cột 1: Logo & MXH -->
-				<div class="col-md-4">
-					<div class="h5 fw-bold mb-3">BookSach_360.vn</div>
-					<div class="social-icons">
-						<a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
-						<a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
-						<a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
-						<a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
-					</div>
-				</div>
-	
-				<!-- Cột 2: Liên hệ -->
-				<div class="col-md-4">
-					<ul class="list-unstyled">
-						<li class="mb-2">Liên hệ :quanlysach_360@gmail.com</li>
-						<li class="mb-2">Quy định giao hàng</li>
-						<li class="mb-2">Quy định trả hàng</li>
-					</ul>
-				</div>
-	
-				<!-- Cột 3: Chính sách -->
-				<div class="col-md-4">
-					<ul class="list-unstyled">
-						<li class="mb-2">Chính sách hoạt động</li>
-						<li class="mb-2">Chính sách trả hàng</li>
-						<li class="mb-2">Chính sách bảo mật</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+        <form class="form" action="/register" method="post">
+            <input type="hidden" name="hanhDong" value="dang-ky" />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="tenDangNhap" class="form-label">Tên đăng nhập<span class="red">*</span></label>
+                        <input type="text" class="form-control" id="tenDangNhap" name="tenDangNhap" required="required">
+                    </div>
+                    <div class="mb-3">
+                        <label for="matKhau" class="form-label">Mật khẩu<span class="red">*</span></label>
+                        <input type="password" class="form-control" id="matKhau" name="matKhau" required="required">
+                    </div>
+                    <div class="mb-3">
+                        <label for="matKhauNhapLai" class="form-label">Nhập lại mật khẩu<span class="red">*</span> <span id="msg" class="red"></span></label>
+                        <input type="password" class="form-control" id="matKhauNhapLai" name="matKhauNhapLai" required="required">
+                    </div>
+                    <hr />
+                    <div class="mb-3">
+                        <label for="hoVaTen" class="form-label">Họ và tên</label>
+                        <input type="text" class="form-control" id="hoVaTen" name="hoVaTen" value="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="gioiTinh" class="form-label">Giới tính</label>
+                        <select class="form-control" id="gioiTinh" name="gioiTinh">
+                            <option></option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ngaySinh" class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" id="ngaySinh" name="ngaySinh">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="diaChiKhachHang" class="form-label">Địa chỉ khách hàng</label>
+                        <input type="text" class="form-control" id="diaChiKhachHang" name="diaChiKhachHang">
+                    </div>
+                    <div class="mb-3">
+                        <label for="diaChiMuaHang" class="form-label">Địa chỉ mua hàng</label>
+                        <input type="text" class="form-control" id="diaChiMuaHang" name="diaChiMuaHang">
+                    </div>
+                    <div class="mb-3">
+                        <label for="diaChiNhanHang" class="form-label">Địa chỉ nhận hàng</label>
+                        <input type="text" class="form-control" id="diaChiNhanHang" name="diaChiNhanHang">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dienThoai" class="form-label">Điện thoại</label>
+                        <input type="tel" class="form-control" id="dienThoai" name="dienThoai">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <hr />
+                    <div class="mb-3">
+                        <label for="dongYDieuKhoan" class="form-label">Đồng ý với <a href="/terms">điều khoản của công ty</a><span class="red">*</span></label>
+                        <input type="checkbox" class="form-check-input" id="dongYDieuKhoan" name="dongYDieuKhoan" required="required">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dongYNhanMail" class="form-label">Đồng ý nhận email</label>
+                        <input type="checkbox" class="form-check-input" id="dongYNhanMail" name="dongYNhanMail">
+                    </div>
+                    <input class="btn btn-primary form-control" type="submit" value="Đăng ký" name="submit" id="submit" style="visibility: hidden;" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="footer py-4">
+        <hr />
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
+                    <div class="social-icons">
+                        <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">Liên hệ: quanlysach_360@gmail.com</li>
+                        <li class="mb-2">Quy định giao hàng</li>
+                        <li class="mb-2">Quy định trả hàng</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">Chính sách hoạt động</li>
+                        <li class="mb-2">Chính sách trả hàng</li>
+                        <li class="mb-2">Chính sách bảo mật</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
-		const matKhau = document.getElementById('matKhau');
-		const matKhauNhapLai = document.getElementById('matKhauNhapLai');
-		const msg = document.getElementById('msg');
-		const submitBtn = document.getElementById('submit');
-		const checkDieuKhoan = document.getElementById('dongYDieuKhoan');
-		const errorMessage = document.getElementById('error-message');
+    document.addEventListener('DOMContentLoaded', function () {
+        const matKhau = document.getElementById('matKhau');
+        const matKhauNhapLai = document.getElementById('matKhauNhapLai');
+        const msg = document.getElementById('msg');
+        const submitBtn = document.getElementById('submit');
+        const checkDieuKhoan = document.getElementById('dongYDieuKhoan');
+        const errorMessage = document.getElementById('error-message');
 
-		// Hiện/ẩn nút Đăng ký khi tích điều khoản
-		checkDieuKhoan.addEventListener('change', function () {
-			submitBtn.style.visibility = this.checked ? 'visible' : 'hidden';
-		});
+        checkDieuKhoan.addEventListener('change', function () {
+            submitBtn.style.visibility = this.checked ? 'visible' : 'hidden';
+        });
 
-		// Cảnh báo nếu mật khẩu không khớp khi đang gõ
-		matKhauNhapLai.addEventListener('input', function () {
-			msg.textContent = (matKhau.value !== matKhauNhapLai.value) ? " - Mật khẩu không khớp!" : "";
-		});
+        matKhauNhapLai.addEventListener('input', function () {
+            msg.textContent = (matKhau.value !== matKhauNhapLai.value) ? " - Mật khẩu không khớp!" : "";
+        });
 
-		// Xử lý khi ấn nút submit
-		document.querySelector('form').addEventListener('submit', function (e) {
-			const requiredFields = [
-				'tenDangNhap',
-				'matKhau',
-				'matKhauNhapLai',
-				'hoVaTen',
-				'dienThoai',
-				'email',
-				'diaChiKhachHang',
-				'diaChiMuaHang',
-				'diaChiNhanHang',
-				'gioiTinh',
-				'ngaySinh'
-			];
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const requiredFields = [
+                'tenDangNhap',
+                'matKhau',
+                'matKhauNhapLai',
+                'hoVaTen',
+                'dienThoai',
+                'email',
+                'diaChiKhachHang',
+                'diaChiMuaHang',
+                'diaChiNhanHang',
+                'gioiTinh',
+                'ngaySinh'
+            ];
 
-			let isValid = true;
+            let isValid = true;
 
-			// Kiểm tra các trường bắt buộc có rỗng không
-			requiredFields.forEach(function (id) {
-				const input = document.getElementById(id);
-				if (input && input.value.trim() === '') {
-					isValid = false;
-					input.classList.add('is-invalid'); // thêm viền đỏ Bootstrap
-				} else {
-					input.classList.remove('is-invalid');
-				}
-			});
+            requiredFields.forEach(function (id) {
+                const input = document.getElementById(id);
+                if (input && input.value.trim() === '') {
+                    isValid = false;
+                    input.classList.add('is-invalid');
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
 
-			// Kiểm tra mật khẩu khớp không
-			if (matKhau.value !== matKhauNhapLai.value) {
-				msg.textContent = " - Mật khẩu không khớp!";
-				isValid = false;
-			} else {
-				msg.textContent = "";
-			}
+            if (matKhau.value !== matKhauNhapLai.value) {
+                msg.textContent = " - Mật khẩu không khớp!";
+                isValid = false;
+            } else {
+                msg.textContent = "";
+            }
 
-			if (!isValid) {
-				e.preventDefault();
-				errorMessage.textContent = "Bạn vui lòng nhập phần còn lại.";
-				errorMessage.classList.remove('d-none');
-				window.scrollTo(0, 0); // cuộn lên đầu để thấy thông báo lỗi
-			}
-		});
-	});
+            if (!isValid) {
+                e.preventDefault();
+                errorMessage.textContent = "Bạn vui lòng nhập phần còn lại.";
+                errorMessage.classList.remove('d-none');
+                window.scrollTo(0, 0);
+            }
+        });
+    });
 </script>
-
 </html>
