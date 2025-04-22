@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, flash, url_for
 from mysql.connector import connect, Error
 import config
 import uuid
@@ -6,8 +6,8 @@ import random
 from datetime import datetime
 import re
 from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from flask import render_template, url_for
 
 app = Flask(__name__)
 
@@ -25,7 +25,7 @@ class KhachHang(db.Model):
     __tablename__ = 'khachhang'
     makhachhang = db.Column(db.String(50), primary_key=True)
     tendangnhap = db.Column(db.String(100), nullable=False)
-    matkhau = db.Column(db.String(255), nullable=False)  # Cập nhật độ dài
+    matkhau = db.Column(db.String(100), nullable=False)  # Cập nhật độ dài
     hoten = db.Column(db.String(100), nullable=False)
     gioitinh = db.Column(db.String(100), nullable=False)
     diachi = db.Column(db.String(100), nullable=False)
@@ -48,43 +48,36 @@ class Admin(db.Model):
 def home():
     return render_template("TrangChu.html")
 
-@app.route('/book_detail')
-def book_detail():
-    title = request.args.get('title')
-    img = request.args.get('img')
-    desc = request.args.get('desc')
-    price = request.args.get('price')
-    return render_template('book_detail.html', title=title, img=img, desc=desc, price=price)
-
 @app.route("/login")
 def login():
-    return render_template("login.html")
-
-@app.route("/login_admin")
-def login_admin():
     if request.method == "POST":
-        email = request.form.get("email")
-        password = request.form.get("password")
+        username = request.form.get("tendangnhap", "").strip()
+        password = request.form.get("matkhau", "").strip()
 
-        if not email or not password:
-            flash("Vui lòng điền đầy đủ thông tin", "danger")
-            return redirect("/login-admin")
+        if not username or not password:
+            flash("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.", "danger")
+            return render_template("login.html")
 
-        admin = Admin.query.filter_by(email=email).first()
-        if admin and check_password_hash(admin.matkhau, password):
-            session["admin_id"] = admin.id
-            session["admin_name"] = f"{admin.hodem} {admin.ten}"
+        user = KhachHang.query.filter_by(tendangnhap=username).first()
+        
+        if user and check_password_hash(user.matkhau, password):
+            
+            session["makhachhang"] = user.makhachhang
+            session["tendangnhap"] = user.tendangnhap 
+            
+            remember = request.form.get("remember")
+            if remember:
+                session.permanent = True
+            
             flash("Đăng nhập thành công!", "success")
-            return redirect("/")
+            
+            next_page = request.args.get('next')
+            return redirect(next_page or url_for('TrangChu.html'))
         else:
-            flash("Email hoặc mật khẩu không chính xác!", "danger")
-            return redirect("/login-admin")
+            flash("Tên đăng nhập hoặc mật khẩu không chính xác.", "danger")
+            return render_template("login.html", username=username)
 
-    return render_template("login_admin.html")
-
-# Hàm sinh mã khách hàng ngẫu nhiên
-def get_so_ngau_nhien():
-    return 'KH' + ''.join(str(random.randint(0, 9)) for _ in range(6))
+    return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -153,12 +146,6 @@ def register():
             return redirect("/register")
 
         try:
-            # Tạo mã khách hàng ngẫu nhiên và đảm bảo không trùng
-            while True:
-                makhachhang = get_so_ngau_nhien()
-                if not KhachHang.query.filter_by(makhachhang=makhachhang).first():
-                    break
-
             hashed_password = generate_password_hash(mat_khau)
             print(f"Hashed password length: {len(hashed_password)}")
             
