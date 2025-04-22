@@ -1,12 +1,12 @@
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, flash, url_for
 from mysql.connector import connect, Error
 import config
 import uuid
 from datetime import datetime
 import re
 from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-
 app = Flask(__name__)
 
 try:
@@ -23,7 +23,7 @@ class KhachHang(db.Model):
     __tablename__ = 'khachhang'
     makhachhang = db.Column(db.String(50), primary_key=True)
     tendangnhap = db.Column(db.String(100), nullable=False)
-    matkhau = db.Column(db.String(255), nullable=False)  # Cập nhật độ dài
+    matkhau = db.Column(db.String(100), nullable=False)  # Cập nhật độ dài
     hoten = db.Column(db.String(100), nullable=False)
     gioitinh = db.Column(db.String(100), nullable=False)
     diachi = db.Column(db.String(100), nullable=False)
@@ -38,8 +38,35 @@ class KhachHang(db.Model):
 def home():
     return render_template("TrangChu.html")
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        username = request.form.get("tendangnhap", "").strip()
+        password = request.form.get("matkhau", "").strip()
+
+        if not username or not password:
+            flash("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.", "danger")
+            return render_template("login.html")
+
+        user = KhachHang.query.filter_by(tendangnhap=username).first()
+        
+        if user and check_password_hash(user.matkhau, password):
+            
+            session["makhachhang"] = user.makhachhang
+            session["tendangnhap"] = user.tendangnhap 
+            
+            remember = request.form.get("remember")
+            if remember:
+                session.permanent = True
+            
+            flash("Đăng nhập thành công!", "success")
+            
+            next_page = request.args.get('next')
+            return redirect(next_page or url_for('TrangChu.html'))
+        else:
+            flash("Tên đăng nhập hoặc mật khẩu không chính xác.", "danger")
+            return render_template("login.html", username=username)
+
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
