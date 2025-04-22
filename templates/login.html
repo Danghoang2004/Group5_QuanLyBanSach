@@ -4,19 +4,9 @@
     <meta charset="UTF-8">
     <title>Đăng nhập - Book_shop</title>
     <link rel="stylesheet" href="/static/login.css">
-    <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-    crossorigin="anonymous">
-<script
-    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-    crossorigin="anonymous"></script>
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-    crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -26,13 +16,13 @@
                 <a href="/">Trang Chủ</a>
                 <a href="#">Combo giảm giá</a>
                 <a href="#">Thể Loại</a>
-                <a href="#">Hết hàng</a>
+                <a href="#">Giỏ Hàng</a>
             </nav>
         </div>
         <div class="search-login">
             <input type="text" placeholder="Nội dung tìm kiếm">
             <button class="btn-tim">Tìm</button>
-            <a href="login.html"><button class="btn-dangnhap">Đăng nhập</button></a>
+            <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a>
         </div>
     </header>
 
@@ -42,7 +32,20 @@
                 <img src="/static/images/logo2.jpg" alt="">
             </div>
             <h2>Đăng nhập</h2>
-            <form>
+            <!-- Hiển thị thông báo flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="alert-container">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <form action="/login" method="POST">
                 <label for="username">Tên đăng nhập</label>
                 <input type="text" id="username" name="username" required>
 
@@ -50,8 +53,8 @@
                 <input type="password" id="password" name="password" required>
 
                 <div class="remember-box">
-                    <input type="checkbox" id="remember">
-                    <label for="remember">Lưu thông đăng nhập</label>
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Lưu thông tin đăng nhập</label>
                 </div>
 
                 <button type="submit" class="btn-login">Đăng nhập</button>
@@ -60,97 +63,42 @@
             <div class="divider"><span>Hoặc</span></div>
 
             <p>Nếu bạn chưa có tài khoản? <a href="/register" class="btn btn-tim">Đăng ký</a></p>
-            <button class="btn admin-btn" type="button" onclick="window.location.href='/login_admin'">
+            <button class="btn admin-btn" type="button" onclick="window.location.href='/login-admin'">
                 Đăng nhập với quyền Admin
-              </button>            
+            </button>
             <p class="copyright">© 2024 - 2026</p>
         </div>
     </main>
 
     <div class="footer py-4">
-	<hr />
-    <div class="container">
-        <div class="row g-4">
-            
-            <div class="col-md-4">
-                <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
-                <div class="social-icons">
-                    <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
-                    <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
-                    <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
+        <hr />
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
+                    <div class="social-icons">
+                        <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-md-4">
-                <ul class="list-unstyled">
-                    <li class="mb-2">Liên hệ :quanlysach_360@gmail.com</li>
-                    <li class="mb-2">Quy định giao hàng</li>
-                    <li class="mb-2">Quy định trả hàng</li>
-                </ul>
-            </div>
-
-            <div class="col-md-4">
-                <ul class="list-unstyled">
-                    <li class="mb-2">Chính sách hoạt động</li>
-                    <li class="mb-2">Chính sách trả hàng</li>
-                    <li class="mb-2">Chính sách bảo mật</li>
-                </ul>
+                <div class="col-md-4">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">Liên hệ: quanlysach_360@gmail.com</li>
+                        <li class="mb-2">Quy định giao hàng</li>
+                        <li class="mb-2">Quy định trả hàng</li>
+                    </ul>
+                </div>
+                <div class="col-md-4 merging">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">Chính sách hoạt động</li>
+                        <li class="mb-2">Chính sách trả hàng</li>
+                        <li class="mb-2">Chính sách bảo mật</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-  
 </body>
 </html>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector("form");
-
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); // Ngăn form gửi đi
-
-            const usernameInput = document.getElementById("username");
-            const passwordInput = document.getElementById("password");
-
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value.trim();
-
-            // Kiểm tra trống
-            if (!username || !password) {
-                alert("⚠️ Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.");
-                return;
-            }
-
-            // Kiểm tra tài khoản mẫu (có thể kết nối backend sau)
-            if (username === "admin" && password === "admin123") {
-                alert("✅ Đăng nhập thành công!");
-                // Có thể thêm hiệu ứng loading trước khi chuyển trang
-                setTimeout(() => {
-                    window.location.href = "TrangChu.html";
-                }, 1000);
-            } else {
-                alert("❌ Sai tên đăng nhập hoặc mật khẩu.");
-                // Tùy chọn: Làm nổi bật lại các ô nhập
-                usernameInput.classList.add("is-invalid");
-                passwordInput.classList.add("is-invalid");
-            }
-        });
-
-        // Xoá trạng thái lỗi khi người dùng nhập lại
-        document.getElementById("username").addEventListener("input", () => {
-            usernameInput.classList.remove("is-invalid");
-        });
-
-        document.getElementById("password").addEventListener("input", () => {
-            passwordInput.classList.remove("is-invalid");
-        });
-    });
-
-    function redirectToAdminLogin() {
-        window.location.href = "/login_admin.html"; // Đường dẫn có thể điều chỉnh tùy theo định tuyến của bạn
-    }
-
-
-</script>
