@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Đăng nhập - Book_shop</title>
-    <link rel="stylesheet" href="/static/login.css">
-    <link
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Shop</title>
+  <link rel="stylesheet" href="/static/trangchu.css">
+  <link rel="stylesheet" href="/static/login.css">
+  <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
     rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
@@ -19,130 +21,157 @@
     crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
-        <div class="left-header">
-            <div class="logo">📚 Book_shop</div>
-            <nav>
-                <a href="TrangChu.html">Trang Chủ</a>
-                <a href="#">Combo giảm giá</a>
-                <a href="#">Thể Loại</a>
-                <a href="#">Hết hàng</a>
-            </nav>
-        </div>
-        <div class="search-login">
-            <input type="text" placeholder="Nội dung tìm kiếm">
-            <button class="btn-tim">Tìm</button>
-            <a href="login.html"><button class="btn-dangnhap">Đăng nhập</button></a>
-        </div>
-    </header>
-
-    <main>
-        <div class="login-box">
-            <div class="logo">
-                <img src="/static/images/logo2.jpg" alt="">
-            </div>
-            <h2>Đăng nhập</h2>
-            <form>
-                <label for="username">Tên đăng nhập</label>
-                <input type="text" id="username" name="username" required>
-
-                <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password" required>
-
-                <div class="remember-box">
-                    <input type="checkbox" id="remember">
-                    <label for="remember">Lưu thông đăng nhập</label>
-                </div>
-
-                <button type="submit" class="btn-login">Đăng nhập</button>
-            </form>
-
-            <div class="divider"><span>Hoặc</span></div>
-
-            <p>Nếu bạn chưa có tài khoản? <a href="/register" class="btn btn-tim">Đăng ký</a></p>
-            <p><small>Đăng nhập với quyền admin.</small></p>
-            <p class="copyright">© 2024 - 2026</p>
-        </div>
-    </main>
-
-    <div class="footer py-4">
-	<hr />
-    <div class="container">
-        <div class="row g-4">
-            
-            <div class="col-md-4">
-                <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
-                <div class="social-icons">
-                    <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
-                    <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
-                    <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <ul class="list-unstyled">
-                    <li class="mb-2">Liên hệ :quanlysach_360@gmail.com</li>
-                    <li class="mb-2">Quy định giao hàng</li>
-                    <li class="mb-2">Quy định trả hàng</li>
-                </ul>
-            </div>
-
-            <div class="col-md-4">
-                <ul class="list-unstyled">
-                    <li class="mb-2">Chính sách hoạt động</li>
-                    <li class="mb-2">Chính sách trả hàng</li>
-                    <li class="mb-2">Chính sách bảo mật</li>
-                </ul>
-            </div>
-        </div>
+   <header>
+    <div class="left-header">
+        <div class="logo">📚 Book_shop</div>
+        <nav>
+            <a href="#">Trang Chủ</a>
+            <a href="#">Combo giảm giá</a>
+            <a href="#">Thể Loại</a>
+            <a href="#">Hết hàng</a>
+        </nav>
     </div>
-    </div>
-  
+    <div class="search-login">
+        <input type="text" placeholder="Nội dung tìm kiếm">
+        <button class="btn-tim">Tìm</button>
+        <a href="/login" class="btn btn-primary">Đăng nhập</a>
+
 </body>
 </html>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector("form");
+    </div>
+  </header>
 
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); // Ngăn form gửi đi
+  <!-- Banner -->
+  <section class="container my-4">
+    <img src="/static/images/Banner.png" alt="Banner" class="banner-img">
+  </section>
 
-            const usernameInput = document.getElementById("username");
-            const passwordInput = document.getElementById("password");
+  <!-- Sản phẩm nổi bật -->
+  <section class="container">
+    <h3>Sản phẩm nổi bật</h3>
+    <div class="row" id="featured-products">
+      <!-- Sản phẩm sẽ được render từ JS -->
+    </div>
+  </section>
 
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value.trim();
+  <!-- Tất cả sản phẩm -->
+  <section class="container mt-5">
+    <h3>Sản phẩm</h3>
+    <div class="row" id="all-products">
+      <!-- Dữ liệu từ JS hoặc database -->
+    </div>
+  </section>
 
-            // Kiểm tra trống
-            if (!username || !password) {
-                alert("⚠️ Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.");
-                return;
-            }
+  <!-- Các sản phẩm khác -->
+  <section class="container mt-5">
+    <h3>Các sản phẩm khác</h3>
+    <div class="row" id="other-products">
+      <!-- Render từ JS -->
+    </div>
+  </section>
 
-            // Kiểm tra tài khoản mẫu (có thể kết nối backend sau)
-            if (username === "admin" && password === "admin123") {
-                alert("✅ Đăng nhập thành công!");
-                // Có thể thêm hiệu ứng loading trước khi chuyển trang
-                setTimeout(() => {
-                    window.location.href = "TrangChu.html";
-                }, 1000);
-            } else {
-                alert("❌ Sai tên đăng nhập hoặc mật khẩu.");
-                // Tùy chọn: Làm nổi bật lại các ô nhập
-                usernameInput.classList.add("is-invalid");
-                passwordInput.classList.add("is-invalid");
-            }
-        });
+  <!-- Bình luận -->
+  <section class="container mt-5">
+    <h3>Phần bình luận</h3>
+    <div class="row" id="comments">
+      <!-- Render từ JS -->
+    </div>
+  </section>
 
-        // Xoá trạng thái lỗi khi người dùng nhập lại
-        document.getElementById("username").addEventListener("input", () => {
-            usernameInput.classList.remove("is-invalid");
-        });
 
-        document.getElementById("password").addEventListener("input", () => {
-            passwordInput.classList.remove("is-invalid");
-        });
-    });
-</script>
+  <!--FooterFooter-->
+  <div class="footer py-4">
+		<hr />
+		<div class="container">
+			<div class="row g-4">  <!-- Thêm gutter (khoảng cách giữa các cột) -->
+				
+				<!-- Cột 1: Logo & MXH -->
+				<div class="col-md-4">
+					<div class="h5 fw-bold mb-3">BookSach_360.vn</div>
+					<div class="social-icons">
+						<a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
+						<a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
+						<a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
+						<a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
+					</div>
+				</div>
+	
+				<!-- Cột 2: Liên hệ -->
+				<div class="col-md-4">
+					<ul class="list-unstyled">
+						<li class="mb-2">Liên hệ :quanlysach_360@gmail.com</li>
+						<li class="mb-2">Quy định giao hàng</li>
+						<li class="mb-2">Quy định trả hàng</li>
+					</ul>
+				</div>
+	
+				<!-- Cột 3: Chính sách -->
+				<div class="col-md-4">
+					<ul class="list-unstyled">
+						<li class="mb-2">Chính sách hoạt động</li>
+						<li class="mb-2">Chính sách trả hàng</li>
+						<li class="mb-2">Chính sách bảo mật</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  <script>
+    // Sau này dữ liệu sẽ được lấy từ API hoặc database
+    const featured = [
+      { title: 'Tên sản phẩm', img: 'featured1.jpg', desc: 'Mô tả ngắn sản phẩm' },
+      { title: 'Tên sản phẩm', img: 'featured2.jpg', desc: 'Mô tả ngắn sản phẩm' },
+      { title: 'Tên sản phẩm', img: 'featured3.jpg', desc: 'Mô tả ngắn sản phẩm' }
+    ];
+
+    const all = new Array(12).fill({ title: 'Sản phẩm', img: 'product.jpg', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 vnđ' });
+
+    const other = [
+      { title: 'Tên sản phẩm', img: 'other1.jpg', desc: 'Thông tin khác' },
+      { title: 'Tên sản phẩm', img: 'other2.jpg', desc: 'Thông tin khác' },
+      { title: 'Tên sản phẩm', img: 'other2.jpg', desc: 'Thông tin khác' },
+    ];
+
+    const comments = [
+      { text: '"A terrific piece of praise"', name: 'Name', desc: 'Description' },
+      { text: '"A fantastic bit of feedback"', name: 'Name', desc: 'Description' },
+      { text: '"A genuinely glowing review"', name: 'Name', desc: 'Description' }
+    ];
+
+    function renderProducts(data, containerId, showPrice = false) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = data.map(p => `
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="${p.img}" class="product-img" alt="">
+            <div class="card-body">
+              <h5 class="product-title">${p.title}</h5>
+              <p>${p.desc}</p>
+              ${showPrice ? `<p class="text-danger fw-bold">${p.price}</p>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderComments(data) {
+      const container = document.getElementById('comments');
+      container.innerHTML = data.map(c => `
+        <div class="col-md-4">
+          <div class="card p-3">
+            <p>${c.text}</p>
+            <div><strong>${c.name}</strong><br><small>${c.desc}</small></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    renderProducts(featured, 'featured-products');
+    renderProducts(all, 'all-products', true);
+    renderProducts(other, 'other-products');
+    renderComments(comments);
+  </script>
+</body>
+</html>

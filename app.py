@@ -19,14 +19,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key_here'
 db = SQLAlchemy(app)
 
-class Admin(db.Model):
-    __tablename__ = 'table_admin'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    hodem = db.Column(db.String(100), nullable=False)
-    ten = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    matkhau = db.Column(db.String(255), nullable=False)
-
 class KhachHang(db.Model):
     __tablename__ = 'khachhang'
     makhachhang = db.Column(db.String(50), primary_key=True)
@@ -147,28 +139,5 @@ def register():
 
     return render_template("DangKy.html")
 
-@app.route("/login-admin", methods=["GET", "POST"])
-def login_admin():
-    if request.method == "POST":
-        email = request.form.get("email")
-        password = request.form.get("password")
-
-        if not email or not password:
-            flash("Vui lòng điền đầy đủ thông tin", "danger")
-            return redirect("/login-admin")
-
-        admin = Admin.query.filter_by(email=email).first()
-        if admin and check_password_hash(admin.matkhau, password):
-            session["admin_id"] = admin.id
-            session["admin_name"] = f"{admin.hodem} {admin.ten}"
-            flash("Đăng nhập thành công!", "success")
-            return redirect("/")
-        else:
-            flash("Email hoặc mật khẩu không chính xác!", "danger")
-            return redirect("/login-admin")
-
-    return render_template("login.html")
-
-
-if __name__ == "__main__" :
-     app.run(debug=True )
+if __name__ == "__main__":
+    app.run(debug=True)

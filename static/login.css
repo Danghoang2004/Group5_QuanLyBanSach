@@ -11,16 +11,12 @@ body {
 }
 
 header {
-    width: 100%;
-    position: fixed;
-    right: 0;
-    left: 0;
-    top: 0;
-    background-image: linear-gradient(0, #3b68c1, #3b68c1);
-    min-height: 80px;
     display: flex;
     justify-content: space-between;
-    z-index: 1;
+    align-items: center;
+    background-color: #13c4ff;
+    padding: 10px 20px;
+    color: white;
 }
 .left-header {
     display: flex;
@@ -159,6 +155,6 @@ main {
     
 }
 .login-box .logo {
-    justify-content: center; 
-    margin-bottom: 20px;      
+    justify-content: center; /* căn giữa theo chiều ngang */
+    margin-bottom: 20px;      /* tạo khoảng cách với phần bên dưới */
 }
