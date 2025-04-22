@@ -42,34 +42,8 @@ def home():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        username = request.form.get("tendangnhap", "").strip()
-        password = request.form.get("matkhau", "").strip()
-
-        if not username or not password:
-            flash("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.", "danger")
-            return render_template("login.html")
-
-        user = KhachHang.query.filter_by(tendangnhap=username).first()
-        
-        if user and check_password_hash(user.matkhau, password):
-            
-            session["makhachhang"] = user.makhachhang
-            session["tendangnhap"] = user.tendangnhap 
-            
-            remember = request.form.get("remember")
-            if remember:
-                session.permanent = True
-            
-            flash("Đăng nhập thành công!", "success")
-            
-            next_page = request.args.get('next')
-            return redirect(next_page or url_for('TrangChu.html'))
-        else:
-            flash("Tên đăng nhập hoặc mật khẩu không chính xác.", "danger")
-            return render_template("login.html", username=username)
-
     return render_template("login.html")
+
 
 # Hàm sinh mã khách hàng ngẫu nhiên
 def get_so_ngau_nhien():
