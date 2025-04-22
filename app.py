@@ -6,6 +6,8 @@ from datetime import datetime
 import re
 from werkzeug.security import generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
+import random
+import re
 
 app = Flask(__name__)
 
@@ -41,6 +43,10 @@ def home():
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+# Hàm sinh mã khách hàng ngẫu nhiên
+def get_so_ngau_nhien():
+    return 'KH' + ''.join(str(random.randint(0, 9)) for _ in range(6))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -109,10 +115,17 @@ def register():
             return redirect("/register")
 
         try:
+# Tạo mã khách hàng ngẫu nhiên và đảm bảo không trùng
+            while True:
+                makhachhang = get_so_ngau_nhien()
+                if not KhachHang.query.filter_by(makhachhang=makhachhang).first():
+                    break
+
             hashed_password = generate_password_hash(mat_khau)
-            print(f"Hashed password length: {len(hashed_password)}")  # Debug
+            print(f"Hashed password length: {len(hashed_password)}")
+            
             new_customer = KhachHang(
-                makhachhang=str(uuid.uuid4()),
+                makhachhang=makhachhang,
                 tendangnhap=ten_dang_nhap,
                 matkhau=hashed_password,
                 hoten=ho_ten,
@@ -125,12 +138,14 @@ def register():
                 email=email,
                 dangkinhanbangtin=dong_y_nhan_mail
             )
+
             print("Adding new customer to database...")
             db.session.add(new_customer)
             db.session.commit()
             print("Customer added successfully!")
             flash("Đăng ký thành công! Vui lòng đăng nhập.", "success")
             return redirect("/login")
+
         except Exception as e:
             db.session.rollback()
             print(f"Database error: {str(e)}")
