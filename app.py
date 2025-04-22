@@ -2,10 +2,12 @@ from flask import Flask, render_template, request, redirect, session, flash
 from mysql.connector import connect, Error
 import config
 import uuid
+import random
 from datetime import datetime
 import re
 from werkzeug.security import generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from flask import render_template, url_for
 
 app = Flask(__name__)
 
@@ -18,14 +20,6 @@ except AttributeError:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key_here'
 db = SQLAlchemy(app)
-
-class Admin(db.Model):
-    __tablename__ = 'table_admin'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    hodem = db.Column(db.String(100), nullable=False)
-    ten = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    matkhau = db.Column(db.String(255), nullable=False)
 
 class KhachHang(db.Model):
     __tablename__ = 'khachhang'
@@ -42,13 +36,55 @@ class KhachHang(db.Model):
     email = db.Column(db.String(100))
     dangkinhanbangtin = db.Column(db.Boolean)
 
+class Admin(db.Model):
+    __tablename__ = 'table_admin'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    hodem = db.Column(db.String(100), nullable=False)
+    ten = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    matkhau = db.Column(db.String(255), nullable=False)
+
 @app.route("/")
 def home():
     return render_template("TrangChu.html")
 
+@app.route('/book_detail')
+def book_detail():
+    title = request.args.get('title')
+    img = request.args.get('img')
+    desc = request.args.get('desc')
+    price = request.args.get('price')
+    return render_template('book_detail.html', title=title, img=img, desc=desc, price=price)
+
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+@app.route("/login_admin")
+def login_admin():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        if not email or not password:
+            flash("Vui lòng điền đầy đủ thông tin", "danger")
+            return redirect("/login-admin")
+
+        admin = Admin.query.filter_by(email=email).first()
+        if admin and check_password_hash(admin.matkhau, password):
+            session["admin_id"] = admin.id
+            session["admin_name"] = f"{admin.hodem} {admin.ten}"
+            flash("Đăng nhập thành công!", "success")
+            return redirect("/")
+        else:
+            flash("Email hoặc mật khẩu không chính xác!", "danger")
+            return redirect("/login-admin")
+
+    return render_template("login_admin.html")
+
+# Hàm sinh mã khách hàng ngẫu nhiên
+def get_so_ngau_nhien():
+    return 'KH' + ''.join(str(random.randint(0, 9)) for _ in range(6))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -117,10 +153,17 @@ def register():
             return redirect("/register")
 
         try:
+            # Tạo mã khách hàng ngẫu nhiên và đảm bảo không trùng
+            while True:
+                makhachhang = get_so_ngau_nhien()
+                if not KhachHang.query.filter_by(makhachhang=makhachhang).first():
+                    break
+
             hashed_password = generate_password_hash(mat_khau)
-            print(f"Hashed password length: {len(hashed_password)}")  # Debug
+            print(f"Hashed password length: {len(hashed_password)}")
+            
             new_customer = KhachHang(
-                makhachhang=str(uuid.uuid4()),
+                makhachhang=makhachhang,
                 tendangnhap=ten_dang_nhap,
                 matkhau=hashed_password,
                 hoten=ho_ten,
@@ -133,12 +176,14 @@ def register():
                 email=email,
                 dangkinhanbangtin=dong_y_nhan_mail
             )
+
             print("Adding new customer to database...")
             db.session.add(new_customer)
             db.session.commit()
             print("Customer added successfully!")
             flash("Đăng ký thành công! Vui lòng đăng nhập.", "success")
             return redirect("/login")
+
         except Exception as e:
             db.session.rollback()
             print(f"Database error: {str(e)}")
@@ -147,28 +192,5 @@ def register():
 
     return render_template("DangKy.html")
 
-@app.route("/login-admin", methods=["GET", "POST"])
-def login_admin():
-    if request.method == "POST":
-        email = request.form.get("email")
-        password = request.form.get("password")
-
-        if not email or not password:
-            flash("Vui lòng điền đầy đủ thông tin", "danger")
-            return redirect("/login-admin")
-
-        admin = Admin.query.filter_by(email=email).first()
-        if admin and check_password_hash(admin.matkhau, password):
-            session["admin_id"] = admin.id
-            session["admin_name"] = f"{admin.hodem} {admin.ten}"
-            flash("Đăng nhập thành công!", "success")
-            return redirect("/")
-        else:
-            flash("Email hoặc mật khẩu không chính xác!", "danger")
-            return redirect("/login-admin")
-
-    return render_template("login.html")
-
-
-if __name__ == "__main__" :
-     app.run(debug=True )
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -1,0 +1,85 @@
+/* Chi tiết sách */
+#book-detail img {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+#book-detail h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+#book-detail p {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+#book-detail .btn {
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+/* Chi tiết mô tả và bình luận */
+#book-detail h4 {
+  margin-top: 40px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#book-detail .card {
+  background-color: #f8f9fa;
+  border-left: 4px solid #198754;
+  border-radius: 10px;
+}
+
+#book-detail .card p {
+  margin-bottom: 0.5rem;
+}
+
+#book-detail .card div {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Các sản phẩm liên quan */
+#related-products .card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#related-products .card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+#related-products .card img {
+  border-radius: 8px;
+  object-fit: cover;
+  height: 200px; /* Giới hạn chiều cao của ảnh */
+}
+
+#related-products .card-body {
+  padding: 15px;
+}
+
+#related-products .card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+#related-products .card-text {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+#related-products .fw-bold {
+  font-weight: bold;
+  color: #dc3545; /* Màu đỏ cho giá */
+}
+
+/* Cải thiện giao diện cho các phần sản phẩm liên quan */
+.container .row .col-md-4 {
+  margin-bottom: 20px; /* Tăng khoảng cách giữa các sản phẩm */
+}
