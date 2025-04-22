@@ -2,13 +2,13 @@ from flask import Flask, render_template, request, redirect, session, flash, url
 from mysql.connector import connect, Error
 import config
 import uuid
+import random
 from datetime import datetime
 import re
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-import random
-import re
+
 app = Flask(__name__)
 
 try:
@@ -36,14 +36,21 @@ class KhachHang(db.Model):
     email = db.Column(db.String(100))
     dangkinhanbangtin = db.Column(db.Boolean)
 
+class Admin(db.Model):
+    __tablename__ = 'table_admin'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    hodem = db.Column(db.String(100), nullable=False)
+    ten = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    matkhau = db.Column(db.String(255), nullable=False)
+
 @app.route("/")
 def home():
     return render_template("TrangChu.html")
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login")
 def login():
     return render_template("login.html")
-
 
 # Hàm sinh mã khách hàng ngẫu nhiên
 def get_so_ngau_nhien():
@@ -116,12 +123,6 @@ def register():
             return redirect("/register")
 
         try:
-# Tạo mã khách hàng ngẫu nhiên và đảm bảo không trùng
-            while True:
-                makhachhang = get_so_ngau_nhien()
-                if not KhachHang.query.filter_by(makhachhang=makhachhang).first():
-                    break
-
             hashed_password = generate_password_hash(mat_khau)
             print(f"Hashed password length: {len(hashed_password)}")
             

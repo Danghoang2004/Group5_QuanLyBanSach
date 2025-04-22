@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết sách</title>
+  <link rel="stylesheet" href="/static/login.css">
+  <link rel="stylesheet" href="/static/book_detail.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="left-header">
+      <div class="logo">📚 Book_shop</div>
+      <nav>
+        <a href="/">Trang Chủ</a> <!-- Sửa đường dẫn -->
+        <a href="#">Combo giảm giá</a>
+        <a href="#">Thể Loại</a>
+        <a href="#">Giỏ Hàng</a>
+      </nav>
+    </div>
+    <div class="search-login">
+      <input type="text" placeholder="Nội dung tìm kiếm">
+      <button class="btn-tim">Tìm</button>
+      <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a> <!-- ĐÃ SỬA -->
+    </div>
+  </header>
+
+  <!-- Nội dung sách -->
+  <main class="container mt-5" id="book-detail">
+    <!-- Nội dung sách sẽ được render bằng JavaScript -->
+  </main>
+
+  <!-- Các sản phẩm liên quan -->
+  <section class="container mt-5">
+    <h5 class="fw-bold mb-4">Các sản phẩm liên quan</h5>
+    <div class="row" id="related-products">
+      <!-- Các sản phẩm liên quan sẽ được render tại đây bằng JavaScript -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="footer py-4 mt-5">
+    <hr />
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
+          <div class="social-icons">
+            <a href="#" class="me-2">Facebook</a>
+            <a href="#" class="me-2">Twitter</a>
+            <a href="#" class="me-2">YouTube</a>
+            <a href="#" class="me-2">Instagram</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-unstyled">
+            <li>Liên hệ: quanlysach_360@gmail.com</li>
+            <li>Quy định giao hàng</li>
+            <li>Quy định trả hàng</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-unstyled">
+            <li>Chính sách hoạt động</li>
+            <li>Chính sách trả hàng</li>
+            <li>Chính sách bảo mật</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script render chi tiết sách và các sản phẩm liên quan -->
+  <<script>
+    // Lấy các tham số từ URL
+    function getBookDataFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return {
+        img: urlParams.get('img') || '/static/images/Banner.png',
+        title: urlParams.get('title') || 'Giải mã tâm lý học',
+        author: urlParams.get('author') || 'Nguyễn Văn A',
+        category: urlParams.get('category') || 'Tâm lý học',
+        publisher: urlParams.get('publisher') || 'NXB Kim Đồng',
+        year: urlParams.get('year') || 2023,
+        price: urlParams.get('price') || '95.000 VNĐ',
+        description: urlParams.get('description') || 'Cuốn sách giúp bạn hiểu rõ hơn về hành vi, tư duy, cảm xúc của con người qua các tình huống thực tế...'
+      };
+    }
+  
+    const relatedBooks = [
+      { img: '/static/images/Banner.png', title: 'Sản phẩm A', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
+      { img: '/static/images/Banner.png', title: 'Sản phẩm B', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
+      { img: '/static/images/Banner.png', title: 'Sản phẩm C', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
+      { img: '/static/images/Banner.png', title: 'Sản phẩm D', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
+      { img: '/static/images/Banner.png', title: 'Sản phẩm E', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
+      { img: '/static/images/Banner.png', title: 'Sản phẩm F', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
+      { img: '/static/images/Banner.png', title: 'Sản phẩm E', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
+      { img: '/static/images/Banner.png', title: 'Sản phẩm F', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' }
+    ];
+  
+    function renderBookDetail(book) {
+      const container = document.getElementById('book-detail');
+      container.innerHTML = `
+        <div class="row">
+          <div class="col-md-5">
+            <img src="${book.img}" class="img-fluid" alt="${book.title}">
+          </div>
+          <div class="col-md-7">
+            <h2 class="fw-bold">${book.title}</h2>
+            <p><strong>Tác giả:</strong> ${book.author}</p>
+            <p><strong>Thể loại:</strong> ${book.category}</p>
+            <p><strong>Nhà xuất bản:</strong> ${book.publisher}</p>
+            <p><strong>Năm xuất bản:</strong> ${book.year}</p>
+            <p><strong>Giá bán:</strong> <span class="text-danger fw-bold">${book.price}</span></p>
+            <p class="mt-3"><strong>Mô tả:</strong> ${book.description}</p>
+            <div class="d-flex gap-2 mt-3">
+              <button class="btn btn-success">Thêm vào giỏ hàng</button>
+              <button class="btn btn-primary">Mua ngay</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  
+    function renderRelatedProducts(products) {
+      const container = document.getElementById('related-products');
+      container.innerHTML = products.map(p => `
+        <div class="col-md-4 col-lg-3 mb-4">
+          <div class="card h-100 shadow-sm" style="cursor: pointer;">
+            <img src="${p.img}" class="card-img-top" alt="${p.title}">
+            <div class="card-body">
+              <h6 class="card-title">${p.title}</h6>
+              <p class="card-text small text-muted">${p.desc}</p>
+              <p class="fw-bold text-danger">${p.price}</p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+  
+    function addClickEventsToRelated() {
+      const cards = document.querySelectorAll('#related-products .card');
+      cards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+          const p = relatedBooks[index];
+          const book = {
+            title: p.title,
+            img: p.img,
+            author: 'Tác giả liên quan',
+            category: 'Thể loại liên quan',
+            publisher: 'NXB nào đó',
+            year: 2024,
+            price: p.price,
+            description: p.desc
+          };
+          const params = new URLSearchParams(book).toString();
+          history.pushState(book, '', `?${params}`);
+          renderBookDetail(book);
+        });
+      });
+    }
+  
+    // Xử lý khi user nhấn back/forward trình duyệt
+    window.onpopstate = (event) => {
+      if (event.state) {
+        renderBookDetail(event.state);
+      } else {
+        const defaultBook = getBookDataFromURL();
+        renderBookDetail(defaultBook);
+      }
+    };
+  
+    // Ban đầu render
+    const initialBook = getBookDataFromURL();
+    renderBookDetail(initialBook);
+    renderRelatedProducts(relatedBooks);
+    addClickEventsToRelated();
+  
+    // Sự kiện về trang chủ
+    document.getElementById('home-link').addEventListener('click', function(event) {
+      event.preventDefault();
+      window.location.href = 'trangchu.html';
+    });
+  </script>
+  
+</body>
+</html>

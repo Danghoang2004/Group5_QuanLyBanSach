@@ -23,7 +23,7 @@
         <div class="left-header">
             <div class="logo">📚 Book_shop</div>
             <nav>
-                <a href="TrangChu.html">Trang Chủ</a>
+                <a href="/">Trang Chủ</a>
                 <a href="#">Combo giảm giá</a>
                 <a href="#">Thể Loại</a>
                 <a href="#">Hết hàng</a>
@@ -60,7 +60,9 @@
             <div class="divider"><span>Hoặc</span></div>
 
             <p>Nếu bạn chưa có tài khoản? <a href="/register" class="btn btn-tim">Đăng ký</a></p>
-            <p><small>Đăng nhập với quyền admin.</small></p>
+            <button class="btn admin-btn" type="button" onclick="window.location.href='/login_admin'">
+                Đăng nhập với quyền Admin
+              </button>            
             <p class="copyright">© 2024 - 2026</p>
         </div>
     </main>
@@ -145,4 +147,10 @@
             passwordInput.classList.remove("is-invalid");
         });
     });
+
+    function redirectToAdminLogin() {
+        window.location.href = "/login_admin.html"; // Đường dẫn có thể điều chỉnh tùy theo định tuyến của bạn
+    }
+
+
 </script>

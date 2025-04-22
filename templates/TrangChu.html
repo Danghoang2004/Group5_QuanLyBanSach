@@ -23,22 +23,18 @@
 <body>
    <header>
     <div class="left-header">
-        <div class="logo">📚 Book_shop</div>
-        <nav>
-            <a href="#">Trang Chủ</a>
-            <a href="#">Combo giảm giá</a>
-            <a href="#">Thể Loại</a>
-            <a href="#">Hết hàng</a>
-        </nav>
+      <div class="logo">📚 Book_shop</div>
+      <nav>
+        <a href="/">Trang Chủ</a> <!-- Sửa đường dẫn -->
+        <a href="#">Combo giảm giá</a>
+        <a href="#">Thể Loại</a>
+        <a href="#">Giỏ Hàng</a>
+      </nav>
     </div>
     <div class="search-login">
         <input type="text" placeholder="Nội dung tìm kiếm">
         <button class="btn-tim">Tìm</button>
-        <a href="/login" class="btn btn-primary">Đăng nhập</a>
-
-</body>
-</html>
-
+        <button class="btn-dangnhap">Đăng nhập</button>
     </div>
   </header>
 
@@ -79,59 +75,57 @@
     </div>
   </section>
 
-
-  <!--FooterFooter-->
+  <!-- Footer -->
   <div class="footer py-4">
-		<hr />
-		<div class="container">
-			<div class="row g-4">  <!-- Thêm gutter (khoảng cách giữa các cột) -->
-				
-				<!-- Cột 1: Logo & MXH -->
-				<div class="col-md-4">
-					<div class="h5 fw-bold mb-3">BookSach_360.vn</div>
-					<div class="social-icons">
-						<a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
-						<a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
-						<a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
-						<a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
-					</div>
-				</div>
-	
-				<!-- Cột 2: Liên hệ -->
-				<div class="col-md-4">
-					<ul class="list-unstyled">
-						<li class="mb-2">Liên hệ :quanlysach_360@gmail.com</li>
-						<li class="mb-2">Quy định giao hàng</li>
-						<li class="mb-2">Quy định trả hàng</li>
-					</ul>
-				</div>
-	
-				<!-- Cột 3: Chính sách -->
-				<div class="col-md-4">
-					<ul class="list-unstyled">
-						<li class="mb-2">Chính sách hoạt động</li>
-						<li class="mb-2">Chính sách trả hàng</li>
-						<li class="mb-2">Chính sách bảo mật</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+    <hr />
+    <div class="container">
+      <div class="row g-4">
+        <!-- Cột 1: Logo & MXH -->
+        <div class="col-md-4">
+          <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
+          <div class="social-icons">
+            <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
+            <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
+          </div>
+        </div>
+
+        <!-- Cột 2: Liên hệ -->
+        <div class="col-md-4">
+          <ul class="list-unstyled">
+            <li class="mb-2">Liên hệ :quanlysach_360@gmail.com</li>
+            <li class="mb-2">Quy định giao hàng</li>
+            <li class="mb-2">Quy định trả hàng</li>
+          </ul>
+        </div>
+
+        <!-- Cột 3: Chính sách -->
+        <div class="col-md-4">
+          <ul class="list-unstyled">
+            <li class="mb-2">Chính sách hoạt động</li>
+            <li class="mb-2">Chính sách trả hàng</li>
+            <li class="mb-2">Chính sách bảo mật</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // Sau này dữ liệu sẽ được lấy từ API hoặc database
+    // Dữ liệu sản phẩm sẽ được render
     const featured = [
-      { title: 'Tên sản phẩm', img: 'featured1.jpg', desc: 'Mô tả ngắn sản phẩm' },
-      { title: 'Tên sản phẩm', img: 'featured2.jpg', desc: 'Mô tả ngắn sản phẩm' },
-      { title: 'Tên sản phẩm', img: 'featured3.jpg', desc: 'Mô tả ngắn sản phẩm' }
+      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Mô tả ngắn sản phẩm', price: '100.000 vnđ' },
+      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Mô tả ngắn sản phẩm', price: '120.000 vnđ' },
+      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Mô tả ngắn sản phẩm', price: '90.000 vnđ' }
     ];
 
     const all = new Array(12).fill({ title: 'Sản phẩm', img: 'product.jpg', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 vnđ' });
 
     const other = [
-      { title: 'Tên sản phẩm', img: 'other1.jpg', desc: 'Thông tin khác' },
-      { title: 'Tên sản phẩm', img: 'other2.jpg', desc: 'Thông tin khác' },
-      { title: 'Tên sản phẩm', img: 'other2.jpg', desc: 'Thông tin khác' },
+      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Thông tin khác' },
+      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Thông tin khác' },
+      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Thông tin khác' }
     ];
 
     const comments = [
@@ -140,6 +134,7 @@
       { text: '"A genuinely glowing review"', name: 'Name', desc: 'Description' }
     ];
 
+    // Hàm render sản phẩm
     function renderProducts(data, containerId, showPrice = false) {
       const container = document.getElementById(containerId);
       container.innerHTML = data.map(p => `
@@ -150,6 +145,8 @@
               <h5 class="product-title">${p.title}</h5>
               <p>${p.desc}</p>
               ${showPrice ? `<p class="text-danger fw-bold">${p.price}</p>` : ''}
+              <!-- Thêm liên kết tới trang chi tiết sản phẩm với thông tin sản phẩm -->
+              <a href="/book_detail?title=${encodeURIComponent(p.title)}&img=${encodeURIComponent(p.img)}&desc=${encodeURIComponent(p.desc)}&price=${encodeURIComponent(p.price)}" class="btn btn-primary">Xem chi tiết</a>
             </div>
           </div>
         </div>
