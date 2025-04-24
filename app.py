@@ -25,7 +25,7 @@ class KhachHang(db.Model):
     __tablename__ = 'khachhang'
     makhachhang = db.Column(db.String(50), primary_key=True)
     tendangnhap = db.Column(db.String(100), nullable=False)
-    matkhau = db.Column(db.String(225), nullable=False)  # Cập nhật độ dài
+    matkhau = db.Column(db.String(100), nullable=False)  # Cập nhật độ dài
     hoten = db.Column(db.String(100), nullable=False)
     gioitinh = db.Column(db.String(100), nullable=False)
     diachi = db.Column(db.String(100), nullable=False)
@@ -56,7 +56,7 @@ def book_detail():
     price = request.args.get('price')
     return render_template('book_detail.html', title=title, img=img, desc=desc, price=price)
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login")
 def login():
     if request.method == "POST":
         username = request.form.get("tendangnhap", "").strip()
