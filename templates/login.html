@@ -21,20 +21,20 @@
 <body>
     <header>
         <div class="left-header">
-            <div class="logo">📚 Book_shop</div>
-            <nav>
-                <a href="/">Trang Chủ</a>
-                <a href="#">Combo giảm giá</a>
-                <a href="#">Thể Loại</a>
-                <a href="#">Hết hàng</a>
-            </nav>
+          <div class="logo">📚 Book_shop</div>
+          <nav>
+            <a href="/">Trang Chủ</a> <!-- Sửa đường dẫn -->
+            <a href="#">Combo giảm giá</a>
+            <a href="#">Thể Loại</a>
+            <a href="#">Giỏ Hàng</a>
+          </nav>
         </div>
         <div class="search-login">
-            <input type="text" placeholder="Nội dung tìm kiếm">
-            <button class="btn-tim">Tìm</button>
-            <a href="login.html"><button class="btn-dangnhap">Đăng nhập</button></a>
+          <input type="text" placeholder="Nội dung tìm kiếm">
+          <button class="btn-tim">Tìm</button>
+          <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a> <!-- ĐÃ SỬA -->
         </div>
-    </header>
+      </header>
 
     <main>
         <div class="login-box">
@@ -60,9 +60,9 @@
             <div class="divider"><span>Hoặc</span></div>
 
             <p>Nếu bạn chưa có tài khoản? <a href="/register" class="btn btn-tim">Đăng ký</a></p>
-            <button class="btn admin-btn" type="button" onclick="window.location.href='/login_admin'">
+            <a class="btn admin-btn admin-btn" href="/login-admin">
                 Đăng nhập với quyền Admin
-              </button>            
+              </a>        
             <p class="copyright">© 2024 - 2026</p>
         </div>
     </main>
@@ -149,7 +149,7 @@
     });
 
     function redirectToAdminLogin() {
-        window.location.href = "/login_admin.html"; // Đường dẫn có thể điều chỉnh tùy theo định tuyến của bạn
+        window.location.href = "/login-admin"; // Đường dẫn có thể điều chỉnh tùy theo định tuyến của bạn
     }
 
 

@@ -48,6 +48,14 @@ class Admin(db.Model):
 def home():
     return render_template("TrangChu.html")
 
+@app.route('/book_detail')
+def book_detail():
+    title = request.args.get('title')
+    img = request.args.get('img')
+    desc = request.args.get('desc')
+    price = request.args.get('price')
+    return render_template('book_detail.html', title=title, img=img, desc=desc, price=price)
+
 @app.route("/login")
 def login():
     if request.method == "POST":
@@ -78,6 +86,10 @@ def login():
             return render_template("login.html", username=username)
 
     return render_template("login.html")
+
+# Hàm sinh mã khách hàng ngẫu nhiên
+def get_so_ngau_nhien():
+    return 'KH' + ''.join(str(random.randint(0, 9)) for _ in range(6))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -146,6 +158,12 @@ def register():
             return redirect("/register")
 
         try:
+        # Tạo mã khách hàng ngẫu nhiên và đảm bảo không trùng
+            while True:
+                makhachhang = get_so_ngau_nhien()
+                if not KhachHang.query.filter_by(makhachhang=makhachhang).first():
+                    break
+
             hashed_password = generate_password_hash(mat_khau)
             print(f"Hashed password length: {len(hashed_password)}")
             
@@ -178,6 +196,28 @@ def register():
             return redirect("/register")
 
     return render_template("DangKy.html")
+
+@app.route("/login-admin", methods=["GET", "POST"])
+def login_admin():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        if not email or not password:
+            flash("Vui lòng điền đầy đủ thông tin", "danger")
+            return redirect("/login-admin")
+
+        admin = Admin.query.filter_by(email=email).first()
+        if admin and check_password_hash(admin.matkhau, password):
+            session["admin_id"] = admin.id
+            session["admin_name"] = f"{admin.hodem} {admin.ten}"
+            flash("Đăng nhập thành công!", "success")
+            return redirect("/")
+        else:
+            flash("Email hoặc mật khẩu không chính xác!", "danger")
+            return redirect("/login-admin")
+
+    return render_template("login_admin.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
