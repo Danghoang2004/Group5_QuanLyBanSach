@@ -37,7 +37,7 @@ class KhachHang(db.Model):
     dangkinhanbangtin = db.Column(db.Boolean)
 
 class Admin(db.Model):
-    __tablename__ = 'table_admin'
+    __tablename__ = 'admin'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     hodem = db.Column(db.String(100), nullable=False)
     ten = db.Column(db.String(100), nullable=False)
@@ -207,12 +207,15 @@ def login_admin():
             flash("Vui lòng điền đầy đủ thông tin", "danger")
             return redirect("/login-admin")
 
+        # Tìm admin theo email
         admin = Admin.query.filter_by(email=email).first()
-        if admin and check_password_hash(admin.matkhau, password):
+        
+        # So sánh mật khẩu thô (không mã hóa)
+        if admin and admin.matkhau == password:
             session["admin_id"] = admin.id
             session["admin_name"] = f"{admin.hodem} {admin.ten}"
             flash("Đăng nhập thành công!", "success")
-            return redirect("/")
+            return redirect("/book_detail")
         else:
             flash("Email hoặc mật khẩu không chính xác!", "danger")
             return redirect("/login-admin")

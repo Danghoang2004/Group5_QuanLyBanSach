@@ -15,7 +15,17 @@
 
     <div class="right-panel">
       <h1 class="h1size">Chào Mừng trở lại</h1>
-      <form>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <ul class="flash-messages">
+      {% for category, message in messages %}
+        <li class="flash {{ category }}">{{ message }}</li>
+      {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="/login-admin" >
         <input name="email" type="email" placeholder="Địa chỉ email" required />
         <input name="password" type="password" placeholder="Mật khẩu" required />
 
