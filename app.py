@@ -46,7 +46,10 @@ class Admin(db.Model):
 
 @app.route("/")
 def home():
-    return render_template("TrangChu.html")
+    # Kiểm tra trạng thái đăng nhập
+    is_logged_in = 'makhachhang' in session
+    username = session.get('tendangnhap', None) if is_logged_in else None
+    return render_template("TrangChu.html", is_logged_in=is_logged_in, username=username)
 
 @app.route('/book_detail')
 def book_detail():
@@ -64,7 +67,7 @@ def login():
 
         if not username or not password:
             flash("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.", "danger")
-            return render_template("login.html", username=username)
+            return render_template("login.html", username=username, is_logged_in=False)
 
         user = KhachHang.query.filter_by(tendangnhap=username).first()
         
@@ -77,12 +80,14 @@ def login():
                 session.permanent = True
             
             flash("Đăng nhập thành công!", "success")
-            return redirect(url_for('home'))  # Chuyển hướng đến TrangChu.html
+            return redirect(url_for('home'))
         else:
             flash("Tên đăng nhập hoặc mật khẩu không chính xác.", "danger")
-            return render_template("login.html", username=username)
+            return render_template("login.html", username=username, is_logged_in=False)
 
-    return render_template("login.html")
+    is_logged_in = 'makhachhang' in session
+    username = session.get('tendangnhap', None) if is_logged_in else None
+    return render_template("login.html", is_logged_in=is_logged_in, username=username)
 
 # Hàm sinh mã khách hàng ngẫu nhiên
 def get_so_ngau_nhien():
@@ -218,6 +223,12 @@ def login_admin():
             return redirect("/login-admin")
 
     return render_template("login_admin.html")
+@app.route("/logout")
+def logout():
+    session.pop('makhachhang', None)
+    session.pop('tendangnhap', None)
+    flash("Đăng xuất thành công!", "success")
+    return redirect(url_for('home'))
 
 if __name__ == "__main__":
     app.run(debug=True)

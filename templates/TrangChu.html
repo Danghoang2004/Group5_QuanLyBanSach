@@ -25,7 +25,7 @@
     <div class="left-header">
       <div class="logo">📚 Book_shop</div>
       <nav>
-        <a href="/">Trang Chủ</a> <!-- Sửa đường dẫn -->
+        <a href="/">Trang Chủ</a>
         <a href="#">Combo giảm giá</a>
         <a href="#">Thể Loại</a>
         <a href="#">Giỏ Hàng</a>
@@ -34,7 +34,12 @@
     <div class="search-login">
       <input type="text" placeholder="Nội dung tìm kiếm">
       <button class="btn-tim">Tìm</button>
-      <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a> <!-- ĐÃ SỬA -->
+      {% if is_logged_in %}
+        <span>Xin chào, {{ username }}!</span>
+        <a href="/logout"><button class="btn-dangnhap">Đăng xuất</button></a>
+      {% else %}
+        <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a>
+      {% endif %}
     </div>
   </header>
 
