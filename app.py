@@ -229,9 +229,17 @@ def logout():
     session.pop('tendangnhap', None)
     # flash("Đăng xuất thành công!", "success")
     return redirect(url_for('home'))
-@app.route('/cart')
+
+@app.route("/cart")
 def cart():
-    return render_template('GioHang.html')
+    is_logged_in = 'makhachhang' in session
+    if not is_logged_in:
+        flash("Vui lòng đăng nhập để truy cập giỏ hàng.", "danger")
+        return redirect(url_for('/login'))
+    
+    username = session.get('tendangnhap') if is_logged_in else None
+    return render_template("GioHang.html", is_logged_in=is_logged_in, username=username)
+
 
 
 if __name__ == "__main__":
