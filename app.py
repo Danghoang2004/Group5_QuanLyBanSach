@@ -229,6 +229,10 @@ def logout():
     session.pop('tendangnhap', None)
     # flash("Đăng xuất thành công!", "success")
     return redirect(url_for('home'))
+@app.route('/cart')
+def cart():
+    return render_template('GioHang.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
