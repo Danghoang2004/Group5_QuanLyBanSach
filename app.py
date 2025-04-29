@@ -79,7 +79,7 @@ def login():
             if remember:
                 session.permanent = True
             
-            flash("Đăng nhập thành công!", "success")
+            # flash("Đăng nhập thành công!", "success")
             return redirect(url_for('home'))
         else:
             flash("Tên đăng nhập hoặc mật khẩu không chính xác.", "danger")
@@ -188,7 +188,7 @@ def register():
             db.session.add(new_customer)
             db.session.commit()
             print("Customer added successfully!")
-            flash("Đăng ký thành công! Vui lòng đăng nhập.", "success")
+            # flash("Đăng ký thành công! Vui lòng đăng nhập.", "success")
             return redirect("/login")
 
         except Exception as e:
@@ -227,7 +227,7 @@ def login_admin():
 def logout():
     session.pop('makhachhang', None)
     session.pop('tendangnhap', None)
-    flash("Đăng xuất thành công!", "success")
+    # flash("Đăng xuất thành công!", "success")
     return redirect(url_for('home'))
 
 if __name__ == "__main__":
