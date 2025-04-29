@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Đăng ký tài khoản</title>
+  <link rel="stylesheet" href="/static/register_admin.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <img src="/static/images/anh_phude.jpg" alt="Reading Image" />
+    </div>
+    <div class="right-panel">
+      <h1>Tạo tài khoản mới</h1>
+      <form method="POST" action="/dangky-admin">
+        <div class="row">
+          <input name="lastname" type="text" placeholder="Họ đệm" required />
+          <input name="firstname" type="text" placeholder="Tên" required />
+        </div>
+        <input class="full-width" name="email" type="email" placeholder="Địa chỉ email" required />
+        <div class="row">
+          <input name="password" type="password" placeholder="Mật khẩu" required />
+          <input name="confirm_password" type="password" placeholder="Nhập lại mật khẩu" required />
+        </div>
+        <button class="btn" type="submit">Đăng ký</button>
+        <hr style="width: 60%; margin: 10px auto;" />
+        <div class="text-center">
+          <p><a href="#">Quên mật khẩu?</a></p>
+          <p>Bạn đã có tài khoản? <a href="/dangnhap">Đăng nhập</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
