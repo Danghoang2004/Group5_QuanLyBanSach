@@ -173,6 +173,59 @@
       `).join('');
     }
 
+   // --------------------- 📌 PHẦN TÌM KIẾM SẢN PHẨM ----------------------
+
+    /**
+     * Hàm searchProducts: Lọc sản phẩm theo từ khóa trong tiêu đề
+     * @param {string} keyword - từ khóa tìm kiếm
+     */
+     function searchProducts(keyword) {
+      keyword = keyword.trim().toLowerCase();
+      if (keyword === '') {
+        // Nếu trống -> Hiển thị tất cả
+        renderProducts(featured, 'featured-products');
+        renderProducts(all, 'all-products', true);
+        renderProducts(other, 'other-products');
+        return;
+      }
+
+      const matchedFeatured = featured.filter(p => p.title.toLowerCase().includes(keyword));
+      const matchedAll = all.filter(p => p.title.toLowerCase().includes(keyword));
+      const matchedOther = other.filter(p => p.title.toLowerCase().includes(keyword));
+
+      // Xóa kết quả cũ
+      document.getElementById('featured-products').innerHTML = '';
+      document.getElementById('all-products').innerHTML = '';
+      document.getElementById('other-products').innerHTML = '';
+
+      if (matchedFeatured.length === 0 && matchedAll.length === 0 && matchedOther.length === 0) {
+        document.getElementById('all-products').innerHTML = '<p>Không tìm thấy sản phẩm phù hợp.</p>';
+        return;
+      }
+
+      renderProducts(matchedFeatured, 'featured-products');
+      renderProducts(matchedAll, 'all-products', true);
+      renderProducts(matchedOther, 'other-products');
+    }
+
+    // Bắt sự kiện click nút Tìm
+    document.querySelector('.btn-tim').addEventListener('click', function() {
+      const keyword = document.querySelector('input[type="text"]').value;
+      searchProducts(keyword);
+    });
+
+    // Bắt sự kiện Enter trong ô tìm kiếm
+    document.querySelector('input[type="text"]').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const keyword = e.target.value;
+        searchProducts(keyword);
+      }
+    });
+
+    // --------------------- 📌 HẾT PHẦN TÌM KIẾM ----------------------
+
+    // Render dữ liệu ban đầu
     renderProducts(featured, 'featured-products');
     renderProducts(all, 'all-products', true);
     renderProducts(other, 'other-products');
