@@ -243,8 +243,6 @@ def cart():
     username = session.get('tendangnhap') if is_logged_in else None
     return render_template("GioHang.html", is_logged_in=is_logged_in, username=username)
 
-
-
 >>>>>>> 8f3ce1e9b54244cbd13d0fe416e2dac54d708798
 if __name__ == "__main__":
     app.run(debug=True)
