@@ -230,9 +230,7 @@ def logout():
     # flash("Đăng xuất thành công!", "success")
     return redirect(url_for('home'))
 
-@app.route("/cart")
-def cart():
-    return render_template('GioHang.html')
+
 @app.route('/giohang')
 def gio_hang():
     return render_template('GioHang.html')
