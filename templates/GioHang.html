@@ -31,7 +31,7 @@
             <a href="/">Trang Chủ</a>
             <a href="#">Combo giảm giá</a>
             <a href="#">Thể Loại</a>
-            <a href="/cart">Giỏ Hàng</a>
+            <a href="/giohang">Giỏ Hàng</a>
           </nav>
         </div>
         <div class="search-login">
@@ -40,12 +40,13 @@
           <!-- <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a> ĐÃ SỬA -->
           {% if is_logged_in %}
             <span>Xin chào, {{ username }}!</span>
-            <a href="/logout"><button class="btn-dangnhap">Đăng xuất</button></a>
+            <a href="/logout">Đăng xuất</a>
           {% else %}
             <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a>
           {% endif %}
         </div>
       </header>
+    
     
 
     <div class="cart-container">
