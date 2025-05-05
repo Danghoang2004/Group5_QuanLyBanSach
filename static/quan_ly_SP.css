@@ -1,0 +1,159 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background-color: #f2f2f2;
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 220px;
+    background-color: #29a8ff;
+    color: white;
+    padding: 20px 10px;
+  }
+  
+  .logo {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .avatar {
+    font-size: 36px;
+  }
+  
+  .logo h2 {
+    margin: 5px 0;
+  }
+  
+  .nav {
+    list-style: none;
+  }
+  
+  .nav li {
+    background-color: #1b90e4;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .topbar {
+    background-color: #ddd;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .topbar input[type="text"] {
+    width: 300px;
+    padding: 5px;
+  }
+  
+  .icons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .account {
+    background-color: #ccc;
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+  
+  .form-section {
+    background: white;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 10px;
+  }
+  
+  .form-grid .input-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-grid label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-grid input {
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .form-actions button {
+    padding: 8px 20px;
+    background: #ccc;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .form-actions button:hover {
+    background: #bbb;
+  }
+  
+  .data-table {
+    margin: 0 20px 20px 20px;
+  }
+  
+  .data-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+  }
+  
+  .data-table th,
+  .data-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .data-table th {
+    background-color: #eee;
+  }
+  
+  .green {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .blue {
+    color: blue;
+  }

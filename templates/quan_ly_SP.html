@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang quản lý sản phẩm</title>
+  <link rel="stylesheet" href="/static/quan_ly_SP.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="avatar">😎</div>
+        <h2>Admin</h2>
+      </div>
+      <ul class="nav">
+        <li>Bảng điều khiển</li>
+        <li>Quản lý sản phẩm</li>
+        <li>Quản lý người dùng</li>
+        <li>Quản lý đơn hàng</li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <input type="text" placeholder="Tìm kiếm">
+        <div class="icons">
+          <span>🔔</span>
+          <span class="account">Tài khoản</span>
+        </div>
+      </header>
+
+      <section class="form-section">
+        <h3>Bảng quản lý sản phẩm</h3>
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="ma_sp">Mã sản phẩm</label>
+            <input type="text" id="ma_sp" placeholder="Mã sản phẩm">
+          </div>
+          <div class="input-group">
+            <label for="gia_nhap">Giá nhập</label>
+            <input type="text" id="gia_nhap" placeholder="Giá nhập">
+          </div>
+          <div class="input-group">
+            <label for="so_luong">Số lượng</label>
+            <input type="text" id="so_luong" placeholder="Số lượng">
+          </div>
+          <div class="input-group">
+            <label for="ten_sp">Tên sản phẩm</label>
+            <input type="text" id="ten_sp" placeholder="Tên sản phẩm">
+          </div>
+          <div class="input-group">
+            <label for="gia_goc">Giá gốc</label>
+            <input type="text" id="gia_goc" placeholder="Giá gốc">
+          </div>
+          <div class="input-group">
+            <label for="the_loai">Thể Loại</label>
+            <input type="text" id="the_loai" placeholder="Thể Loại">
+          </div>
+          <div class="input-group">
+            <label for="tac_gia">Tác giả</label>
+            <input type="text" id="tac_gia" placeholder="Tác giả">
+          </div>
+          <div class="input-group">
+            <label for="gia_ban">Giá bán</label>
+            <input type="text" id="gia_ban" placeholder="Giá bán">
+          </div>
+          <div class="input-group">
+            <label for="mo_ta">Mô tả sản phẩm</label>
+            <input type="text" id="mo_ta" placeholder="Mô tả sản phẩm">
+          </div>
+          <div class="input-group">
+            <label for="nam_xb">Năm xuất bản</label>
+            <input type="text" id="nam_xb" placeholder="Năm xuất bản">
+          </div>
+          <div class="input-group">
+            <label for="ngon_ngu">Ngôn Ngữ</label>
+            <input type="text" id="ngon_ngu" placeholder="Ngôn ngữ">
+          </div>
+          <div class="input-group">
+            <label for="hinh_anh">Hình ảnh</label>
+            <input type="text" id="hinh_anh" placeholder="Hình ảnh">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button>Thêm</button>
+          <button>Sửa</button>
+          <button>Xóa</button>
+        </div>
+      </section>
+
+      <section class="data-table">
+        <h4>Bảng dữ liệu :</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Mã SP</th>
+              <th>Tên SP</th>
+              <th>Thể loại</th>
+              <th>SL</th>
+              <th>Giá nhập</th>
+              <th>Giá gốc</th>
+              <th>Giá bán</th>
+              <th>Chiết khấu</th>
+              <th>Danh mục</th>
+              <th>Ngôn ngữ</th>
+              <th>Hình ảnh</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="green">SP1</td>
+              <td>Java</td>
+              <td class="blue">TG1</td>
+              <td class="blue">2,000</td>
+              <td class="blue">120,000</td>
+              <td class="blue">100,000</td>
+              <td class="blue">110,000</td>
+              <td>50</td>
+              <td>CT</td>
+              <td class="green">Việt</td>
+              <td>(NULL)</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
