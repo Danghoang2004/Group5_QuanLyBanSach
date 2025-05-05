@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/static/sidebars_admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">😎 Admin</div>
+      <nav>
+        <ul>
+          <li><a href="/templates/bangdieukhien_admin.html">Bảng điều khiển</a></li>
+          <li>Quản lý sản phẩm</li>
+          <li class="active"><a href="/templates/bangdieukhien_admin.html">Bảng điều khiển</a></li>
+          <li>Quản lý đơn hàng</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <input type="text" placeholder="Tìm kiếm">
+        <button class="search-btn">🔍</button>
+        <div class="icons">
+          <span>🔔</span>
+          <span>✉️</span>
+          <span class="account">Tài khoản</span>
+        </div>
+      </header>
+
+      <section class="form-section">
+        <h2>Bảng quản lý người dùng</h2>
+        <form class="user-form">
+          <div class="form-group">
+            <input type="text" placeholder="Mã khách hàng">
+            <input type="text" placeholder="Giới tính">
+            <input type="text" placeholder="Số điện thoại">
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Tên đăng nhập">
+            <input type="text" placeholder="Địa chỉ">
+            <input type="email" placeholder="Email">
+          </div>
+          <div class="form-group">
+            <input type="password" placeholder="Mật khẩu">
+            <input type="date" placeholder="Ngày sinh">
+            <input type="text" placeholder="Đăng ký nhận bản tin">
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Họ và tên">
+            <input type="text" placeholder="Địa chỉ nhận hàng">
+          </div>
+          <div class="buttons">
+            <button type="button">Thêm</button>
+            <button type="submit">Sửa</button>
+            <button type="button">Xóa</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="table-section">
+        <h2>Bảng dữ liệu người dùng</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Office</th>
+              <th>Age</th>
+              <th>Start date</th>
+              <th>Salary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Airi Satou</td>
+              <td>Accountant</td>
+              <td>Tokyo</td>
+              <td>33</td>
+              <td>2008/11/28</td>
+              <td>$162,700</td>
+            </tr>
+            <!-- Add more rows here as needed -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
