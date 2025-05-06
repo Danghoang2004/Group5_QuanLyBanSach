@@ -1,0 +1,82 @@
+/* Nền và phông chữ */
+body {
+    background: linear-gradient(to right, #e0f7fa, #e0ffe0);
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+/* Tiêu đề cảm ơn */
+h2 {
+    color: #2ecc71;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+p.lead {
+    font-size: 18px;
+    color: #555;
+}
+
+/* Khung thông tin đơn hàng */
+.order-details {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 30px auto;
+    max-width: 600px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.order-details h5 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.order-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.order-details li {
+    padding: 6px 0;
+    font-size: 16px;
+}
+
+/* Nút */
+.button-group {
+    margin-top: 20px;
+}
+
+.button-group .btn {
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+.button-group .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Ghi chú cuối */
+.thank-you-note {
+    margin-top: 30px;
+    font-size: 15px;
+    color: #444;
+    background-color: #f0fff4;
+    border-left: 4px solid #2ecc71;
+    padding: 15px 20px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+/* Biểu tượng icon (nếu dùng Font Awesome) */
+.thank-you-note i {
+    margin-right: 6px;
+    color: #27ae60;
+}
