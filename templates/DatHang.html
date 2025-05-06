@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt Hàng Thành Công</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/oder_success.css">
+</head>
+<body>
+
+<div class="container mt-5 text-center animated-fade">
+    <div class="checkmark-circle">
+        <div class="background"></div>
+        <div class="checkmark draw"></div>
+    </div>
+    <h1 class="text-success mt-4">Cảm ơn bạn đã đặt hàng!</h1>
+    <p class="lead">Chúng tôi đã nhận được đơn hàng của bạn và đang xử lý.</p>
+
+    <!-- Hiển thị chi tiết đơn hàng -->
+    <div class="order-details mt-4 text-start mx-auto">
+        <h5>Chi tiết đơn hàng:</h5>
+        <ul>
+            <li><strong>Mã đơn hàng:</strong> #{{ order_id }}</li>
+            <li><strong>Ngày đặt:</strong> {{ order_date }}</li>
+            <li><strong>Tổng tiền:</strong> {{ total_amount }}₫</li>
+            <li><strong>Phương thức thanh toán:</strong> Thanh toán khi nhận hàng</li>
+        </ul>
+    </div>
+    
+    <div class="button-group mt-4">
+        <!-- Nút Quay về Trang chủ -->
+        <a href="#" class="btn btn-primary">Quay về Trang chủ</a>
+        <!-- Nút Tiếp tục mua sắm -->
+        <a href="#" class="btn btn-outline-secondary">Tiếp tục mua sắm</a>
+        <!-- Nút Xem đơn hàng của tôi (Chưa làm) -->
+        <a href="#" class="btn btn-outline-success">Xem đơn hàng của tôi</a>
+    </div>
+
+    <div class="thank-you-note mt-5">
+        <p>📦 Đơn hàng của bạn sẽ được giao trong vòng 2-5 ngày làm việc.</p>
+        <p>📩 Mọi thông tin sẽ được gửi về email bạn đã đăng ký.</p>
+    </div>
+</div>
+<!--Footer-->
+<div class="footer py-4">
+    <hr />
+    <div class="container">
+        <div class="row g-4">  
+            <div class="col-md-4">
+                <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
+                <div class="social-icons">
+                    <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
+                    <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <ul class="list-unstyled">
+                    <li class="mb-2">Liên hệ: quanlysach_360@gmail.com</li>
+                    <li class="mb-2">Quy định giao hàng</li>
+                    <li class="mb-2">Quy định trả hàng</li>
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <ul class="list-unstyled">
+<li class="mb-2">Chính sách hoạt động</li>
+                    <li class="mb-2">Chính sách trả hàng</li>
+                    <li class="mb-2">Chính sách bảo mật</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Bắt sự kiện cho nút Quay về Trang chủ
+        $(".btn-primary").click(function(event) {
+            event.preventDefault();
+            window.location.href = "TrangChu.html";  // Quay về Trang chủ
+        });
+
+        // Bắt sự kiện cho nút Tiếp tục mua sắm
+        $(".btn-outline-secondary").click(function(event) {
+            event.preventDefault();
+            window.location.href = "GioHang.html";  // Quay về Giỏ hàng
+        });
+
+        // Bắt sự kiện cho nút Xem đơn hàng của tôi (chưa có)
+        $(".btn-outline-success").click(function(event) {
+            event.preventDefault();
+            // Chưa có chức năng, có thể thêm vào sau
+        });
+    });
+</script>
+
+</body>
+</html>
