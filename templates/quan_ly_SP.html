@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Trang quản lý sản phẩm</title>
-  <link rel="stylesheet" href="/static/quan_ly_SP.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản Lý Sản Phẩm</title>
+  <link rel="stylesheet" href="/static/quan_ly_SP.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
   <div class="container">
@@ -13,7 +15,7 @@
         <h2>Admin</h2>
       </div>
       <ul class="nav">
-        <li>Bảng điều khiển</li>
+        <li class="active">Bảng điều khiển</li>
         <li>Quản lý sản phẩm</li>
         <li>Quản lý người dùng</li>
         <li>Quản lý đơn hàng</li>
@@ -21,11 +23,21 @@
     </aside>
 
     <main class="main">
-      <header class="topbar">
-        <input type="text" placeholder="Tìm kiếm">
-        <div class="icons">
-          <span>🔔</span>
-          <span class="account">Tài khoản</span>
+      <header class="admin-header">
+        <div class="header-left">
+
+          <div class="search-box">
+            <input type="text" placeholder="Tìm kiếm" />
+            <button><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <div class="header-right">
+          <i class="fas fa-bell"></i>
+          <i class="fas fa-envelope"></i>
+          <div class="account">
+            <span>Tài khoản</span>
+            <div class="avatar"></div>
+          </div>
         </div>
       </header>
 
@@ -82,9 +94,9 @@
           </div>
         </div>
         <div class="form-actions">
-          <button>Thêm</button>
-          <button>Sửa</button>
-          <button>Xóa</button>
+          <button class="btn-add">Thêm</button>
+          <button class="btn-edit">Sửa</button>
+          <button class="btn-delete">Xóa</button>
         </div>
       </section>
 
@@ -118,6 +130,58 @@
               <td>50</td>
               <td>CT</td>
               <td class="green">Việt</td>
+              <td>(NULL)</td>
+            </tr>
+            <tr>
+              <td class="green">SP2</td>
+              <td>C/C++</td>
+              <td class="blue">TG2</td>
+              <td class="blue">1,500</td>
+              <td class="blue">150,000</td>
+              <td class="blue">130,000</td>
+              <td class="blue">160,000</td>
+              <td>20</td>
+              <td>KH</td>
+              <td class="green">Việt</td>
+              <td>(NULL)</td>
+            </tr>
+            <tr>
+              <td class="green">SP3</td>
+              <td>Python</td>
+              <td class="blue">TG3</td>
+              <td class="blue">2,003</td>
+              <td class="blue">150,000</td>
+              <td class="blue">130,000</td>
+              <td class="blue">170,000</td>
+              <td>30</td>
+              <td>KT</td>
+              <td class="green">Anh</td>
+              <td>(NULL)</td>
+            </tr>
+            <tr>
+              <td class="green">SP4</td>
+              <td>JS</td>
+              <td class="blue">TG4</td>
+              <td class="blue">2,000</td>
+              <td class="blue">140,000</td>
+              <td class="blue">130,000</td>
+              <td class="blue">170,000</td>
+              <td>70</td>
+              <td>PL</td>
+              <td class="green">Anh</td>
+              <td>(NULL)</td>
+            </tr>
+            <tr>
+              <td class="green">SP5</td>
+              <td>GoLang</td>
+              <td class="blue">TG5</td>
+              <td class="blue">1,880</td>
+              <td class="blue">120,000</td>
+              <td class="blue">100,000</td>
+              <td class="blue">190,000</td>
+              <td>100</td>
+              <td>TT</td>
+              <td class="green">Anh</td>
               <td>(NULL)</td>
             </tr>
           </tbody>
