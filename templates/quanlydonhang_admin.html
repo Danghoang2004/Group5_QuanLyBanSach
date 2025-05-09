@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý đơn hàng</title>
+  <link rel="stylesheet" href="/static/sidebars_admin.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">😎 Admin</div>
+      <nav>
+        <ul>
+          <li><a href="/templates/bangdieukhien_admin.html">Bảng điều khiển</a></li>
+          <li><a href="/templates/quan_ly_SP.html">Quản lý sản phẩm</a></li>
+          <li><a href="/templates/quanlynguoidung_admin.html">Quản lý người dùng</a></li>
+          <li class="active"><a href="/templates/quanlydonhang_admin.html">Quản lý đơn hàng</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <input type="text" placeholder="Tìm kiếm">
+        <div class="icons">
+          <span>🔔</span>
+          <span>💬</span>
+          <span class="avatar">Tài khoản</span>
+        </div>
+      </header>
+
+      <section class="form-section">
+        <h2>Bảng quản lý đơn hàng</h2>
+        <div class="filter-search">
+          <div class="filter-section">
+            <span>Thêm điều kiện lọc</span>
+            <span class="filter-item1">Kênh bán hàng là Web</span>
+            <span class="filter-item1">Phương thức thanh toán là Thanh toán khi giao hàng (COD)</span>
+          </div>
+          <input type="text" class="search-bar" placeholder="Tìm kiếm">
+          <button class="save-button">Lưu bộ lọc</button>
+        </div>
+
+        <div class="table-section">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã đơn hàng</th>
+                <th>Mã khách hàng</th>
+                <th>Địa chỉ người mua</th>
+                <th>Địa chỉ người bán</th>
+                <th>Trạng thái</th>
+                <th>Thanh Toán</th>
+                <th>Trạng thái thanh toán</th>
+                <th>Tiền thanh toán</th>
+                <th>Tiền thiếu</th>
+                <th>Ngày đặt hàng</th>
+                <th>Ngày giao hàng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Dữ liệu sẽ được điền vào đây -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
