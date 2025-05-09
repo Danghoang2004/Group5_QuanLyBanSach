@@ -52,11 +52,11 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="mb-3">
-                        <label for="tenDangNhap" class="form-label">Tên đăng nhập<span class="red">*</span></label>
+                        <label for="tenDangNhap" class="form-label">Tên đăng nhập<span class="red">*</span> <span id="tenDangNhapMsg" class="red"></span></label>
                         <input type="text" class="form-control" id="tenDangNhap" name="tenDangNhap" required="required">
                     </div>
                     <div class="mb-3">
-                        <label for="matKhau" class="form-label">Mật khẩu<span class="red">*</span></label>
+                        <label for="matKhau" class="form-label">Mật khẩu<span class="red">*</span> <span id="matKhauMsg" class="red"></span></label>
                         <input type="password" class="form-control" id="matKhau" name="matKhau" required="required">
                     </div>
                     <div class="mb-3">
@@ -150,58 +150,132 @@
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const tenDangNhap = document.getElementById('tenDangNhap');
         const matKhau = document.getElementById('matKhau');
         const matKhauNhapLai = document.getElementById('matKhauNhapLai');
+        const tenDangNhapMsg = document.getElementById('tenDangNhapMsg');
+        const matKhauMsg = document.getElementById('matKhauMsg');
         const msg = document.getElementById('msg');
         const submitBtn = document.getElementById('submit');
         const checkDieuKhoan = document.getElementById('dongYDieuKhoan');
         const errorMessage = document.getElementById('error-message');
 
+        // Hàm kiểm tra độ mạnh mật khẩu
+        function isWeakPassword(password) {
+            return (
+                password.length < 8 ||
+                !/[A-Z]/.test(password) ||
+                !/[a-z]/.test(password) ||
+                !/[0-9]/.test(password) ||
+                !/[@#$%^&*()_+\-=\[\]{};:'\",.<>?/\\|~`]/.test(password)
+            );
+        }
+
+        // Hiển thị nút submit khi đồng ý điều khoản
         checkDieuKhoan.addEventListener('change', function () {
             submitBtn.style.visibility = this.checked ? 'visible' : 'hidden';
         });
 
-        matKhauNhapLai.addEventListener('input', function () {
-            msg.textContent = (matKhau.value !== matKhauNhapLai.value) ? " - Mật khẩu không khớp!" : "";
+        // Kiểm tra độ dài tên đăng nhập ngay khi nhập
+        tenDangNhap.addEventListener('input', function () {
+            tenDangNhapMsg.textContent = (this.value.length < 3) ? " - Tên đăng nhập phải có ít nhất 3 ký tự." : "";
+            tenDangNhap.classList.toggle('is-invalid', this.value.length < 3);
         });
 
+        // Kiểm tra độ mạnh mật khẩu ngay khi nhập
+        matKhau.addEventListener('input', function () {
+            const password = this.value;
+            let errorMsg = "";
+
+            if (isWeakPassword(password)) {
+                errorMsg = " - Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.";
+            }
+
+            matKhauMsg.textContent = errorMsg;
+            matKhau.classList.toggle('is-invalid', !!errorMsg);
+
+            // Cập nhật thông báo không khớp nếu cần
+            if (matKhauNhapLai.value && password !== matKhauNhapLai.value) {
+                msg.textContent = " - Mật khẩu không khớp!";
+                matKhauNhapLai.classList.add('is-invalid');
+            } else {
+                msg.textContent = "";
+                matKhauNhapLai.classList.remove('is-invalid');
+            }
+        });
+
+        // Kiểm tra mật khẩu khớp nhau ngay khi nhập
+        matKhauNhapLai.addEventListener('input', function () {
+            const password = matKhau.value;
+            const confirmPassword = this.value;
+            let errorMsg = "";
+
+            if (password !== confirmPassword) {
+                errorMsg = " - Mật khẩu không khớp!";
+            }
+
+            msg.textContent = errorMsg;
+            matKhauNhapLai.classList.toggle('is-invalid', !!errorMsg);
+
+            // Cập nhật thông báo độ mạnh mật khẩu
+            if (isWeakPassword(password)) {
+                matKhauMsg.textContent = " - Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.";
+                matKhau.classList.add('is-invalid');
+            } else {
+                matKhauMsg.textContent = "";
+                matKhau.classList.remove('is-invalid');
+            }
+        });
+
+        // Kiểm tra form trước khi gửi
         document.querySelector('form').addEventListener('submit', function (e) {
-            const requiredFields = [
-                'tenDangNhap',
-                'matKhau',
-                'matKhauNhapLai',
-                'hoVaTen',
-                'dienThoai',
-                'email',
-                'diaChiKhachHang',
-                'diaChiMuaHang',
-                'diaChiNhanHang',
-                'gioiTinh',
-                'ngaySinh'
-            ];
-
+            const requiredFields = ['tenDangNhap', 'matKhau', 'matKhauNhapLai'];
             let isValid = true;
+            let errorMessages = [];
 
+            // Kiểm tra các trường bắt buộc
             requiredFields.forEach(function (id) {
                 const input = document.getElementById(id);
                 if (input && input.value.trim() === '') {
                     isValid = false;
                     input.classList.add('is-invalid');
+                    errorMessages.push(`Vui lòng nhập ${input.previousElementSibling.textContent.replace('*', '')}.`);
                 } else {
                     input.classList.remove('is-invalid');
                 }
             });
 
-            if (matKhau.value !== matKhauNhapLai.value) {
-                msg.textContent = " - Mật khẩu không khớp!";
+            // Kiểm tra độ dài tên đăng nhập
+            if (tenDangNhap.value.length < 3) {
                 isValid = false;
-            } else {
-                msg.textContent = "";
+                tenDangNhap.classList.add('is-invalid');
+                errorMessages.push("Tên đăng nhập phải có ít nhất 3 ký tự.");
+            }
+
+            // Kiểm tra độ mạnh mật khẩu
+            const password = matKhau.value;
+            if (isWeakPassword(password)) {
+                isValid = false;
+                matKhau.classList.add('is-invalid');
+                errorMessages.push("Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.");
+            }
+
+            // Kiểm tra mật khẩu khớp
+            if (matKhau.value !== matKhauNhapLai.value) {
+                isValid = false;
+                matKhauNhapLai.classList.add('is-invalid');
+                errorMessages.push("Mật khẩu không khớp!");
+            }
+
+            // Kiểm tra đồng ý điều khoản
+            if (!checkDieuKhoan.checked) {
+                isValid = false;
+                errorMessages.push("Vui lòng đồng ý với điều khoản của công ty.");
             }
 
             if (!isValid) {
                 e.preventDefault();
-                errorMessage.textContent = "Bạn vui lòng nhập phần còn lại.";
+                errorMessage.textContent = errorMessages.join(' ');
                 errorMessage.classList.remove('d-none');
                 window.scrollTo(0, 0);
             }
