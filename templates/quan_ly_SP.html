@@ -10,34 +10,24 @@
 <body>
   <div class="container">
     <aside class="sidebar">
-      <div class="logo">
-        <div class="avatar">😎</div>
-        <h2>Admin</h2>
-      </div>
-      <ul class="nav">
-        <li><a href="/templates/bangdieukhien_admin.html">Bảng điều khiển</a></li>
-        <li class="active"><a href="/templates/quan_ly_SP.html">Quản lý sản phẩm</a></li>
-        <li><a href="/templates/quanlynguoidung_admin.html">Quản lý người dùng</a></li>
-        <li>Quản lý đơn hàng</li>
-      </ul>
+      <div class="logo">😎 Admin</div>
+      <nav>
+        <ul>
+          <li><a href="/templates/bangdieukhien_admin.html">Bảng điều khiển</a></li>
+          <li class="active"><a href="/templates/bangdieukhien_admin.html">Quản lý sản phẩm</a></li>
+          <li><a href="/templates/quanlynguoidung_admin.html">Quản lý người dùng</a></li>
+          <li>Quản lý đơn hàng</li>
+        </ul>
+      </nav>
     </aside>
 
-    <main class="main">
-      <header class="admin-header">
-        <div class="header-left">
-
-          <div class="search-box">
-            <input type="text" placeholder="Tìm kiếm" />
-            <button><i class="fas fa-search"></i></button>
-          </div>
-        </div>
-        <div class="header-right">
-          <i class="fas fa-bell"></i>
-          <i class="fas fa-envelope"></i>
-          <div class="account">
-            <span>Tài khoản</span>
-            <div class="avatar"></div>
-          </div>
+    <main class="main-content">
+      <header class="top-bar">
+        <input type="text" placeholder="Tìm kiếm">
+        <div class="icons">
+          <span>🔔</span>
+          <span>💬</span>
+          <span class="avatar">Tài khoản</span>
         </div>
       </header>
 
