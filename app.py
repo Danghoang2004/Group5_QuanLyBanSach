@@ -199,12 +199,32 @@ def login_admin():
             session["admin_id"] = 1
             session["admin_name"] = "Admin Cố Định"
             flash("Đăng nhập thành công!", "success")
-            return redirect("/bandieukhien")
+            return redirect("/bangdieukhien")
         else:
             flash("Email hoặc mật khẩu không chính xác!", "danger")
             return redirect("/login-admin")
 
     return render_template("login_admin.html")
+
+@app.route("/bangdieukhien")
+def bang_dieu_khien():
+    # Có thể kiểm tra đăng nhập tại đây nếu cần
+    if "admin_id" not in session:
+        flash("Bạn cần đăng nhập để truy cập.", "warning")
+        return redirect("/login-admin")
+    return render_template("bangdieukhien_admin.html")
+
+@app.route("/quanlysanpham")
+def quan_ly_san_pham():
+    return render_template("quan_ly_SP.html")
+
+@app.route("/quanlynguoidung")
+def quan_ly_nguoi_dung():
+    return render_template("quanlynguoidung_admin.html")
+
+@app.route("/quanlydonhang")
+def quan_ly_don_hang():
+    return render_template("quanlydonhang_admin.html")
 
 
 @app.route("/logout")

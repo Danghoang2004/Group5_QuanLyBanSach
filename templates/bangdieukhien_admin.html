@@ -1,71 +1,71 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="/static/sidebars_admin.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div class="container">
-    <aside class="sidebar">
-      <div class="logo">😎 Admin</div>
-      <nav>
-        <ul>
-          <li class="active"><a href="/templates/bangdieukhien_admin.html">Bảng điều khiển</a></li>
-          <li><a href="/templates/quan_ly_SP.html">Quản lý sản phẩm</a></li>
-          <li><a href="/templates/quanlynguoidung_admin.html">Quản lý người dùng</a></li>
-          <li><a href="/templates/quanlydonhang_admin.html">Quản lý đơn hàng</a></li>
-        </ul>
-      </nav>
-    </aside>
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+      <meta charset="UTF-8">
+      <title>Admin Dashboard</title>
+      <link rel="stylesheet" href="/static/sidebars_admin.css">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    </head>
+    <body>
+      <div class="container">
+        <aside class="sidebar">
+          <div class="logo">😎 Admin</div>
+          <nav>
+            <ul>
+              <li class="active"><a href="{{ url_for('bang_dieu_khien') }}">Bảng điều khiển</a></li>
+              <li><a href="{{ url_for('quan_ly_san_pham') }}">Quản lý sản phẩm</a></li>
+              <li><a href="{{ url_for('quan_ly_nguoi_dung') }}">Quản lý người dùng</a></li>
+              <li><a href="{{ url_for('quan_ly_don_hang') }}">Quản lý đơn hàng</a></li> 
+            </ul>
+          </nav>
+        </aside>
 
-    <main class="main-content">
-      <header class="top-bar">
-        <input type="text" placeholder="Tìm kiếm">
-        <div class="icons">
-          <span>🔔</span>
-          <span>💬</span>
-          <span class="avatar">Tài khoản</span>
-        </div>
-      </header>
+        <main class="main-content">
+          <header class="top-bar">
+            <input type="text" placeholder="Tìm kiếm">
+            <div class="icons">
+              <span>🔔</span>
+              <span>💬</span>
+              <span class="avatar">Tài khoản</span>
+            </div>
+          </header>
 
-      <section class="dashboard">
-        <h2>Bảng điều khiển</h2>
-        <div class="cards">
-          <div class="card">Thu nhập (Hàng tháng)<br><strong>$40,000</strong></div>
-          <div class="card">Thu nhập (Hàng năm)<br><strong>$215,000</strong></div>
-          <div class="card">Nhiệm vụ<br><strong>50%</strong></div>
-          <div class="card">Yêu cầu đang chờ xử lý<br><strong>18</strong></div>
-        </div>
+          <section class="dashboard">
+            <h2>Bảng điều khiển</h2>
+            <div class="cards">
+              <div class="card">Thu nhập (Hàng tháng)<br><strong>$40,000</strong></div>
+              <div class="card">Thu nhập (Hàng năm)<br><strong>$215,000</strong></div>
+              <div class="card">Nhiệm vụ<br><strong>50%</strong></div>
+              <div class="card">Yêu cầu đang chờ xử lý<br><strong>18</strong></div>
+            </div>
 
-        <div class="charts">
-          <div class="chart">📈 (biểu đồ)</div>
-          <div class="chart">📊 (hình tròn)</div>
-        </div>
+            <div class="charts">
+              <div class="chart">📈 (biểu đồ)</div>
+              <div class="chart">📊 (hình tròn)</div>
+            </div>
 
-        <div class="projects">
-          <h3>Projects</h3>
-          <div class="progress">Server Migration <div class="bar red" style="width: 20%;"></div></div>
-          <div class="progress">Sales Tracking <div class="bar yellow" style="width: 40%;"></div></div>
-          <div class="progress">Customer Database <div class="bar blue" style="width: 60%;"></div></div>
-          <div class="progress">Payout Details <div class="bar teal" style="width: 80%;"></div></div>
-          <div class="progress">Account Setup <div class="bar green" style="width: 100%;">Completed</div></div>
-        </div>
+            <div class="projects">
+              <h3>Projects</h3>
+              <div class="progress">Server Migration <div class="bar red" style="width: 20%;"></div></div>
+              <div class="progress">Sales Tracking <div class="bar yellow" style="width: 40%;"></div></div>
+              <div class="progress">Customer Database <div class="bar blue" style="width: 60%;"></div></div>
+              <div class="progress">Payout Details <div class="bar teal" style="width: 80%;"></div></div>
+              <div class="progress">Account Setup <div class="bar green" style="width: 100%;">Completed</div></div>
+            </div>
 
-        <div class="colors">
-          <div class="color-box primary">Primary<br>#4e73df</div>
-          <div class="color-box success">Success<br>#1cc88a</div>
-          <div class="color-box info">Info<br>#36b9cc</div>
-          <div class="color-box warning">Warning<br>#f6c23e</div>
-          <div class="color-box danger">Danger<br>#e74a3b</div>
-          <div class="color-box secondary">Secondary<br>#858796</div>
-          <div class="color-box light">Light<br>#f8f9fc</div>
-          <div class="color-box dark">Dark<br>#5a5c69</div>
-        </div>
-      </section>
-    </main>
-  </div>
-</body>
-</html>
+            <div class="colors">
+              <div class="color-box primary">Primary<br>#4e73df</div>
+              <div class="color-box success">Success<br>#1cc88a</div>
+              <div class="color-box info">Info<br>#36b9cc</div>
+              <div class="color-box warning">Warning<br>#f6c23e</div>
+              <div class="color-box danger">Danger<br>#e74a3b</div>
+              <div class="color-box secondary">Secondary<br>#858796</div>
+              <div class="color-box light">Light<br>#f8f9fc</div>
+              <div class="color-box dark">Dark<br>#5a5c69</div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </body>
+    </html>

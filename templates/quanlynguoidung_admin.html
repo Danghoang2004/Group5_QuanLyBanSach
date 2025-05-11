@@ -13,10 +13,10 @@
       <div class="logo">😎 Admin</div>
       <nav>
         <ul>
-          <li><a href="/templates/bangdieukhien_admin.html">Bảng điều khiển</a></li>
-          <li><a href="/templates/quan_ly_SP.html">Quản lý sản phẩm</a></li>
-          <li class="active"><a href="/templates/bangdieukhien_admin.html">Quản lý người dùng</a></li>
-          <li><a href="/templates/quanlydonhang_admin.html">Quản lý đơn hàng</a></li>
+          <li><a href="{{ url_for('bang_dieu_khien') }}">Bảng điều khiển</a></li>
+          <li"><a href="{{ url_for('quan_ly_san_pham') }}">Quản lý sản phẩm</a></li>
+          <li class="active"><a href="{{ url_for('quan_ly_nguoi_dung') }}">Quản lý người dùng</a></li>
+          <li><a href="{{ url_for('quan_ly_don_hang') }}">Quản lý đơn hàng</a></li>
         </ul>
       </nav>
     </aside>
