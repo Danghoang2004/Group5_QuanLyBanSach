@@ -191,20 +191,21 @@ def login_admin():
             flash("Vui lòng điền đầy đủ thông tin", "danger")
             return redirect("/login-admin")
 
-        # Tìm admin theo email
-        admin = Admin.query.filter_by(email=email).first()
-        
-        # So sánh mật khẩu thô (không mã hóa)
-        if admin and admin.matkhau == password:
-            session["admin_id"] = admin.id
-            session["admin_name"] = f"{admin.hodem} {admin.ten}"
+        # Tài khoản cố định
+        fixed_email = "admin@gmail.com"
+        fixed_password = "admin123"
+
+        if email == fixed_email and password == fixed_password:
+            session["admin_id"] = 1
+            session["admin_name"] = "Admin Cố Định"
             flash("Đăng nhập thành công!", "success")
-            return redirect("/book_detail")
+            return redirect("/bandieukhien")
         else:
             flash("Email hoặc mật khẩu không chính xác!", "danger")
             return redirect("/login-admin")
 
     return render_template("login_admin.html")
+
 
 @app.route("/logout")
 def logout():
