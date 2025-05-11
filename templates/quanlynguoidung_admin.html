@@ -14,7 +14,7 @@
       <nav>
         <ul>
           <li><a href="{{ url_for('bang_dieu_khien') }}">Bảng điều khiển</a></li>
-          <li"><a href="{{ url_for('quan_ly_san_pham') }}">Quản lý sản phẩm</a></li>
+          <li><a href="{{ url_for('quan_ly_san_pham') }}">Quản lý sản phẩm</a></li>
           <li class="active"><a href="{{ url_for('quan_ly_nguoi_dung') }}">Quản lý người dùng</a></li>
           <li><a href="{{ url_for('quan_ly_don_hang') }}">Quản lý đơn hàng</a></li>
         </ul>
@@ -35,29 +35,29 @@
         <h2>Bảng quản lý người dùng</h2>
         <form class="user-form">
           <div class="form-group">
-            <input type="text" placeholder="Mã khách hàng">
-            <input type="text" placeholder="Giới tính">
-            <input type="text" placeholder="Số điện thoại">
+            <input type="text" id="makhachhang" placeholder="Mã khách hàng">
+            <input type="text" id="gioitinh" placeholder="Giới tính">
+            <input type="text" id="sodienthoai" placeholder="Số điện thoại">
           </div>
           <div class="form-group">
-            <input type="text" placeholder="Tên đăng nhập">
-            <input type="text" placeholder="Địa chỉ">
-            <input type="email" placeholder="Email">
+            <input type="text" id="tendangnhap" placeholder="Tên đăng nhập">
+            <input type="text" id="diachi" placeholder="Địa chỉ">
+            <input type="email" id="email" placeholder="Email">
           </div>
           <div class="form-group">
-            <input type="password" placeholder="Mật khẩu">
-            <input type="date" placeholder="Ngày sinh">
-            <input type="text" placeholder="Đăng ký nhận bản tin">
+            <input type="password" id="matkhau" placeholder="Mật khẩu">
+            <input type="date" id="ngaysinh" placeholder="Ngày sinh">
+            <input type="text" id="dangkinhanbangtin" placeholder="Đăng ký nhận bản tin">
           </div>
           <div class="form-group">
-            <input type="text" placeholder="Họ và tên">
-            <input type="text" placeholder="Địa chỉ nhận hàng">
+            <input type="text" id="hoten" placeholder="Họ và tên">
+            <input type="text" id="diachinhanhang" placeholder="Địa chỉ nhận hàng">
           </div>
           <div class="buttons">
-            <button type="button">Thêm</button>
-            <button type="submit">Sửa</button>
-            <button type="button">Xóa</button>
-            <button type="submit">Load</button>
+            <button type="button" id="btnThem">Thêm</button>
+            <button type="button" id="btnSua">Sửa</button>
+            <button type="button" id="btnXoa">Xóa</button>
+            <button type="button" id="btnLoad">Load</button>
           </div>
         </form>
       </section>
@@ -68,50 +68,102 @@
           <thead>
             <tr>
               <th>Họ tên</th>
-              <th>Chức vụ</th>
-              <th>Văn phòng</th>
-              <th>Tuổi</th>
-              <th>Ngày vào làm</th>
-              <th>Lương</th>
+              <th>Tên đăng nhập</th>
+              <th>Giới tính</th>
+              <th>Ngày sinh</th>
+              <th>Số điện thoại</th>
+              <th>Email</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Lê Văn Nghĩa</td>
-              <td>Tiếp thị</td>
-              <td>Cam Pu Chia</td>
-              <td>22</td>
-              <td>5/5/2025</td>
-              <td>5.555.555</td>
-            </tr>
-            <tr>
-              <td>Nguyễn Văn Đức</td>
-              <td>Bảo vệ riêng của Kha</td>
-              <td>Huế</td>
-              <td>22</td>
-              <td>5/5/2025</td>
-              <td>6.666.666</td>
-            </tr>
-            <tr>
-              <td>Đặng Văn Hoàng</td>
-              <td>Leader</td>
-              <td>Đà Nẵng</td>
-              <td>22</td>
-              <td>5/5/2025</td>
-              <td>55.555.555</td>
-            </tr>
-            <tr>
-              <td>Lê Viết Kha</td>
-              <td>Chủ tịch</td>
-              <td>Gia Lai</td>
-              <td>22</td>
-              <td>5/5/2025</td>
-              <td>555.555.555</td>
-            </tr>
-          </tbody>
+          <tbody id="userTableBody"></tbody>
         </table>
       </section>
     </main>
   </div>
+
+<script>
+let selectedUserId = "";
+
+    document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("btnLoad").addEventListener("click", loadUsers);
+    document.getElementById("btnThem").addEventListener("click", addUser);
+    document.getElementById("btnSua").addEventListener("click", updateUser);
+    document.getElementById("btnXoa").addEventListener("click", deleteUser);
+    loadUsers();
+});
+
+function getInputData() {
+    return {
+        tendangnhap: document.getElementById("tendangnhap").value,
+        matkhau: document.getElementById("matkhau").value,
+        hoten: document.getElementById("hoten").value,
+        gioitinh: document.getElementById("gioitinh").value,
+        diachi: document.getElementById("diachi").value,
+        diachinhanhang: document.getElementById("diachinhanhang").value,
+        sodienthoai: document.getElementById("sodienthoai").value,
+        email: document.getElementById("email").value,
+        ngaysinh: document.getElementById("ngaysinh").value,
+        dangkinhanbangtin: document.getElementById("dangkinhanbangtin").value === "1"
+    };
+}
+
+function loadUsers() {
+    fetch("/api/users")
+        .then(res => res.json())
+        .then(data => {
+            const tbody = document.getElementById("userTableBody");
+            tbody.innerHTML = "";
+            data.forEach(user => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${user.hoten}</td>
+                    <td>${user.tendangnhap}</td>
+                    <td>${user.gioitinh}</td>
+                    <td>${user.ngaysinh}</td>
+                    <td>${user.sodienthoai}</td>
+                    <td>${user.email}</td>
+                `;
+                tr.addEventListener("click", () => {
+                    selectedUserId = user.makhachhang;
+                    for (let key in user) {
+                        const el = document.getElementById(key);
+                        if (el) el.value = user[key];
+                    }
+                });
+                tbody.appendChild(tr);
+            });
+        });
+}
+
+function addUser() {
+    const data = getInputData();
+    if (!data.tendangnhap || !data.matkhau) {
+        alert("Vui lòng nhập tên đăng nhập và mật khẩu.");
+        return;
+    }
+    fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    }).then(() => loadUsers());
+}
+
+function updateUser() {
+    if (!selectedUserId) return alert("Vui lòng chọn người dùng để sửa.");
+    const data = getInputData();
+    fetch(`/api/users/${selectedUserId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    }).then(() => loadUsers());
+}
+
+function deleteUser() {
+    if (!selectedUserId) return alert("Vui lòng chọn người dùng để xóa.");
+    fetch(`/api/users/${selectedUserId}`, {
+        method: "DELETE"
+    }).then(() => loadUsers());
+}
+</script>
 </body>
 </html>

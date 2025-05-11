@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, flash, url_for
+from flask import Flask, jsonify, render_template, request, redirect, session, flash, url_for
 from mysql.connector import connect, Error
 import config
 import uuid
@@ -221,6 +221,73 @@ def quan_ly_san_pham():
 @app.route("/quanlynguoidung")
 def quan_ly_nguoi_dung():
     return render_template("quanlynguoidung_admin.html")
+
+@app.route("/api/users", methods=["GET"])
+def api_get_users():
+    users = KhachHang.query.all()
+    result = []
+    for user in users:
+        result.append({
+            "makhachhang": user.makhachhang,
+            "tendangnhap": user.tendangnhap,
+            "hoten": user.hoten,
+            "gioitinh": user.gioitinh,
+            "diachi": user.diachi,
+            "sodienthoai": user.sodienthoai,
+            "email": user.email,
+            "ngaysinh": user.ngaysinh.strftime('%Y-%m-%d') if user.ngaysinh else "",
+            "dangkinhanbangtin": user.dangkinhanbangtin,
+            "diachinhanhang": user.diachinhanhang
+        })
+    return jsonify(result)
+
+@app.route("/api/users", methods=["POST"])
+def api_add_user():
+    data = request.json
+    new_user = KhachHang(
+        makhachhang=get_so_ngau_nhien(),
+        tendangnhap=data["tendangnhap"],
+        matkhau=generate_password_hash(data["matkhau"]),
+        hoten=data["hoten"],
+        gioitinh=data["gioitinh"],
+        diachi=data["diachi"],
+        diachinhanhang=data["diachinhanhang"],
+        ngaysinh=datetime.strptime(data["ngaysinh"], "%Y-%m-%d") if data["ngaysinh"] else None,
+        sodienthoai=data["sodienthoai"],
+        email=data["email"],
+        dangkinhanbangtin=data["dangkinhanbangtin"]
+    )
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({"success": True})
+
+@app.route("/api/users/<makhachhang>", methods=["PUT"])
+def api_update_user(makhachhang):
+    data = request.json
+    user = KhachHang.query.get(makhachhang)
+    if not user:
+        return jsonify({"success": False, "error": "User not found"}), 404
+
+    user.tendangnhap = data["tendangnhap"]
+    user.hoten = data["hoten"]
+    user.gioitinh = data["gioitinh"]
+    user.diachi = data["diachi"]
+    user.diachinhanhang = data["diachinhanhang"]
+    user.ngaysinh = datetime.strptime(data["ngaysinh"], "%Y-%m-%d") if data["ngaysinh"] else None
+    user.sodienthoai = data["sodienthoai"]
+    user.email = data["email"]
+    user.dangkinhanbangtin = data["dangkinhanbangtin"]
+    db.session.commit()
+    return jsonify({"success": True})
+
+@app.route("/api/users/<makhachhang>", methods=["DELETE"])
+def api_delete_user(makhachhang):
+    user = KhachHang.query.get(makhachhang)
+    if not user:
+        return jsonify({"success": False, "error": "User not found"}), 404
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({"success": True})
 
 @app.route("/quanlydonhang")
 def quan_ly_don_hang():
