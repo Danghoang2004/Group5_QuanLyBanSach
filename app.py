@@ -87,33 +87,37 @@ class TacGia(db.Model):
 #     return render_template("quan_ly_SP.html", sanphams=sanphams)
 
 # API để thêm sản phẩm
-@app.route("/api/sanpham", methods=["POST"])
-def them_san_pham():
-    data = request.json  # Dữ liệu từ JavaScript gửi lên
+@app.route("/api/sanpham/<masanpham>", methods=["PUT"])
+def sua_san_pham(masanpham):
+    data = request.json
     try:
-        new_sp = SanPham(
-            masanpham=data["masanpham"],
-            tensanpham=data["tensanpham"],
-            matacgia=data["matacgia"],
-            namxuatban=int(data["namxuatban"]) if data["namxuatban"] else None,
-            gianhap=float(data["gianhap"]),
-            giagoc=float(data["giagoc"]),
-            giaban=float(data["giaban"]),
-            soluong=float(data["soluong"]),
-            matheloai=data["matheloai"],
-            ngonngu=data["ngonngu"],
-            hinhanh=data["hinhanh"],
-            mota=data["mota"]
-        )
-        db.session.add(new_sp)
+        sp = SanPham.query.get(masanpham)
+        if not sp:
+            return jsonify({"error": "Sản phẩm không tồn tại!"}), 404
+
+        sp.tensanpham = data["tensanpham"]
+        sp.matacgia = data["matacgia"]
+        sp.namxuatban = int(data["namxuatban"]) if data["namxuatban"] else None
+        sp.gianhap = float(data["gianhap"]) if data["gianhap"] else None
+        sp.giagoc = float(data["giagoc"]) if data["giagoc"] else None
+        sp.giaban = float(data["giaban"]) if data["giaban"] else None
+        sp.soluong = float(data["soluong"]) if data["soluong"] else None
+        sp.matheloai = data["matheloai"]
+        sp.ngonngu = data["ngonngu"]
+        sp.hinhanh = data["hinhanh"]
+        sp.mota = data["mota"]
+
         db.session.commit()
-        return jsonify({"message": "Thêm sản phẩm thành công!"}), 201
+        return jsonify({"message": "Cập nhật sản phẩm thành công!"}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
     
 @app.route("/quanlysanpham")
 def quan_ly_san_pham():
+    if "admin_id" not in session:
+        flash("Bạn cần đăng nhập để truy cập.", "warning")
+        return redirect("/login-admin")
     theloais = db.session.query(TheLoai).all()
     tacgias = db.session.query(TacGia).all()
     sanphams = SanPham.query.all()

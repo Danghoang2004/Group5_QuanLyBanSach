@@ -33,56 +33,6 @@
 
       <section class="form-section">
         <h3>Bảng quản lý sản phẩm</h3>
-        <!-- <div class="form-grid">
-          <div class="input-group">
-            <label for="ma_sp">Mã sản phẩm</label>
-            <input type="text" id="ma_sp" placeholder="Mã sản phẩm" required>
-          </div>
-          <div class="input-group">
-            <label for="gia_nhap">Giá nhập</label>
-            <input type="number" step="0.01" id="gia_nhap" placeholder="Giá nhập">
-          </div>
-          <div class="input-group">
-            <label for="so_luong">Số lượng</label>
-            <input type="number" id="so_luong" placeholder="Số lượng">
-          </div>
-          <div class="input-group">
-            <label for="ten_sp">Tên sản phẩm</label>
-            <input type="text" id="ten_sp" placeholder="Tên sản phẩm" required>
-          </div>
-          <div class="input-group">
-            <label for="gia_goc">Giá gốc</label>
-            <input type="number" step="0.01" id="gia_goc" placeholder="Giá gốc">
-          </div>
-          <div class="input-group">
-            <label for="the_loai">Thể Loại</label>
-            <input type="text" id="the_loai" placeholder="Thể Loại">
-          </div>
-          <div class="input-group">
-            <label for="tac_gia">Tác giả</label>
-            <input type="text" id="tac_gia" placeholder="Tác giả">
-          </div>
-          <div class="input-group">
-            <label for="gia_ban">Giá bán</label>
-            <input type="number" step="0.01" id="gia_ban" placeholder="Giá bán">
-          </div>
-          <div class="input-group">
-            <label for="mo_ta">Mô tả sản phẩm</label>
-            <textarea id="mo_ta" placeholder="Mô tả sản phẩm"></textarea>
-          </div>
-          <div class="input-group">
-            <label for="nam_xb">Năm xuất bản</label>
-            <input type="number" id="nam_xb" placeholder="Năm xuất bản">
-          </div>
-          <div class="input-group">
-            <label for="ngon_ngu">Ngôn Ngữ</label>
-            <input type="text" id="ngon_ngu" placeholder="Ngôn ngữ">
-          </div>
-          <div class="input-group">
-            <label for="hinh_anh">Hình ảnh</label>
-            <input type="text" id="hinh_anh" placeholder="URL hình ảnh">
-          </div>
-        </div> -->
         <div class="form-grid">
           <div class="input-group">
             <label for="ma_sp">Mã sản phẩm</label>
@@ -105,12 +55,12 @@
             <input type="text" id="gia_goc" placeholder="Giá gốc">
           </div>
           <div class="input-group">
-          <label for="the_loai">Thể Loại</label>
-          <select id="the_loai" name="the_loai" class="input-group">
-            {% for tl in theloais %}
-              <option value="{{ tl.matheloai }}">{{ tl.tentheloai }}</option>
-            {% endfor %}
-          </select>
+            <label for="the_loai">Thể Loại</label>
+            <select id="the_loai" name="the_loai" class="input-group">
+              {% for tl in theloais %}
+                <option value="{{ tl.matheloai }}">{{ tl.tentheloai }}</option>
+              {% endfor %}
+            </select>
           </div>
           <div class="input-group">
             <label for="tac_gia">Tác giả</label>
@@ -130,15 +80,15 @@
           </div>
           <div class="input-group">
             <label for="nam_xb">Năm xuất bản</label>
-           <input type="number" id="nam_xb" name="namxuatban" min="1900" max="2100" />
+            <input type="number" id="nam_xb" name="namxuatban" min="1900" max="2100" />
           </div>
           <div class="input-group">
-          <label for="ngon_ngu">Ngôn Ngữ</label>
-          <select id="ngon_ngu" name="ngon_ngu">
-            <option value="Tiếng Việt">Tiếng Việt</option>
-            <option value="Tiếng nước ngoài">Tiếng nước ngoài</option>
-          </select>
-        </div>
+            <label for="ngon_ngu">Ngôn Ngữ</label>
+            <select id="ngon_ngu" name="ngon_ngu">
+              <option value="Tiếng Việt">Tiếng Việt</option>
+              <option value="Tiếng nước ngoài">Tiếng nước ngoài</option>
+            </select>
+          </div>
           <div class="input-group">
             <label for="hinh_anh">Hình ảnh</label>
             <input type="text" id="hinh_anh" placeholder="Hình ảnh">
@@ -172,16 +122,16 @@
           </thead>
           <tbody>
             {% for sp in sanphams %}
-            <tr>
+            <tr class="selectable" data-masanpham="{{ sp.masanpham }}" data-matacgia="{{ sp.matacgia }}" data-matheloai="{{ sp.matheloai }}">
               <td class="green">{{ sp.masanpham }}</td>
               <td>{{ sp.tensanpham or '(NULL)' }}</td>
-              <td class="blue">{{ sp.matacgia or '(NULL)' }}</td>
+              <td class="blue">{{ sp.tacgia.hovaten if sp.tacgia else sp.matacgia or '(NULL)' }}</td>
               <td>{{ sp.namxuatban or '(NULL)' }}</td>
               <td class="blue">{{ sp.gianhap | round(2) if sp.gianhap else '(NULL)' }}</td>
               <td class="blue">{{ sp.giagoc | round(2) if sp.giagoc else '(NULL)' }}</td>
               <td class="blue">{{ sp.giaban | round(2) if sp.giaban else '(NULL)' }}</td>
               <td class="blue">{{ sp.soluong | int if sp.soluong else '(NULL)' }}</td>
-              <td class="blue">{{ sp.matheloai or '(NULL)' }}</td>
+              <td class="blue">{{ sp.theloai.tentheloai if sp.theloai else sp.matheloai or '(NULL)' }}</td>
               <td class="green">{{ sp.ngonngu or '(NULL)' }}</td>
               <td><img src="{{ sp.hinhanh or '' }}" alt="Hình ảnh" class="product-img"></td>
               <td>{{ sp.mota or '(NULL)' }}</td>
@@ -194,53 +144,8 @@
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    // $(document).ready(function() {
-    //   $('.btn-add').click(function() {
-    //     let data = {
-    //       ma_sp: $('#ma_sp').val().trim(),
-    //       ten_sp: $('#ten_sp').val().trim(),
-    //       tac_gia: $('#tac_gia').val().trim() || null,
-    //       nam_xb: $('#nam_xb').val() || null,
-    //       gia_nhap: $('#gia_nhap').val() || null,
-    //       gia_goc: $('#gia_goc').val() || null,
-    //       gia_ban: $('#gia_ban').val() || null,
-    //       so_luong: $('#so_luong').val() || null,
-    //       the_loai: $('#the_loai').val().trim() || null,
-    //       ngon_ngu: $('#ngon_ngu').val().trim() || null,
-    //       hinh_anh: $('#hinh_anh').val().trim() || null,
-    //       mo_ta: $('#mo_ta').val().trim() || null
-    //     };
-
-    //     if (!data.ma_sp) {
-    //       alert('Vui lòng nhập mã sản phẩm!');
-    //       return;
-    //     }
-    //     if (!data.ten_sp) {
-    //       alert('Vui lòng nhập tên sản phẩm!');
-    //       return;
-    //     }
-
-    //     $.ajax({
-    //       url: '/api/sanpham',
-    //       type: 'POST',
-    //       contentType: 'application/json',
-    //       data: JSON.stringify(data),
-    //       success: function(response) {
-    //         if (response.success) {
-    //           alert(response.message);
-    //           $('.form-grid input, .form-grid textarea').val('');
-    //           location.reload();
-    //         } else {
-    //           alert('Lỗi: ' + response.error);
-    //         }
-    //       },
-    //       error: function(xhr) {
-    //         alert('Lỗi kết nối server: ' + xhr.statusText);
-    //       }
-    //     });
-    //   });
-    // });
-     document.querySelector(".btn-add").addEventListener("click", function () {
+    // Thêm sản phẩm
+    document.querySelector(".btn-add").addEventListener("click", function () {
       const data = {
         masanpham: document.getElementById("ma_sp").value,
         tensanpham: document.getElementById("ten_sp").value,
@@ -267,7 +172,7 @@
       .then((res) => {
         if (res.message) {
           alert("✅ " + res.message);
-          location.reload(); // hoặc gọi hàm load lại bảng
+          location.reload();
         } else {
           alert("❌ Thêm thất bại: " + res.error);
         }
@@ -277,6 +182,97 @@
       });
     });
 
+    // Chọn sản phẩm để sửa
+    document.querySelectorAll(".selectable").forEach(row => {
+      row.addEventListener("click", function () {
+        try {
+          // Bỏ chọn dòng cũ và chọn dòng mới
+          document.querySelectorAll(".selectable").forEach(r => r.classList.remove("selected"));
+          this.classList.add("selected");
+
+          // Lấy dữ liệu từ dòng được chọn
+          const masanpham = this.dataset.masanpham;
+          const matacgia = this.dataset.matacgia;
+          const matheloai = this.dataset.matheloai;
+
+          // Gán giá trị vào form
+          document.getElementById("ma_sp").value = this.cells[0].innerText;
+          document.getElementById("ten_sp").value = this.cells[1].innerText !== '(NULL)' ? this.cells[1].innerText : '';
+          document.getElementById("nam_xb").value = this.cells[3].innerText !== '(NULL)' ? this.cells[3].innerText : '';
+          document.getElementById("gia_nhap").value = this.cells[4].innerText !== '(NULL)' ? this.cells[4].innerText : '';
+          document.getElementById("gia_goc").value = this.cells[5].innerText !== '(NULL)' ? this.cells[5].innerText : '';
+          document.getElementById("gia_ban").value = this.cells[6].innerText !== '(NULL)' ? this.cells[6].innerText : '';
+          document.getElementById("so_luong").value = this.cells[7].innerText !== '(NULL)' ? this.cells[7].innerText : '';
+          document.getElementById("ngon_ngu").value = this.cells[9].innerText !== '(NULL)' ? this.cells[9].innerText : '';
+          document.getElementById("hinh_anh").value = this.cells[10].querySelector('img').src || '';
+          document.getElementById("mo_ta").value = this.cells[11].innerText !== '(NULL)' ? this.cells[11].innerText : '';
+
+          // Gán giá trị cho dropdown thể loại và tác giả
+          const theLoaiSelect = document.getElementById("the_loai");
+          if (matheloai && theLoaiSelect.querySelector(`option[value="${matheloai}"]`)) {
+            theLoaiSelect.value = matheloai;
+          } else {
+            theLoaiSelect.value = '';
+            console.warn("Thể loại không tồn tại trong dropdown:", matheloai);
+          }
+
+          const tacGiaSelect = document.getElementById("tac_gia");
+          if (matacgia && tacGiaSelect.querySelector(`option[value="${matacgia}"]`)) {
+            tacGiaSelect.value = matacgia;
+          } else {
+            tacGiaSelect.value = '';
+            console.warn("Tác giả không tồn tại trong dropdown:", matacgia);
+          }
+        } catch (error) {
+          console.error("Lỗi khi chọn sản phẩm:", error);
+          alert("⚠️ Đã xảy ra lỗi khi chọn sản phẩm. Vui lòng thử lại!");
+        }
+      });
+    });
+
+    // Sửa sản phẩm
+    document.querySelector(".btn-edit").addEventListener("click", function () {
+      const selectedRow = document.querySelector(".selectable.selected");
+      if (!selectedRow) {
+        alert("⚠️ Vui lòng chọn một sản phẩm để sửa!");
+        return;
+      }
+
+      const data = {
+        masanpham: document.getElementById("ma_sp").value,
+        tensanpham: document.getElementById("ten_sp").value,
+        matacgia: document.getElementById("tac_gia").value,
+        namxuatban: document.getElementById("nam_xb").value,
+        gianhap: document.getElementById("gia_nhap").value,
+        giagoc: document.getElementById("gia_goc").value,
+        giaban: document.getElementById("gia_ban").value,
+        soluong: document.getElementById("so_luong").value,
+        matheloai: document.getElementById("the_loai").value,
+        ngonngu: document.getElementById("ngon_ngu").value,
+        hinhanh: document.getElementById("hinh_anh").value,
+        mota: document.getElementById("mo_ta").value,
+      };
+
+      fetch(`/api/sanpham/${data.masanpham}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.message) {
+          alert("✅ " + res.message);
+          location.reload();
+        } else {
+          alert("❌ Mã sản phẩm không được sữa: " + res.error);
+        }
+      })
+      .catch((err) => {
+        console.error("Lỗi khi sửa:", err);
+      });
+    });
   </script>
 </body>
 </html>
