@@ -16,17 +16,17 @@ body {
 }
 
 .sidebar {
-  width: 250px;
+  width: 220px; /* Giảm chiều rộng sidebar để cân đối */
   background-color: #2DA9FC;
   color: black;
-  padding: 20px;
+  padding: 15px; /* Giảm padding */
   font-weight: bold;
 }
 
 .sidebar .logo {
-  font-size: 24px;
+  font-size: 20px; /* Giảm kích thước logo */
   font-weight: bold;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   color: black;
 }
 
@@ -37,7 +37,7 @@ body {
 }
 
 .sidebar nav li {
-  padding: 10px 0;
+  padding: 8px 0; /* Giảm padding */
   cursor: pointer;
   font-weight: bold;
 }
@@ -45,19 +45,18 @@ body {
 .sidebar nav li a {
   color: black;
   text-decoration: none;
-  font-weight: bold;
+  font-size: 14px; /* Giảm kích thước chữ */
 }
 
 .sidebar nav li.active {
   border-left: 4px solid white;
-  padding-left: 16px;
+  padding-left: 12px; /* Giảm padding */
 }
-
 
 /* Main Content */
 .main-content {
   flex-grow: 1;
-  padding: 20px;
+  padding: 15px; /* Giảm padding */
   background-color: #f8f9fc;
   overflow-y: auto;
   color: black;
@@ -70,16 +69,16 @@ body {
   justify-content: space-between;
   align-items: center;
   background: #ccc;
-  padding: 10px 20px;
+  padding: 8px 15px; /* Giảm padding */
   border-radius: 4px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   color: black;
   font-weight: bold;
 }
 
 .top-bar input[type="text"] {
-  width: 300px;
-  padding: 8px 12px;
+  width: 250px; /* Giảm chiều rộng ô tìm kiếm */
+  padding: 6px 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   color: black;
@@ -87,7 +86,7 @@ body {
 }
 
 .top-bar .icons span {
-  margin-left: 15px;
+  margin-left: 12px;
   cursor: pointer;
   color: black;
   font-weight: bold;
@@ -95,8 +94,8 @@ body {
 
 .form-section {
   background: rgb(255, 255, 255);
-  margin: 20px;
-  padding: 20px;
+  margin: 15px;
+  padding: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
@@ -104,8 +103,8 @@ body {
 .form-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 10px;
+  gap: 15px; /* Giảm khoảng cách */
+  margin-top: 8px;
 }
 
 .form-grid .input-group {
@@ -114,31 +113,34 @@ body {
 }
 
 .form-grid label {
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   font-weight: bold;
+  font-size: 14px; /* Giảm kích thước chữ */
 }
 
-.form-grid input {
-  padding: 10px;
+.form-grid input, .form-grid textarea {
+  padding: 8px;
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #e9ecef;
+  font-size: 14px; /* Giảm kích thước chữ */
 }
 
 .form-actions {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 8px;
+  margin-top: 15px;
 }
 
 .form-actions button {
-  padding: 8px 20px;
+  padding: 6px 16px; /* Giảm kích thước nút */
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-size: 14px; /* Giảm kích thước chữ */
 }
 
 .btn-add {
@@ -169,11 +171,13 @@ body {
 }
 
 .data-table {
-  margin: 0 20px 20px 20px;
+  margin: 15px;
+  overflow-x: auto;
 }
 
 .data-table table {
   width: 100%;
+  min-width: 1000px; /* Giảm chiều rộng tối thiểu */
   border-collapse: collapse;
   background-color: white;
   border: 1px solid #ccc;
@@ -182,13 +186,28 @@ body {
 .data-table th,
 .data-table td {
   border: 1px solid #ccc;
-  padding: 8px;
-  text-align: center;
+  padding: 6px; /* Giảm padding */
+  text-align: left;
+  font-size: 12px; /* Giảm kích thước chữ */
 }
 
 .data-table th {
   background-color: #e9ecef;
   font-weight: bold;
+  white-space: nowrap;
+}
+
+.data-table td {
+  max-width: 150px; /* Giảm chiều rộng tối đa */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-img {
+  width: 50px; /* Kích thước ảnh cố định */
+  height: auto;
+  display: block;
 }
 
 .green {
@@ -198,4 +217,16 @@ body {
 
 .blue {
   color: blue;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 60px; /* Giảm chiều cao tối thiểu */
+}
+.form-grid select {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #e9ecef;
 }

@@ -9,6 +9,8 @@ from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
+from models import TacGia, TheLoai
+
 app = Flask(__name__)
 
 try:
@@ -25,7 +27,7 @@ class KhachHang(db.Model):
     __tablename__ = 'khachhang'
     makhachhang = db.Column(db.String(50), primary_key=True)
     tendangnhap = db.Column(db.String(100), nullable=False)
-    matkhau = db.Column(db.String(100), nullable=False)  # Cập nhật độ dài
+    matkhau = db.Column(db.String(255), nullable=False)
     hoten = db.Column(db.String(100), nullable=True)
     gioitinh = db.Column(db.String(100), nullable=True)
     diachi = db.Column(db.String(100), nullable=True)
@@ -44,9 +46,82 @@ class Admin(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     matkhau = db.Column(db.String(255), nullable=False)
 
+class SanPham(db.Model):
+    __tablename__ = "sanpham"
+    masanpham = db.Column(db.String(50), primary_key=True)
+    tensanpham = db.Column(db.String(512))
+    matacgia = db.Column(db.String(255), db.ForeignKey("tacgia.matacgia"))
+    namxuatban = db.Column(db.Integer) 
+    gianhap = db.Column(db.Float)
+    giagoc = db.Column(db.Float)
+    giaban = db.Column(db.Float)
+    soluong = db.Column(db.Float)
+    matheloai = db.Column(db.String(50), db.ForeignKey("theloai.matheloai"))
+    ngonngu = db.Column(db.String(255))
+    hinhanh = db.Column(db.Text)
+    mota = db.Column(db.Text)
+    theloai = db.relationship("TheLoai", backref="sanphams")
+    tacgia = db.relationship("TacGia", backref="sanphams")
+
+class TheLoai(db.Model):
+    __tablename__ = "theloai"
+    matheloai = db.Column(db.String(50), primary_key=True)
+    tentheloai = db.Column(db.String(255), nullable=False)
+
+class TacGia(db.Model):
+    __tablename__ = "tacgia"
+    matacgia = db.Column(db.String(255), primary_key=True)
+    hovaten = db.Column(db.String(255))
+    ngaysinh = db.Column(db.Date)
+    tieusu = db.Column(db.Text)
+
+# Route để hiển thị trang quản lý sản phẩm
+# @app.route("/quanlysanpham", methods=["GET"])
+# def quan_ly_san_pham():
+#     if "admin_id" not in session:
+#         flash("Bạn cần đăng nhập để truy cập.", "warning")
+#         return redirect("/login-admin")
+    
+#     # Lấy danh sách sản phẩm từ database
+#     sanphams = SanPham.query.all()
+#     return render_template("quan_ly_SP.html", sanphams=sanphams)
+
+# API để thêm sản phẩm
+@app.route("/api/sanpham", methods=["POST"])
+def them_san_pham():
+    data = request.json  # Dữ liệu từ JavaScript gửi lên
+    try:
+        new_sp = SanPham(
+            masanpham=data["masanpham"],
+            tensanpham=data["tensanpham"],
+            matacgia=data["matacgia"],
+            namxuatban=int(data["namxuatban"]) if data["namxuatban"] else None,
+            gianhap=float(data["gianhap"]),
+            giagoc=float(data["giagoc"]),
+            giaban=float(data["giaban"]),
+            soluong=float(data["soluong"]),
+            matheloai=data["matheloai"],
+            ngonngu=data["ngonngu"],
+            hinhanh=data["hinhanh"],
+            mota=data["mota"]
+        )
+        db.session.add(new_sp)
+        db.session.commit()
+        return jsonify({"message": "Thêm sản phẩm thành công!"}), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+    
+@app.route("/quanlysanpham")
+def quan_ly_san_pham():
+    theloais = db.session.query(TheLoai).all()
+    tacgias = db.session.query(TacGia).all()
+    sanphams = SanPham.query.all()
+    return render_template('quan_ly_SP.html', theloais=theloais, tacgias=tacgias, sanphams=sanphams)
+
+
 @app.route("/")
 def home():
-    # Kiểm tra trạng thái đăng nhập
     is_logged_in = 'makhachhang' in session
     username = session.get('tendangnhap', None) if is_logged_in else None
     return render_template("TrangChu.html", is_logged_in=is_logged_in, username=username)
@@ -79,7 +154,6 @@ def login():
             if remember:
                 session.permanent = True
             
-            # flash("Đăng nhập thành công!", "success")
             return redirect(url_for('home'))
         else:
             flash("Tên đăng nhập hoặc mật khẩu không chính xác.", "danger")
@@ -89,7 +163,6 @@ def login():
     username = session.get('tendangnhap', None) if is_logged_in else None
     return render_template("login.html", is_logged_in=is_logged_in, username=username)
 
-# Hàm sinh mã khách hàng ngẫu nhiên
 def get_so_ngau_nhien():
     return 'KH' + ''.join(str(random.randint(0, 9)) for _ in range(6))
 
@@ -119,7 +192,6 @@ def register():
 
         errors = []
         
-        # Kiểm tra các trường bắt buộc
         if not ten_dang_nhap or len(ten_dang_nhap) < 3:
             errors.append("Tên đăng nhập phải có ít nhất 3 ký tự.")
         if KhachHang.query.filter_by(tendangnhap=ten_dang_nhap).first():
@@ -130,7 +202,6 @@ def register():
             return redirect("/register")
 
         try:
-            # Tạo mã khách hàng ngẫu nhiên và đảm bảo không trùng
             while True:
                 makhachhang = get_so_ngau_nhien()
                 if not KhachHang.query.filter_by(makhachhang=makhachhang).first():
@@ -139,7 +210,6 @@ def register():
             hashed_password = generate_password_hash(mat_khau)
             print(f"Hashed password length: {len(hashed_password)}")
             
-            # Chuyển đổi ngày sinh nếu có
             ngay_sinh_date = None
             if ngay_sinh:
                 try:
@@ -170,7 +240,6 @@ def register():
             db.session.add(new_customer)
             db.session.commit()
             print("Customer added successfully!")
-            # flash("Đăng ký thành công! Vui lòng đăng nhập.", "success")
             return redirect("/login")
 
         except Exception as e:
@@ -191,7 +260,6 @@ def login_admin():
             flash("Vui lòng điền đầy đủ thông tin", "danger")
             return redirect("/login-admin")
 
-        # Tài khoản cố định
         fixed_email = "admin@gmail.com"
         fixed_password = "admin123"
 
@@ -208,15 +276,10 @@ def login_admin():
 
 @app.route("/bangdieukhien")
 def bang_dieu_khien():
-    # Có thể kiểm tra đăng nhập tại đây nếu cần
     if "admin_id" not in session:
         flash("Bạn cần đăng nhập để truy cập.", "warning")
         return redirect("/login-admin")
     return render_template("bangdieukhien_admin.html")
-
-@app.route("/quanlysanpham")
-def quan_ly_san_pham():
-    return render_template("quan_ly_SP.html")
 
 @app.route("/quanlynguoidung")
 def quan_ly_nguoi_dung():
@@ -240,7 +303,7 @@ def api_get_users():
             "diachinhanhang": user.diachinhanhang
         })
     return jsonify(result)
-
+##11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
 @app.route("/api/users", methods=["POST"])
 def api_add_user():
     data = request.json
@@ -293,12 +356,10 @@ def api_delete_user(makhachhang):
 def quan_ly_don_hang():
     return render_template("quanlydonhang_admin.html")
 
-
 @app.route("/logout")
 def logout():
     session.pop('makhachhang', None)
     session.pop('tendangnhap', None)
-    # flash("Đăng xuất thành công!", "success")
     return redirect(url_for('home'))
 
 @app.route('/giohang')
@@ -310,7 +371,6 @@ def gio_hang():
     
     username = session.get('tendangnhap') if is_logged_in else None
     return render_template("GioHang.html", is_logged_in=is_logged_in, username=username)
-    
 
 if __name__ == "__main__":
     app.run(debug=True)

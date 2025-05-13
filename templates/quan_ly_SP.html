@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quản Lý Sản Phẩm</title>
-  <link rel="stylesheet" href="/static/quan_ly_SP.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='quan_ly_SP.css') }}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
@@ -33,6 +33,56 @@
 
       <section class="form-section">
         <h3>Bảng quản lý sản phẩm</h3>
+        <!-- <div class="form-grid">
+          <div class="input-group">
+            <label for="ma_sp">Mã sản phẩm</label>
+            <input type="text" id="ma_sp" placeholder="Mã sản phẩm" required>
+          </div>
+          <div class="input-group">
+            <label for="gia_nhap">Giá nhập</label>
+            <input type="number" step="0.01" id="gia_nhap" placeholder="Giá nhập">
+          </div>
+          <div class="input-group">
+            <label for="so_luong">Số lượng</label>
+            <input type="number" id="so_luong" placeholder="Số lượng">
+          </div>
+          <div class="input-group">
+            <label for="ten_sp">Tên sản phẩm</label>
+            <input type="text" id="ten_sp" placeholder="Tên sản phẩm" required>
+          </div>
+          <div class="input-group">
+            <label for="gia_goc">Giá gốc</label>
+            <input type="number" step="0.01" id="gia_goc" placeholder="Giá gốc">
+          </div>
+          <div class="input-group">
+            <label for="the_loai">Thể Loại</label>
+            <input type="text" id="the_loai" placeholder="Thể Loại">
+          </div>
+          <div class="input-group">
+            <label for="tac_gia">Tác giả</label>
+            <input type="text" id="tac_gia" placeholder="Tác giả">
+          </div>
+          <div class="input-group">
+            <label for="gia_ban">Giá bán</label>
+            <input type="number" step="0.01" id="gia_ban" placeholder="Giá bán">
+          </div>
+          <div class="input-group">
+            <label for="mo_ta">Mô tả sản phẩm</label>
+            <textarea id="mo_ta" placeholder="Mô tả sản phẩm"></textarea>
+          </div>
+          <div class="input-group">
+            <label for="nam_xb">Năm xuất bản</label>
+            <input type="number" id="nam_xb" placeholder="Năm xuất bản">
+          </div>
+          <div class="input-group">
+            <label for="ngon_ngu">Ngôn Ngữ</label>
+            <input type="text" id="ngon_ngu" placeholder="Ngôn ngữ">
+          </div>
+          <div class="input-group">
+            <label for="hinh_anh">Hình ảnh</label>
+            <input type="text" id="hinh_anh" placeholder="URL hình ảnh">
+          </div>
+        </div> -->
         <div class="form-grid">
           <div class="input-group">
             <label for="ma_sp">Mã sản phẩm</label>
@@ -55,12 +105,20 @@
             <input type="text" id="gia_goc" placeholder="Giá gốc">
           </div>
           <div class="input-group">
-            <label for="the_loai">Thể Loại</label>
-            <input type="text" id="the_loai" placeholder="Thể Loại">
+          <label for="the_loai">Thể Loại</label>
+          <select id="the_loai" name="the_loai" class="input-group">
+            {% for tl in theloais %}
+              <option value="{{ tl.matheloai }}">{{ tl.tentheloai }}</option>
+            {% endfor %}
+          </select>
           </div>
           <div class="input-group">
             <label for="tac_gia">Tác giả</label>
-            <input type="text" id="tac_gia" placeholder="Tác giả">
+            <select id="tac_gia" name="tac_gia" class="input-group">
+              {% for tg in tacgias %}
+                <option value="{{ tg.matacgia }}">{{ tg.hovaten }}</option>
+              {% endfor %}
+            </select>
           </div>
           <div class="input-group">
             <label for="gia_ban">Giá bán</label>
@@ -72,12 +130,15 @@
           </div>
           <div class="input-group">
             <label for="nam_xb">Năm xuất bản</label>
-            <input type="text" id="nam_xb" placeholder="Năm xuất bản">
+           <input type="number" id="nam_xb" name="namxuatban" min="1900" max="2100" />
           </div>
           <div class="input-group">
-            <label for="ngon_ngu">Ngôn Ngữ</label>
-            <input type="text" id="ngon_ngu" placeholder="Ngôn ngữ">
-          </div>
+          <label for="ngon_ngu">Ngôn Ngữ</label>
+          <select id="ngon_ngu" name="ngon_ngu">
+            <option value="Tiếng Việt">Tiếng Việt</option>
+            <option value="Tiếng nước ngoài">Tiếng nước ngoài</option>
+          </select>
+        </div>
           <div class="input-group">
             <label for="hinh_anh">Hình ảnh</label>
             <input type="text" id="hinh_anh" placeholder="Hình ảnh">
@@ -91,93 +152,131 @@
       </section>
 
       <section class="data-table">
-        <h4>Bảng dữ liệu :</h4>
+        <h4>Bảng dữ liệu:</h4>
         <table>
           <thead>
             <tr>
               <th>Mã SP</th>
               <th>Tên SP</th>
-              <th>Thể loại</th>
-              <th>SL</th>
+              <th>Tác giả</th>
+              <th>Năm XB</th>
               <th>Giá nhập</th>
               <th>Giá gốc</th>
               <th>Giá bán</th>
-              <th>Chiết khấu</th>
-              <th>Danh mục</th>
+              <th>Số lượng</th>
+              <th>Thể loại</th>
               <th>Ngôn ngữ</th>
               <th>Hình ảnh</th>
+              <th>Mô tả</th>
             </tr>
           </thead>
           <tbody>
+            {% for sp in sanphams %}
             <tr>
-              <td class="green">SP1</td>
-              <td>Java</td>
-              <td class="blue">TG1</td>
-              <td class="blue">2,000</td>
-              <td class="blue">120,000</td>
-              <td class="blue">100,000</td>
-              <td class="blue">110,000</td>
-              <td>50</td>
-              <td>CT</td>
-              <td class="green">Việt</td>
-              <td>(NULL)</td>
+              <td class="green">{{ sp.masanpham }}</td>
+              <td>{{ sp.tensanpham or '(NULL)' }}</td>
+              <td class="blue">{{ sp.matacgia or '(NULL)' }}</td>
+              <td>{{ sp.namxuatban or '(NULL)' }}</td>
+              <td class="blue">{{ sp.gianhap | round(2) if sp.gianhap else '(NULL)' }}</td>
+              <td class="blue">{{ sp.giagoc | round(2) if sp.giagoc else '(NULL)' }}</td>
+              <td class="blue">{{ sp.giaban | round(2) if sp.giaban else '(NULL)' }}</td>
+              <td class="blue">{{ sp.soluong | int if sp.soluong else '(NULL)' }}</td>
+              <td class="blue">{{ sp.matheloai or '(NULL)' }}</td>
+              <td class="green">{{ sp.ngonngu or '(NULL)' }}</td>
+              <td><img src="{{ sp.hinhanh or '' }}" alt="Hình ảnh" class="product-img"></td>
+              <td>{{ sp.mota or '(NULL)' }}</td>
             </tr>
-            <tr>
-              <td class="green">SP2</td>
-              <td>C/C++</td>
-              <td class="blue">TG2</td>
-              <td class="blue">1,500</td>
-              <td class="blue">150,000</td>
-              <td class="blue">130,000</td>
-              <td class="blue">160,000</td>
-              <td>20</td>
-              <td>KH</td>
-              <td class="green">Việt</td>
-              <td>(NULL)</td>
-            </tr>
-            <tr>
-              <td class="green">SP3</td>
-              <td>Python</td>
-              <td class="blue">TG3</td>
-              <td class="blue">2,003</td>
-              <td class="blue">150,000</td>
-              <td class="blue">130,000</td>
-              <td class="blue">170,000</td>
-              <td>30</td>
-              <td>KT</td>
-              <td class="green">Anh</td>
-              <td>(NULL)</td>
-            </tr>
-            <tr>
-              <td class="green">SP4</td>
-              <td>JS</td>
-              <td class="blue">TG4</td>
-              <td class="blue">2,000</td>
-              <td class="blue">140,000</td>
-              <td class="blue">130,000</td>
-              <td class="blue">170,000</td>
-              <td>70</td>
-              <td>PL</td>
-              <td class="green">Anh</td>
-              <td>(NULL)</td>
-            </tr>
-            <tr>
-              <td class="green">SP5</td>
-              <td>GoLang</td>
-              <td class="blue">TG5</td>
-              <td class="blue">1,880</td>
-              <td class="blue">120,000</td>
-              <td class="blue">100,000</td>
-              <td class="blue">190,000</td>
-              <td>100</td>
-              <td>TT</td>
-              <td class="green">Anh</td>
-              <td>(NULL)</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </section>
     </main>
   </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // $(document).ready(function() {
+    //   $('.btn-add').click(function() {
+    //     let data = {
+    //       ma_sp: $('#ma_sp').val().trim(),
+    //       ten_sp: $('#ten_sp').val().trim(),
+    //       tac_gia: $('#tac_gia').val().trim() || null,
+    //       nam_xb: $('#nam_xb').val() || null,
+    //       gia_nhap: $('#gia_nhap').val() || null,
+    //       gia_goc: $('#gia_goc').val() || null,
+    //       gia_ban: $('#gia_ban').val() || null,
+    //       so_luong: $('#so_luong').val() || null,
+    //       the_loai: $('#the_loai').val().trim() || null,
+    //       ngon_ngu: $('#ngon_ngu').val().trim() || null,
+    //       hinh_anh: $('#hinh_anh').val().trim() || null,
+    //       mo_ta: $('#mo_ta').val().trim() || null
+    //     };
+
+    //     if (!data.ma_sp) {
+    //       alert('Vui lòng nhập mã sản phẩm!');
+    //       return;
+    //     }
+    //     if (!data.ten_sp) {
+    //       alert('Vui lòng nhập tên sản phẩm!');
+    //       return;
+    //     }
+
+    //     $.ajax({
+    //       url: '/api/sanpham',
+    //       type: 'POST',
+    //       contentType: 'application/json',
+    //       data: JSON.stringify(data),
+    //       success: function(response) {
+    //         if (response.success) {
+    //           alert(response.message);
+    //           $('.form-grid input, .form-grid textarea').val('');
+    //           location.reload();
+    //         } else {
+    //           alert('Lỗi: ' + response.error);
+    //         }
+    //       },
+    //       error: function(xhr) {
+    //         alert('Lỗi kết nối server: ' + xhr.statusText);
+    //       }
+    //     });
+    //   });
+    // });
+     document.querySelector(".btn-add").addEventListener("click", function () {
+      const data = {
+        masanpham: document.getElementById("ma_sp").value,
+        tensanpham: document.getElementById("ten_sp").value,
+        matacgia: document.getElementById("tac_gia").value,
+        namxuatban: document.getElementById("nam_xb").value,
+        gianhap: document.getElementById("gia_nhap").value,
+        giagoc: document.getElementById("gia_goc").value,
+        giaban: document.getElementById("gia_ban").value,
+        soluong: document.getElementById("so_luong").value,
+        matheloai: document.getElementById("the_loai").value,
+        ngonngu: document.getElementById("ngon_ngu").value,
+        hinhanh: document.getElementById("hinh_anh").value,
+        mota: document.getElementById("mo_ta").value,
+      };
+
+      fetch("/api/sanpham", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.message) {
+          alert("✅ " + res.message);
+          location.reload(); // hoặc gọi hàm load lại bảng
+        } else {
+          alert("❌ Thêm thất bại: " + res.error);
+        }
+      })
+      .catch((err) => {
+        console.error("Lỗi khi thêm:", err);
+      });
+    });
+
+  </script>
 </body>
 </html>
