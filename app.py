@@ -27,7 +27,7 @@ class KhachHang(db.Model):
     __tablename__ = 'khachhang'
     makhachhang = db.Column(db.String(50), primary_key=True)
     tendangnhap = db.Column(db.String(100), nullable=False)
-    matkhau = db.Column(db.String(255), nullable=False)
+    matkhau = db.Column(db.String(100), nullable=False)  # Cập nhật độ dài
     hoten = db.Column(db.String(100), nullable=True)
     gioitinh = db.Column(db.String(100), nullable=True)
     diachi = db.Column(db.String(100), nullable=True)
