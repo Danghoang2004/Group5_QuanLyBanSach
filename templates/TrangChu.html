@@ -11,226 +11,174 @@
     rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
     crossorigin="anonymous">
-<script
-    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-    crossorigin="anonymous"></script>
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+          integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+          integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+          crossorigin="anonymous"></script>
 </head>
 <body>
-  <header>
-    <div class="left-header">
-      <div class="logo">📚 Book_shop</div>
-      <nav>
-        <!-- <a href="/">Trang Chủ</a> Sửa đường dẫn -->
-        <a href="/">Trang Chủ</a>
-        <a href="#">Combo giảm giá</a>
-        <a href="#">Thể Loại</a>
-        <a href="/giohang">Giỏ Hàng</a>
-      </nav>
+<header>
+  <div class="left-header">
+    <div class="logo">📚 Book_shop</div>
+    <nav>
+      <a href="/">Trang Chủ</a>
+      <a href="#">Combo giảm giá</a>
+      <a href="#">Thể Loại</a>
+      <a href="{{ url_for('gio_hang') }}">Giỏ Hàng</a>
+
+    </nav>
+  </div>
+  <div class="search-login">
+    <form class="d-flex" action="/" method="get">
+      <input class="form-control me-2" type="text" name="q" placeholder="Nhập tên sách cần tìm..." value="{{ request.args.get('q', '') }}">
+      <button class="btn btn-outline-success btn-tim" type="submit">Tìm</button>
+    </form>
+    {% if is_logged_in %}
+      <span>Xin chào, {{ username }}!</span>
+      <a href="/logout"><button class="btn-dangnhap">Đăng xuất</button></a>
+    {% else %}
+      <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a>
+    {% endif %}
+  </div>
+</header>
+
+<!-- Banner -->
+<section class="container my-4">
+  <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/static/images/Banner.png" class="d-block w-100 banner-img" alt="Banner 1">
+      </div>
+      <div class="carousel-item">
+        <img src="/static/images/anh_phude.jpg" class="d-block w-100 banner-img" alt="Banner 2">
+      </div>
     </div>
-    <div class="search-login">
-      <input type="text" placeholder="Nội dung tìm kiếm">
-      <button class="btn-tim">Tìm</button>
-      <!-- <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a> ĐÃ SỬA -->
-      {% if is_logged_in %}
-        <span>Xin chào, {{ username }}!</span>
-        <a href="/logout">Đăng xuất</a>
-      {% else %}
-        <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a>
-      {% endif %}
-    </div>
-  </header>
-
-
-  <!-- Banner -->
-  <section class="container my-4">
-    <img src="/static/images/Banner.png" alt="Banner" class="banner-img">
-  </section>
-
-  <!-- Sản phẩm nổi bật -->
-  <section class="container">
-    <h3>Sản phẩm nổi bật</h3>
-    <div class="row" id="featured-products">
-      <!-- Sản phẩm sẽ được render từ JS -->
-    </div>
-  </section>
-
-  <!-- Tất cả sản phẩm -->
-  <section class="container mt-5">
-    <h3>Sản phẩm</h3>
-    <div class="row" id="all-products">
-      <!-- Dữ liệu từ JS hoặc database -->
-    </div>
-  </section>
-
-  <!-- Các sản phẩm khác -->
-  <section class="container mt-5">
-    <h3>Các sản phẩm khác</h3>
-    <div class="row" id="other-products">
-      <!-- Render từ JS -->
-    </div>
-  </section>
-
-  <!-- Bình luận -->
-  <section class="container mt-5">
-    <h3>Phần bình luận</h3>
-    <div class="row" id="comments">
-      <!-- Render từ JS -->
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <div class="footer py-4">
-    <hr />
-    <div class="container">
-      <div class="row g-4">
-        <!-- Cột 1: Logo & MXH -->
-        <div class="col-md-4">
-          <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
-          <div class="social-icons">
-            <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
-            <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
-          </div>
-        </div>
-
-        <!-- Cột 2: Liên hệ -->
-        <div class="col-md-4">
-          <ul class="list-unstyled">
-            <li class="mb-2">Liên hệ :quanlysach_360@gmail.com</li>
-            <li class="mb-2">Quy định giao hàng</li>
-            <li class="mb-2">Quy định trả hàng</li>
-          </ul>
-        </div>
-
-        <!-- Cột 3: Chính sách -->
-        <div class="col-md-4">
-          <ul class="list-unstyled">
-            <li class="mb-2">Chính sách hoạt động</li>
-            <li class="mb-2">Chính sách trả hàng</li>
-            <li class="mb-2">Chính sách bảo mật</li>
-          </ul>
+    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+</section>
+<!-- Sản phẩm nổi bật -->
+<section class="container">
+  <h3>Sản phẩm nổi bật</h3>
+  <div class="row row-cols-1 row-cols-md-3 g-4"> <!-- g-4 giúp tạo khoảng cách giữa các cột -->
+    {% for p in featured_products %}
+    <div class="col">
+      <div class="card h-100"> <!-- h-100 đảm bảo chiều cao của card luôn đều nhau -->
+        <img src="{{ p.hinhanh }}" class="product-img card-img-top" alt="Ảnh sản phẩm">
+        <div class="card-body">
+          <h5 class="product-title">{{ p.tensanpham }}</h5>
+          <p>{{ p.mota[:100] }}...</p>
+          <p class="text-danger fw-bold">{{ "{:,.0f}".format(p.giaban) }} vnđ</p>
+          <a href="{{ url_for('book_detail',
+                    title=p.tensanpham,
+                    img=p.hinhanh,
+                    desc=p.mota,
+                    price=p.giaban,
+                    author=p.tacgia.hovaten if p.tacgia else 'Không rõ',
+                    category=p.theloai.tentheloai if p.theloai else 'Không rõ',
+                    publisher='NXB nào đó',
+                    year=p.namxuatban or 2024) }}"
+          class="btn btn-outline-primary">Chi tiết</a>
         </div>
       </div>
     </div>
+    {% endfor %}
   </div>
+</section>
 
-  <script>
-    // Dữ liệu sản phẩm sẽ được render
-    const featured = [
-      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Mô tả ngắn sản phẩm', price: '100.000 vnđ' },
-      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Mô tả ngắn sản phẩm', price: '120.000 vnđ' },
-      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Mô tả ngắn sản phẩm', price: '90.000 vnđ' }
-    ];
-
-    const all = new Array(12).fill({ title: 'Sản phẩm', img: 'product.jpg', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 vnđ' });
-
-    const other = [
-      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Thông tin khác' },
-      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Thông tin khác' },
-      { title: 'Tên sản phẩm', img: '/static/images/Banner.png', desc: 'Thông tin khác' }
-    ];
-
-    const comments = [
-      { text: '"A terrific piece of praise"', name: 'Name', desc: 'Description' },
-      { text: '"A fantastic bit of feedback"', name: 'Name', desc: 'Description' },
-      { text: '"A genuinely glowing review"', name: 'Name', desc: 'Description' }
-    ];
-
-    // Hàm render sản phẩm
-    function renderProducts(data, containerId, showPrice = false) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = data.map(p => `
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img src="${p.img}" class="product-img" alt="">
-            <div class="card-body">
-              <h5 class="product-title">${p.title}</h5>
-              <p>${p.desc}</p>
-              ${showPrice ? `<p class="text-danger fw-bold">${p.price}</p>` : ''}
-              <!-- Thêm liên kết tới trang chi tiết sản phẩm với thông tin sản phẩm -->
-              <a href="/book_detail?title=${encodeURIComponent(p.title)}&img=${encodeURIComponent(p.img)}&desc=${encodeURIComponent(p.desc)}&price=${encodeURIComponent(p.price)}" class="btn btn-primary">Xem chi tiết</a>
-            </div>
-          </div>
+<!-- Tất cả sản phẩm -->
+<section class="container mt-5">
+  <h3>Sản phẩm</h3>
+  <div class="row">
+    {% for p in all_products %}
+    <div class="col-md-3 mb-4">
+      <div class="card h-100">
+        <img src="{{ p.hinhanh }}" class="product-img" alt="Ảnh sản phẩm">
+        <div class="card-body">
+          <h5 class="product-title">{{ p.tensanpham }}</h5>
+          <p>{{ p.mota[:80] }}...</p>
+<p class="text-danger fw-bold">{{ "{:,.0f}".format(p.giaban) }} vnđ</p>
+          <a href="{{ url_for('book_detail',
+                    title=p.tensanpham,
+                    img=p.hinhanh,
+                    desc=p.mota,
+                    price=p.giaban,
+                    author=p.tacgia.hovaten if p.tacgia else 'Không rõ',
+                    category=p.theloai.tentheloai if p.theloai else 'Không rõ',
+                    publisher='NXB nào đó',
+                    year=p.namxuatban or 2024) }}"
+            class="btn btn-outline-primary">Chi tiết</a>
         </div>
-      `).join('');
-    }
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 
-    function renderComments(data) {
-      const container = document.getElementById('comments');
-      container.innerHTML = data.map(c => `
-        <div class="col-md-4">
-          <div class="card p-3">
-            <p>${c.text}</p>
-            <div><strong>${c.name}</strong><br><small>${c.desc}</small></div>
-          </div>
+<!-- Các sản phẩm khác -->
+<section class="container mt-5">
+  <h3>Các sản phẩm khác</h3>
+  <div class="row">
+    {% for p in other_products %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img src="{{ p.hinhanh }}" class="product-img" alt="Ảnh sản phẩm">
+        <div class="card-body">
+          <h5 class="product-title">{{ p.tensanpham }}</h5>
+          <p>{{ p.mota[:80] }}...</p>
+          <a href="{{ url_for('book_detail',
+                    title=p.tensanpham,
+                    img=p.hinhanh,
+                    desc=p.mota,
+                    price=p.giaban,
+                    author=p.tacgia.hovaten if p.tacgia else 'Không rõ',
+category=p.theloai.tentheloai if p.theloai else 'Không rõ',
+                    publisher='NXB nào đó',
+                    year=p.namxuatban or 2024) }}"
+            class="btn btn-outline-primary">Chi tiết</a>
         </div>
-      `).join('');
-    }
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 
-   // --------------------- 📌 PHẦN TÌM KIẾM SẢN PHẨM ----------------------
-
-    /**
-     * Hàm searchProducts: Lọc sản phẩm theo từ khóa trong tiêu đề
-     * @param {string} keyword - từ khóa tìm kiếm
-     */
-     function searchProducts(keyword) {
-      keyword = keyword.trim().toLowerCase();
-      if (keyword === '') {
-        // Nếu trống -> Hiển thị tất cả
-        renderProducts(featured, 'featured-products');
-        renderProducts(all, 'all-products', true);
-        renderProducts(other, 'other-products');
-        return;
-      }
-
-      const matchedFeatured = featured.filter(p => p.title.toLowerCase().includes(keyword));
-      const matchedAll = all.filter(p => p.title.toLowerCase().includes(keyword));
-      const matchedOther = other.filter(p => p.title.toLowerCase().includes(keyword));
-
-      // Xóa kết quả cũ
-      document.getElementById('featured-products').innerHTML = '';
-      document.getElementById('all-products').innerHTML = '';
-      document.getElementById('other-products').innerHTML = '';
-
-      if (matchedFeatured.length === 0 && matchedAll.length === 0 && matchedOther.length === 0) {
-        document.getElementById('all-products').innerHTML = '<p>Không tìm thấy sản phẩm phù hợp.</p>';
-        return;
-      }
-
-      renderProducts(matchedFeatured, 'featured-products');
-      renderProducts(matchedAll, 'all-products', true);
-      renderProducts(matchedOther, 'other-products');
-    }
-
-    // Bắt sự kiện click nút Tìm
-    document.querySelector('.btn-tim').addEventListener('click', function() {
-      const keyword = document.querySelector('input[type="text"]').value;
-      searchProducts(keyword);
-    });
-
-    // Bắt sự kiện Enter trong ô tìm kiếm
-    document.querySelector('input[type="text"]').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const keyword = e.target.value;
-        searchProducts(keyword);
-      }
-    });
-
-    // --------------------- 📌 HẾT PHẦN TÌM KIẾM ----------------------
-
-    // Render dữ liệu ban đầu
-    renderProducts(featured, 'featured-products');
-    renderProducts(all, 'all-products', true);
-    renderProducts(other, 'other-products');
-    renderComments(comments);
-    
-  </script>
+<!-- Footer -->
+<div class="footer py-4">
+  <hr />
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
+        <div class="social-icons">
+          <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <ul class="list-unstyled">
+          <li class="mb-2">Liên hệ : quanlysach_360@gmail.com</li>
+          <li class="mb-2">Quy định giao hàng</li>
+          <li class="mb-2">Quy định trả hàng</li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <ul class="list-unstyled">
+          <li class="mb-2">Chính sách hoạt động</li>
+          <li class="mb-2">Chính sách trả hàng</li>
+          <li class="mb-2">Chính sách bảo mật</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

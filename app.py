@@ -8,7 +8,7 @@ import re
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-
+from sqlalchemy.orm import joinedload
 from models import TacGia, TheLoai
 
 app = Flask(__name__)
@@ -75,16 +75,61 @@ class TacGia(db.Model):
     ngaysinh = db.Column(db.Date)
     tieusu = db.Column(db.Text)
 
-# Route để hiển thị trang quản lý sản phẩm
-# @app.route("/quanlysanpham", methods=["GET"])
-# def quan_ly_san_pham():
-#     if "admin_id" not in session:
-#         flash("Bạn cần đăng nhập để truy cập.", "warning")
-#         return redirect("/login-admin")
-    
-#     # Lấy danh sách sản phẩm từ database
-#     sanphams = SanPham.query.all()
-#     return render_template("quan_ly_SP.html", sanphams=sanphams)
+@app.route("/")
+def home():
+    is_logged_in = 'makhachhang' in session
+    username = session.get('tendangnhap') if is_logged_in else None
+
+    query = request.args.get("q", "").strip()
+
+    if query:
+        # Nếu có từ khoá tìm kiếm => lọc sản phẩm
+        featured_products = []
+        all_products = SanPham.query.filter(SanPham.tensanpham.ilike(f"%{query}%")).all()
+        other_products = []
+    else:
+        # Không có từ khoá => trả về danh sách đầy đủ
+        featured_products = SanPham.query.limit(3).all()
+        all_products = SanPham.query.limit(12).all()
+        other_products = SanPham.query.offset(12).limit(8).all()
+
+    return render_template("TrangChu.html",
+                           is_logged_in=is_logged_in,
+                           username=username,
+                           featured_products=featured_products,
+                           all_products=all_products,
+                           other_products=other_products)
+
+
+
+@app.route('/book_detail')
+def book_detail():
+    is_logged_in = 'makhachhang' in session
+    username = session.get('tendangnhap') if is_logged_in else None
+
+    title = request.args.get('title')
+    img = request.args.get('img')
+    desc = request.args.get('desc')
+    price = request.args.get('price')
+    author = request.args.get('author', 'Chưa rõ')
+    category = request.args.get('category', 'Chưa phân loại')
+    publisher = request.args.get('publisher', 'Không rõ')
+    year = request.args.get('year', 2024)
+
+    all_products = SanPham.query.limit(8).all()
+
+    return render_template('book_detail.html',
+                           title=title,
+                           img=img,
+                           desc=desc,
+                           price=price,
+                           author=author,
+category=category,
+                           publisher=publisher,
+                           year=year,
+                           all_products=all_products,
+                           is_logged_in=is_logged_in,
+                           username=username)
 
 # API để thêm sản phẩm
 @app.route("/api/sanpham/<masanpham>", methods=["PUT"])
@@ -124,19 +169,19 @@ def quan_ly_san_pham():
     return render_template('quan_ly_SP.html', theloais=theloais, tacgias=tacgias, sanphams=sanphams)
 
 
-@app.route("/")
-def home():
-    is_logged_in = 'makhachhang' in session
-    username = session.get('tendangnhap', None) if is_logged_in else None
-    return render_template("TrangChu.html", is_logged_in=is_logged_in, username=username)
+# @app.route("/")
+# def home():
+#     is_logged_in = 'makhachhang' in session
+#     username = session.get('tendangnhap', None) if is_logged_in else None
+#     return render_template("TrangChu.html", is_logged_in=is_logged_in, username=username)
 
-@app.route('/book_detail')
-def book_detail():
-    title = request.args.get('title')
-    img = request.args.get('img')
-    desc = request.args.get('desc')
-    price = request.args.get('price')
-    return render_template('book_detail.html', title=title, img=img, desc=desc, price=price)
+# @app.route('/book_detail')
+# def book_detail():
+#     title = request.args.get('title')
+#     img = request.args.get('img')
+#     desc = request.args.get('desc')
+#     price = request.args.get('price')
+#     return render_template('book_detail.html', title=title, img=img, desc=desc, price=price)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -307,7 +352,7 @@ def api_get_users():
             "diachinhanhang": user.diachinhanhang
         })
     return jsonify(result)
-##11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+
 @app.route("/api/users", methods=["POST"])
 def api_add_user():
     data = request.json

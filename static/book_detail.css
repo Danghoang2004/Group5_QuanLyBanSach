@@ -1,20 +1,32 @@
-/* Chi tiết sách */
+/* =======================
+   Chi tiết sách (Book Detail)
+   ======================== */
+
+/* Hình ảnh sản phẩm trong chi tiết sách */
 #book-detail img {
+  width: 100%; /* Chiếm toàn bộ chiều rộng của container */
+  height: 350px; /* Cố định chiều cao hình ảnh */
+  max-height: 350px; /* Đảm bảo hình ảnh không vượt quá chiều cao */
+  object-fit: cover; /* Giữ tỉ lệ ảnh mà không bị méo, cắt ảnh nếu cần */
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Tạo bóng cho hình ảnh */
 }
 
+/* Tiêu đề chi tiết sách */
 #book-detail h2 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
+/* Mô tả chi tiết sách */
 #book-detail p {
   font-size: 1rem;
   margin-bottom: 0.4rem;
+  color: #555; /* Màu sắc của văn bản */
 }
 
+/* Nút button trong chi tiết sách */
 #book-detail .btn {
   padding: 10px 20px;
   font-weight: bold;
@@ -22,64 +34,121 @@
   border-radius: 8px;
 }
 
-/* Chi tiết mô tả và bình luận */
+/* Tiêu đề mô tả và bình luận */
 #book-detail h4 {
   margin-top: 40px;
   font-weight: bold;
   color: #2c3e50;
 }
 
+/* Card bình luận và mô tả */
 #book-detail .card {
   background-color: #f8f9fa;
-  border-left: 4px solid #198754;
+  border-left: 4px solid #198754; /* Màu xanh cho card */
   border-radius: 10px;
 }
 
+/* Mô tả trong bình luận */
 #book-detail .card p {
   margin-bottom: 0.5rem;
 }
 
+/* Thông tin tác giả và các chi tiết khác trong card */
 #book-detail .card div {
   font-size: 0.9rem;
   color: #555;
 }
 
-/* Các sản phẩm liên quan */
+
+/* =======================
+   Các sản phẩm liên quan
+   ======================== */
+
+/* Hiệu ứng hover cho các sản phẩm liên quan */
 #related-products .card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 10px; /* Bo góc cho card sản phẩm */
 }
 
 #related-products .card:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng khi hover */
 }
 
+/* Hình ảnh sản phẩm liên quan */
 #related-products .card img {
-  border-radius: 8px;
-  object-fit: cover;
-  height: 200px; /* Giới hạn chiều cao của ảnh */
+  width: 100%; /* Chiếm toàn bộ chiều rộng của card */
+  height: 200px; /* Cố định chiều cao của ảnh */
+  max-height: 200px; /* Đảm bảo hình ảnh không vượt quá chiều cao */
+  object-fit: cover; /* Giữ tỉ lệ hình ảnh, cắt bớt nếu cần */
+  border-radius: 8px; /* Bo góc cho ảnh */
+  overflow: hidden; /* Cắt bớt phần dư của ảnh nếu vượt quá */
 }
 
+/* Card body của sản phẩm liên quan */
 #related-products .card-body {
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Căn chỉnh các phần tử trong card */
 }
 
+/* Tiêu đề sản phẩm liên quan */
 #related-products .card-title {
   font-size: 1.1rem;
   font-weight: bold;
+  margin-bottom: 10px; /* Thêm khoảng cách dưới tiêu đề */
+  color: #333; /* Màu chữ cho tiêu đề */
 }
 
+/* Mô tả sản phẩm liên quan */
 #related-products .card-text {
-  font-size: 0.9rem;
+font-size: 0.9rem;
   color: #6c757d;
+  margin-bottom: 10px; /* Thêm khoảng cách dưới mô tả */
 }
 
+/* Giá của sản phẩm liên quan */
 #related-products .fw-bold {
   font-weight: bold;
-  color: #dc3545; /* Màu đỏ cho giá */
+  color: #dc3545; /* Màu đỏ cho giá sản phẩm */
+  font-size: 1rem; /* Điều chỉnh kích thước cho phù hợp */
 }
 
-/* Cải thiện giao diện cho các phần sản phẩm liên quan */
+/* Tăng khoảng cách giữa các sản phẩm trong danh sách */
 .container .row .col-md-4 {
-  margin-bottom: 20px; /* Tăng khoảng cách giữa các sản phẩm */
+  margin-bottom: 20px; /* Tăng khoảng cách giữa các cột sản phẩm */
+}
+
+
+/* =======================
+   Responsive
+   ======================== */
+
+/* Điều chỉnh cho màn hình nhỏ */
+@media (max-width: 768px) {
+  #book-detail img {
+    height: 250px; /* Giảm chiều cao hình ảnh trên màn hình nhỏ */
+    max-height: 250px; /* Đảm bảo hình ảnh không vượt quá chiều cao */
+  }
+
+  #related-products .card img {
+    height: 150px; /* Giảm chiều cao của hình ảnh trên màn hình nhỏ */
+    max-height: 150px; /* Đảm bảo hình ảnh không vượt quá chiều cao */
+  }
+
+  #related-products .card-title {
+    font-size: 1rem; /* Giảm kích thước tiêu đề cho màn hình nhỏ */
+  }
+
+  #related-products .fw-bold {
+    font-size: 0.9rem; /* Giảm kích thước giá cho màn hình nhỏ */
+  }
+
+  /* Thay đổi số cột cho các sản phẩm liên quan trên màn hình nhỏ */
+  .container .row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Hiển thị 2 cột trên màn hình nhỏ */
+    gap: 20px; /* Tạo khoảng cách giữa các cột */
+  }
 }

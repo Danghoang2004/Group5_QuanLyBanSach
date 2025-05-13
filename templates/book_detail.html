@@ -14,7 +14,6 @@
     <div class="left-header">
       <div class="logo">📚 Book_shop</div>
       <nav>
-        <!-- <a href="/">Trang Chủ</a> Sửa đường dẫn -->
         <a href="/">Trang Chủ</a>
         <a href="#">Combo giảm giá</a>
         <a href="#">Thể Loại</a>
@@ -24,7 +23,6 @@
     <div class="search-login">
       <input type="text" placeholder="Nội dung tìm kiếm">
       <button class="btn-tim">Tìm</button>
-      <!-- <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a> ĐÃ SỬA -->
       {% if is_logged_in %}
         <span>Xin chào, {{ username }}!</span>
         <a href="/logout"><button class="btn-dangnhap">Đăng xuất</button></a>
@@ -35,15 +33,51 @@
   </header>
 
   <!-- Nội dung sách -->
-  <main class="container mt-5" id="book-detail">
-    <!-- Nội dung sách sẽ được render bằng JavaScript -->
+  <main class="container mt-5">
+    <div class="row">
+      <div class="col-md-5">
+        <img src="{{ img or '/static/images/default.jpg' }}" class="img-fluid" alt="{{ title }}">
+      </div>
+      <div class="col-md-7">
+        <h2 class="fw-bold" id="bookTitle">{{ title or 'Không rõ tiêu đề' }}</h2>
+        <p><strong>Tác giả:</strong> {{ author or 'Không rõ' }}</p>
+        <p><strong>Thể loại:</strong> {{ category or 'Không rõ' }}</p>
+        <p><strong>Nhà xuất bản:</strong> {{ publisher or 'Không rõ' }}</p>
+        <p><strong>Năm xuất bản:</strong> {{ year or 'Không rõ' }}</p>
+        <p><strong>Giá bán:</strong> <span class="text-danger fw-bold" id="bookPrice">{{ price or '0' }} VNĐ</span></p>
+        <p class="mt-3"><strong>Mô tả:</strong> {{ desc or 'Không có mô tả' }}</p>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-success" onclick="addToCart('{{ title }}', '{{ price }}')">Thêm vào giỏ hàng</button>
+          <a href="/giohang"><button class="btn btn-primary">Mua ngay</button></a>
+        </div>
+      </div>
+    </div>
   </main>
-
-  <!-- Các sản phẩm liên quan -->
+<!-- Sản phẩm liên quan -->
   <section class="container mt-5">
-    <h5 class="fw-bold mb-4">Các sản phẩm liên quan</h5>
-    <div class="row" id="related-products">
-      <!-- Các sản phẩm liên quan sẽ được render tại đây bằng JavaScript -->
+    <h3>Sản phẩm Liên Quan</h3>
+    <div class="row">
+      {% for p in all_products %}
+      <div class="col-md-3 mb-4">
+        <div class="card h-100">
+          <img src="{{ p.hinhanh or '/static/images/default.jpg' }}" class="product-img" alt="Ảnh sản phẩm">
+          <div class="card-body">
+            <h5 class="product-title">{{ p.tensanpham }}</h5>
+            <p>{{ (p.mota[:80] ~ '...') if p.mota else 'Không có mô tả' }}</p>
+            <p class="text-danger fw-bold">{{ "{:,.0f}".format(p.giaban) }} vnđ</p>
+            <a href="{{ url_for('book_detail',
+                                title=p.tensanpham,
+                                img=p.hinhanh,
+                                desc=p.mota,
+                                price=p.giaban,
+                                author=p.tacgia.hovaten if p.tacgia else 'Không rõ',
+                                category=p.theloai.tentheloai if p.theloai else 'Không rõ',
+                                publisher='NXB nào đó',
+                                year=p.namxuatban or 2024) }}" class="btn btn-outline-primary">Chi tiết</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
     </div>
   </section>
 
@@ -79,159 +113,21 @@
     </div>
   </div>
 
-  <!-- Script render chi tiết sách và các sản phẩm liên quan -->
+  <!-- Script giỏ hàng -->
   <script>
-    // Lấy các tham số từ URL
-    function getBookDataFromURL() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return {
-img: urlParams.get('img') || '/static/images/Banner.png',
-        title: urlParams.get('title') || 'Giải mã tâm lý học',
-        author: urlParams.get('author') || 'Nguyễn Văn A',
-        category: urlParams.get('category') || 'Tâm lý học',
-        publisher: urlParams.get('publisher') || 'NXB Kim Đồng',
-        year: urlParams.get('year') || 2023,
-        price: urlParams.get('price') || '95.000 VNĐ',
-        description: urlParams.get('description') || 'Cuốn sách giúp bạn hiểu rõ hơn về hành vi, tư duy, cảm xúc của con người qua các tình huống thực tế...'
-      };
-    }
-  
-    const relatedBooks = [
-      { img: '/static/images/Banner.png', title: 'Sản phẩm A', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
-      { img: '/static/images/Banner.png', title: 'Sản phẩm B', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
-      { img: '/static/images/Banner.png', title: 'Sản phẩm C', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
-      { img: '/static/images/Banner.png', title: 'Sản phẩm D', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
-      { img: '/static/images/Banner.png', title: 'Sản phẩm E', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
-      { img: '/static/images/Banner.png', title: 'Sản phẩm F', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
-      { img: '/static/images/Banner.png', title: 'Sản phẩm E', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' },
-      { img: '/static/images/Banner.png', title: 'Sản phẩm F', desc: 'Mô tả chi tiết sản phẩm', price: '100.000 VNĐ' }
-    ];
-  
-    function renderBookDetail(book) {
-  const container = document.getElementById('book-detail');
-  container.innerHTML = `
-    <div class="row">
-      <div class="col-md-5">
-        <img src="${book.img}" class="img-fluid" alt="${book.title}">
-      </div>
-      <div class="col-md-7">
-        <h2 class="fw-bold">${book.title}</h2>
-        <p><strong>Tác giả:</strong> ${book.author}</p>
-        <p><strong>Thể loại:</strong> ${book.category}</p>
-        <p><strong>Nhà xuất bản:</strong> ${book.publisher}</p>
-        <p><strong>Năm xuất bản:</strong> ${book.year}</p>
-        <p><strong>Giá bán:</strong> <span class="text-danger fw-bold">${book.price}</span></p>
-        <p class="mt-3"><strong>Mô tả:</strong> ${book.description}</p>
-        <div class="d-flex gap-2 mt-3">
-          <button class="btn btn-success">Thêm vào giỏ hàng</button>
-          <button class="btn btn-primary" id="buy-now-btn">Mua ngay</button>
-        </div>
-      </div>
-    </div>
-  `;
-
-  // Thêm sự kiện cho nút "Mua ngay"
-  document.getElementById('buy-now-btn').addEventListener('click', function() {
-    // Chuyển hướng đến trang GioHang.html
-    window.location.href = '/giohang';
-  });
-
-  // Thêm sự kiện cho nút "Thêm vào giỏ hàng"
-  document.querySelector('.btn-success').addEventListener('click', function() {
-    // Thực hiện thêm vào giỏ hàng (có thể là một hàm AJAX hoặc một hành động khác)
-    alert('Sản phẩm đã được thêm vào giỏ hàng!');
-  });
-}
-  
-    function renderRelatedProducts(products) {
-      const container = document.getElementById('related-products');
-      container.innerHTML = products.map(p => `
-        <div class="col-md-4 col-lg-3 mb-4">
-          <div class="card h-100 shadow-sm" style="cursor: pointer;">
-            <img src="${p.img}" class="card-img-top" alt="${p.title}">
-            <div class="card-body">
-              <h6 class="card-title">${p.title}</h6>
-              <p class="card-text small text-muted">${p.desc}</p>
-              <p class="fw-bold text-danger">${p.price}</p>
-            </div>
-          </div>
-        </div>
-      `).join('');
-    }
-  
-    function addClickEventsToRelated() {
-      const cards = document.querySelectorAll('#related-products .card');
-      cards.forEach((card, index) => {
-        card.addEventListener('click', () => {
-          const p = relatedBooks[index];
-          const book = {
-            title: p.title,
-            img: p.img,
-            author: 'Tác giả liên quan',
-            category: 'Thể loại liên quan',
-            publisher: 'NXB nào đó',
-            year: 2024,
-            price: p.price,
-            description: p.desc
-          };
-          const params = new URLSearchParams(book).toString();
-          history.pushState(book, '', `?${params}`);
-          renderBookDetail(book);
-        });
-      });
-    }
-  
-    // Xử lý khi user nhấn back/forward trình duyệt
-    window.onpopstate = (event) => {
-      if (event.state) {
-        renderBookDetail(event.state);
-      } else {
-        const defaultBook = getBookDataFromURL();
-        renderBookDetail(defaultBook);
-      }
-    };
-  
-    // Ban đầu render
-    const initialBook = getBookDataFromURL();
-    renderBookDetail(initialBook);
-    renderRelatedProducts(relatedBooks);
-    addClickEventsToRelated();
-  
-    // Sự kiện về trang chủ
-    document.getElementById('home-link').addEventListener('click', function(event) {
-      event.preventDefault();
-      window.location.href = 'trangchu.html';
-    });
-  </script><script>
-//11111111111111111
     function addToCart(bookTitle, bookPrice) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  
-      // Thử tìm sách trong giỏ hàng
       let existingItem = cart.find(item => item.title === bookTitle);
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        cart.push({
-          title: bookTitle,
-          price: bookPrice,
-          quantity: 1
-        });
+        cart.push({ title: bookTitle, price: bookPrice, quantity: 1 });
       }
-  
       localStorage.setItem("cart", JSON.stringify(cart));
       alert("Đã thêm vào giỏ hàng!");
     }
-  
-    // Gắn sự kiện vào nút (giả định đã có nút thêm giỏ hàng)
-document.getElementById("addToCartBtn").addEventListener("click", function() {
-      const title = document.getElementById("bookTitle").innerText;
-      const price = parseFloat(document.getElementById("bookPrice").innerText.replace("₫", "").replace(".", ""));
-      addToCart(title, price);
-    });
   </script>
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>  
 </body>
 </html>
