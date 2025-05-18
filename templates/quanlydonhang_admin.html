@@ -2,9 +2,10 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lý đơn hàng</title>
+  <title>Admin Dashboard</title>
   <link rel="stylesheet" href="/static/sidebars_admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
@@ -13,7 +14,7 @@
       <nav>
         <ul>
           <li><a href="{{ url_for('bang_dieu_khien') }}">Bảng điều khiển</a></li>
-          <li"><a href="{{ url_for('quan_ly_san_pham') }}">Quản lý sản phẩm</a></li>
+          <li><a href="{{ url_for('quan_ly_san_pham') }}">Quản lý sản phẩm</a></li>
           <li><a href="{{ url_for('quan_ly_nguoi_dung') }}">Quản lý người dùng</a></li>
           <li class="active"><a href="{{ url_for('quan_ly_don_hang') }}">Quản lý đơn hàng</a></li>
         </ul>
