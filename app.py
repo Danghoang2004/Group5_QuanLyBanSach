@@ -75,6 +75,23 @@ class TacGia(db.Model):
     ngaysinh = db.Column(db.Date)
     tieusu = db.Column(db.Text)
 
+class DonHang(db.Model):
+    __tablename__ = 'donhang'
+    madonhang = db.Column(db.String(50), primary_key=True)
+    makhachhang = db.Column(db.String(50), db.ForeignKey('khachhang.makhachhang'), nullable=False)
+    diachinguoimua = db.Column(db.String(50))
+    diachinguoinhan = db.Column(db.String(50))
+    trangthai = db.Column(db.String(50))
+    thanhtoan = db.Column(db.String(50))
+    trangthaithanhtoan = db.Column(db.String(50))
+    tienthanhtoan = db.Column(db.Float)
+    tienthieu = db.Column(db.Float)
+    ngaydathang = db.Column(db.Date)
+    ngaygiaohang = db.Column(db.Date)
+
+    # Optional relationship (if needed)
+    khachhang = db.relationship("KhachHang", backref="donhangs")
+
 @app.route("/")
 def home():
     is_logged_in = 'makhachhang' in session
@@ -448,6 +465,34 @@ def gio_hang():
     
     username = session.get('tendangnhap') if is_logged_in else None
     return render_template("GioHang.html", is_logged_in=is_logged_in, username=username)
+@app.route("/api/orders", methods=["GET"])
+def api_get_orders():
+    keyword = request.args.get("keyword", "").strip()
+    query = DonHang.query
+
+    if keyword:
+        query = query.filter(
+            (DonHang.madonhang.like(f"%{keyword}%")) |
+            (DonHang.makhachhang.like(f"%{keyword}%"))
+        )
+
+    orders = query.all()
+    result = []
+    for order in orders:
+        result.append({
+            "madonhang": order.madonhang,
+            "makhachhang": order.makhachhang,
+            "diachinguoimua": order.diachinguoimua,
+            "diachinguoinhan": order.diachinguoinhan,
+            "trangthai": order.trangthai,
+            "thanhtoan": order.thanhtoan,
+            "trangthaithanhtoan": order.trangthaithanhtoan,
+            "tienthanhtoan": order.tienthanhtoan,
+            "tienthieu": order.tienthieu,
+            "ngaydathang": order.ngaydathang.strftime('%Y-%m-%d') if order.ngaydathang else "",
+            "ngaygiaohang": order.ngaygiaohang.strftime('%Y-%m-%d') if order.ngaygiaohang else ""
+        })
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run(debug=True)

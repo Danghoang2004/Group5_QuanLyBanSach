@@ -23,25 +23,35 @@
 
     <main class="main-content">
       <header class="top-bar">
-        <input type="text" placeholder="Tìm kiếm">
+        <div class="search-controls">
+          <input type="text" placeholder="Tìm kiếm">
+          <button>Tìm kiếm</button>
+        </div>
         <div class="icons">
-          <span>🔔</span>
-          <span>💬</span>
+          <span><img src="/static/Icons/bell-fill.svg" alt="Thông báo" class="icon-img"></span>
+          <span><img src="/static/Icons/chat-dots-fill.svg" alt="Tin nhắn" class="icon-img"></span>
           <span class="avatar">Tài khoản</span>
         </div>
       </header>
 
       <section class="form-section">
-        <h2>Bảng quản lý đơn hàng</h2>
-        <div class="filter-search">
-          <div class="filter-section">
+      <div class="form-header ">
+        <h2 class="magin_kc">Bảng quản lý đơn hàng</h2>
+        <div class="filter-search magin_kc">
+          <div class="filter-section ">
             <span>Thêm điều kiện lọc</span>
             <span class="filter-item1">Kênh bán hàng là Web</span>
             <span class="filter-item1">Phương thức thanh toán là Thanh toán khi giao hàng (COD)</span>
           </div>
-          <input type="text" class="search-bar" placeholder="Tìm kiếm">
-          <button class="save-button">Lưu bộ lọc</button>
+          <div class="search-group">
+            <input type="text" class="search-bar" id="searchInput" placeholder="Tìm kiếm theo mã đơn hàng hoặc mã khách hàng"/>
+            <div class="button-group">
+              <button class="search-button" id="searchBtn">Tìm</button>
+              <button class="save-button">Lưu bộ lọc</button>
+            </div>
+          </div>
         </div>
+      </div>
 
         <div class="table-section">
           <table>
@@ -60,13 +70,98 @@
                 <th>Ngày giao hàng</th>
               </tr>
             </thead>
-            <tbody>
-              <!-- Dữ liệu sẽ được điền vào đây -->
+            <tbody id="orderTableBody">
+              <!-- Dữ liệu được thêm bằng JS -->
             </tbody>
           </table>
         </div>
       </section>
     </main>
   </div>
+
+  <!-- Đặt script ở cuối để đảm bảo DOM đã load -->
+  <script>
+    const tbody = document.getElementById("orderTableBody");
+
+    // Load tất cả đơn hàng
+    fetch('/api/orders')
+      .then(response => response.json())
+      .then(data => {
+        tbody.innerHTML = "";
+        data.forEach(order => {
+          const row = `
+            <tr>
+              <td>${order.madonhang}</td>
+              <td>${order.makhachhang}</td>
+              <td>${order.diachinguoimua || ''}</td>
+              <td>${order.diachinguoinhan || ''}</td>
+              <td>${order.trangthai || ''}</td>
+              <td>${order.thanhtoan || ''}</td>
+              <td>${order.trangthaithanhtoan || ''}</td>
+              <td>${order.tienthanhtoan || ''}</td>
+              <td>${order.tienthieu || ''}</td>
+              <td>${order.ngaydathang || ''}</td>
+              <td>${order.ngaygiaohang || ''}</td>
+            </tr>
+          `;
+          tbody.innerHTML += row;
+        });
+      })
+      .catch(error => console.error("Lỗi khi tải đơn hàng:", error));
+
+    // Xử lý tìm kiếm
+    document.getElementById("searchBtn").addEventListener("click", () => {
+      const keyword = document.getElementById("searchInput").value.trim();
+
+      fetch(`/api/orders?keyword=${encodeURIComponent(keyword)}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Server trả về lỗi: " + response.statusText);
+          }
+          return response.json();
+        })
+        .then(data => {
+          tbody.innerHTML = "";
+
+          if (data.length === 0) {
+            tbody.innerHTML = `
+              <tr>
+                <td colspan="11" style="text-align:center;">Không tìm thấy đơn hàng nào phù hợp.</td>
+              </tr>
+            `;
+            return;
+          }
+
+          data.forEach(order => {
+            const row = `
+              <tr>
+                <td>${order.madonhang}</td>
+                <td>${order.makhachhang}</td>
+                <td>${order.diachinguoimua || ''}</td>
+                <td>${order.diachinguoinhan || ''}</td>
+                <td>${order.trangthai || ''}</td>
+                <td>${order.thanhtoan || ''}</td>
+                <td>${order.trangthaithanhtoan || ''}</td>
+                <td>${order.tienthanhtoan || ''}</td>
+                <td>${order.tienthieu || ''}</td>
+                <td>${order.ngaydathang || ''}</td>
+                <td>${order.ngaygiaohang || ''}</td>
+              </tr>
+            `;
+            tbody.innerHTML += row;
+          });
+        })
+        .catch(error => {
+          console.error("Lỗi khi tải đơn hàng:", error);
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="11" style="text-align:center; color: red;">
+                Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+              </td>
+            </tr>
+          `;
+        });
+    });
+  </script>
 </body>
 </html>
