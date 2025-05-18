@@ -266,11 +266,45 @@
           alert("✅ " + res.message);
           location.reload();
         } else {
-          alert("❌ Mã sản phẩm không được sữa: " + res.error);
+          alert("❌ Sửa thất bại: " + res.error);
         }
       })
       .catch((err) => {
         console.error("Lỗi khi sửa:", err);
+      });
+    });
+
+    // Xóa sản phẩm
+    document.querySelector(".btn-delete").addEventListener("click", function () {
+      const selectedRow = document.querySelector(".selectable.selected");
+      if (!selectedRow) {
+        alert("⚠️ Vui lòng chọn một sản phẩm để xóa!");
+        return;
+      }
+
+      const masanpham = selectedRow.dataset.masanpham;
+      if (!confirm(`Bạn có chắc muốn xóa sản phẩm ${masanpham}?`)) {
+        return;
+      }
+
+      fetch(`/api/sanpham/${masanpham}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.message) {
+          alert("✅ " + res.message);
+          location.reload();
+        } else {
+          alert("❌ Xóa thất bại: " + res.error);
+        }
+      })
+      .catch((err) => {
+        console.error("Lỗi khi xóa:", err);
+        alert("❌ Đã xảy ra lỗi khi xóa sản phẩm!");
       });
     });
   </script>

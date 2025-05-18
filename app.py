@@ -100,8 +100,6 @@ def home():
                            all_products=all_products,
                            other_products=other_products)
 
-
-
 @app.route('/book_detail')
 def book_detail():
     is_logged_in = 'makhachhang' in session
@@ -124,7 +122,7 @@ def book_detail():
                            desc=desc,
                            price=price,
                            author=author,
-category=category,
+                           category=category,
                            publisher=publisher,
                            year=year,
                            all_products=all_products,
@@ -132,6 +130,36 @@ category=category,
                            username=username)
 
 # API để thêm sản phẩm
+@app.route("/api/sanpham", methods=["POST"])
+def them_san_pham():
+    data = request.json
+    try:
+        # Kiểm tra mã sản phẩm đã tồn tại
+        if SanPham.query.get(data["masanpham"]):
+            return jsonify({"error": "Mã sản phẩm đã tồn tại!"}), 400
+
+        new_product = SanPham(
+            masanpham=data["masanpham"],
+            tensanpham=data["tensanpham"],
+            matacgia=data["matacgia"],
+            namxuatban=int(data["namxuatban"]) if data["namxuatban"] else None,
+            gianhap=float(data["gianhap"]) if data["gianhap"] else None,
+            giagoc=float(data["giagoc"]) if data["giagoc"] else None,
+            giaban=float(data["giaban"]) if data["giaban"] else None,
+            soluong=float(data["soluong"]) if data["soluong"] else None,
+            matheloai=data["matheloai"],
+            ngonngu=data["ngonngu"],
+            hinhanh=data["hinhanh"],
+            mota=data["mota"]
+        )
+        db.session.add(new_product)
+        db.session.commit()
+        return jsonify({"message": "Thêm sản phẩm thành công!"}), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+
+# API để sửa sản phẩm
 @app.route("/api/sanpham/<masanpham>", methods=["PUT"])
 def sua_san_pham(masanpham):
     data = request.json
@@ -157,7 +185,22 @@ def sua_san_pham(masanpham):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
-    
+
+# API để xóa sản phẩm
+@app.route("/api/sanpham/<masanpham>", methods=["DELETE"])
+def xoa_san_pham(masanpham):
+    try:
+        sp = SanPham.query.get(masanpham)
+        if not sp:
+            return jsonify({"error": "Sản phẩm không tồn tại!"}), 404
+
+        db.session.delete(sp)
+        db.session.commit()
+        return jsonify({"message": "Xóa sản phẩm thành công!"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+
 @app.route("/quanlysanpham")
 def quan_ly_san_pham():
     if "admin_id" not in session:
@@ -167,21 +210,6 @@ def quan_ly_san_pham():
     tacgias = db.session.query(TacGia).all()
     sanphams = SanPham.query.all()
     return render_template('quan_ly_SP.html', theloais=theloais, tacgias=tacgias, sanphams=sanphams)
-
-
-# @app.route("/")
-# def home():
-#     is_logged_in = 'makhachhang' in session
-#     username = session.get('tendangnhap', None) if is_logged_in else None
-#     return render_template("TrangChu.html", is_logged_in=is_logged_in, username=username)
-
-# @app.route('/book_detail')
-# def book_detail():
-#     title = request.args.get('title')
-#     img = request.args.get('img')
-#     desc = request.args.get('desc')
-#     price = request.args.get('price')
-#     return render_template('book_detail.html', title=title, img=img, desc=desc, price=price)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
