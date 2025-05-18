@@ -138,7 +138,7 @@ body {
   margin-top: 10px;
 }
 
-.buttons button_them {
+.buttons button {
   padding: 10px 20px;
   background: #ddd;
   border: none;
@@ -146,6 +146,25 @@ body {
   cursor: pointer;
   color: black;
   font-weight: bold;
+}
+#btnThem {
+  background: #007bff; /* Blue for Add button */
+  color: white;
+}
+
+#btnSua {
+  background: #28a745; /* Green for Update button */
+  color: white;
+}
+
+#btnXoa {
+  background: #dc3545; /* Red for Delete button */
+  color: white;
+}
+
+#btnLoad {
+  background: #6c757d; /* Gray for Load button */
+  color: white;
 }
 
 /* User Table */
