@@ -140,33 +140,46 @@ body {
 
 .buttons button {
   padding: 10px 20px;
-  background: #ddd;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  color: black;
   font-weight: bold;
 }
 #btnThem {
-  background: #007bff; /* Blue for Add button */
+  background-color: #007bff;
   color: white;
+}
+
+#btnThem:hover {
+  background-color: #0056b3;
 }
 
 #btnSua {
-  background: #28a745; /* Green for Update button */
+  background-color: #28a745;
   color: white;
+}
+
+#btnSua:hover {
+  background-color: #218838;
 }
 
 #btnXoa {
-  background: #dc3545; /* Red for Delete button */
+  background-color: #dc3545;
   color: white;
+}
+
+#btnXoa:hover {
+  background-color: #c82333;
 }
 
 #btnLoad {
-  background: #6c757d; /* Gray for Load button */
+  background-color: #6c757d;
   color: white;
 }
 
+#btnLoad:hover {
+  background-color: #bebebe;
+}
 /* User Table */
 .table-section {
   margin-top: 30px;
