@@ -1,253 +1,176 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/GioHang.css">
-    <link rel="stylesheet" href="/static/login.css">
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-        crossorigin="anonymous">
-    <script
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-        crossorigin="anonymous"></script>
-    <title>Giỏ hàng</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết sách</title>
+  <link rel="stylesheet" href="/static/login.css">
+  <link rel="stylesheet" href="/static/book_detail.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-    <!--Header-->
-    <header>
-        <div class="left-header">
-          <div class="logo">📚 Book_shop</div>
-          <nav>
-            <!-- <a href="/">Trang Chủ</a> Sửa đường dẫn -->
-            <a href="/">Trang Chủ</a>
-            <a href="#">Combo giảm giá</a>
-            <a href="#">Thể Loại</a>
-            <a href="/giohang">Giỏ Hàng</a>
-          </nav>
-        </div>
-        <div class="search-login">
-          <input type="text" placeholder="Nội dung tìm kiếm">
-          <button class="btn-tim">Tìm</button>
-          <!-- <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a> ĐÃ SỬA -->
-          {% if is_logged_in %}
-            <span>Xin chào, {{ username }}!</span>
-            <a href="/logout">Đăng xuất</a>
-          {% else %}
-            <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a>
-          {% endif %}
-        </div>
-      </header>
-    
-    
-
-    <div class="cart-container">
-        <span style="margin-left: 50px; font-size: 30px;">Giỏ hàng của bạn:</span>
-        <span style="margin-inline-start: 540px; font-size: 25px;">Tổng tiền: <span id="total-price">1000000</span> VNĐ</span>
-        <hr style="width: 90%; margin: auto; margin-bottom: 20px;margin-top: 20px;">
-        
-        <div class="cart-item">
-            <div class="item-info">
-                <input type="checkbox" class="item-checkbox" onclick="updateTotalPrice()">
-                <img src="/static/images/Banner.png" alt="Sách" class="item-image">
-                <div class="info-text">
-                    <p>Thông tin sản phẩm:</p>
-                    <p>Giá tiền: 100000 VNĐ</p>
-                    <p>Số lượng: 1</p>
-                    <p>loại: Sách</p>
-                </div>
-            </div>
-            <div class="item-total">
-                <p>Thanh tiền: <span class="item-total-price">100000</span> VNĐ</p>
-                <button class="payment-button" onclick="payTotal()">Thanh Toán</button>
-            </div>
-        </div>
-
-        <div class="cart-item">
-            <div class="item-info">
-                <input type="checkbox" class="item-checkbox" onclick="updateTotalPrice()">
-<img src="/static/images/Banner.png" alt="Sách" class="item-image">
-                <div class="info-text">
-                    <p>Thông tin sản phẩm:</p>
-                    <p>Giá tiền: 200000 VNĐ</p>
-                    <p>Số lượng: 2</p>
-                    <p>loại: Sách</p>
-                </div>
-            </div>
-            <div class="item-total">
-                <p>Thanh tiền: <span class="item-total-price">400000</span> VNĐ</p>
-                <button class="payment-button" onclick="payTotal()">Thanh Toán</button>
-            </div>
-        </div>
-
-        <div class="cart-item">
-            <div class="item-info">
-                <input type="checkbox" class="item-checkbox" onclick="updateTotalPrice()">
-                <img src="/static/images/Banner.png" alt="Sách" class="item-image">
-                <div class="info-text">
-                    <p>Thông tin sản phẩm:</p>
-                    <p>Giá tiền: 200000 VNĐ</p>
-                    <p>Số lượng: 2</p>
-                    <p>loại: Sách</p>
-                </div>
-            </div>
-            <div class="item-total">
-                <p>Thanh tiền: <span class="item-total-price">400000</span> VNĐ</p>
-                <button class="payment-button" onclick="payTotal()">Thanh Toán</button>
-            </div>
-        </div>
-
-        <!-- Tổng thanh toán -->
-        <div class="total-payment">
-            <button class="btn btn-success" onclick="payTotal()">Thanh Toán Tổng</button>
-        </div>
+  <!-- Header -->
+  <header>
+    <div class="left-header">
+      <div class="logo">📚 Book_shop</div>
+      <nav>
+        <a href="/">Trang Chủ</a>
+        <a href="#">Combo giảm giá</a>
+        <a href="#">Thể Loại</a>
+        <a href="{{ url_for('gio_hang') }}">Giỏ Hàng</a>
+      </nav>
     </div>
+    <div class="search-login">
+      <input type="text" placeholder="Nội dung tìm kiếm">
+      <button class="btn-tim">Tìm</button>
+      {% if is_logged_in %}
+        <span>Xin chào, {{ username }}!</span>
+        <a href="/logout"><button class="btn-dangnhap">Đăng xuất</button></a>
+      {% else %}
+        <a href="/login"><button class="btn-dangnhap">Đăng nhập</button></a>
+      {% endif %}
+    </div>
+  </header>
 
-    <!--Footer-->
-    <div class="footer py-4">
-        <hr />
-        <div class="container">
-            <div class="row g-4">  
-                <div class="col-md-4">
-                    <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
-                    <div class="social-icons">
-                        <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="me-2"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
-                        <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <ul class="list-unstyled">
-                        <li class="mb-2">Liên hệ: quanlysach_360@gmail.com</li>
-                        <li class="mb-2">Quy định giao hàng</li>
-                        <li class="mb-2">Quy định trả hàng</li>
-                    </ul>
-                </div>
-
-                <div class="col-md-4">
-                    <ul class="list-unstyled">
-                        <li class="mb-2">Chính sách hoạt động</li>
-                        <li class="mb-2">Chính sách trả hàng</li>
-                        <li class="mb-2">Chính sách bảo mật</li>
-                    </ul>
-                </div>
-            </div>
+  <!-- Nội dung sách -->
+  <main class="container mt-5">
+    <div class="row">
+      <div class="col-md-5">
+        <img src="{{ img or '/static/images/default.jpg' }}" class="img-fluid" alt="{{ title }}">
+      </div>
+      <div class="col-md-7">
+        <h2 class="fw-bold" id="bookTitle">{{ title or 'Không rõ tiêu đề' }}</h2>
+        <p><strong>Tác giả:</strong> {{ author or 'Không rõ' }}</p>
+        <p><strong>Thể loại:</strong> {{ category or 'Không rõ' }}</p>
+        <p><strong>Nhà xuất bản:</strong> {{ publisher or 'Không rõ' }}</p>
+        <p><strong>Năm xuất bản:</strong> {{ year or 'Không rõ' }}</p>
+        <p><strong>Giá bán:</strong> <span class="text-danger fw-bold" id="bookPrice">{{ price or '0' }} VNĐ</span></p>
+        <p class="mt-3"><strong>Mô tả:</strong> {{ desc or 'Không có mô tả' }}</p>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-success"
+                  onclick="addToCart('{{ title }}', '{{ price }}', '{{ img }}')">
+            Thêm vào giỏ hàng
+          </button>
+          <button class="btn btn-primary" onclick="buyNow('{{ title }}', '{{ price }}', '{{ img }}')">Mua ngay</button>
         </div>
-        <script>
-            // Cập nhật tổng tiền khi thay đổi checkbox
-            function updateTotalPrice() {
-                let total = 0;
-                document.querySelectorAll('.cart-item').forEach(function(item) {
-                    const checkbox = item.querySelector('.item-checkbox');
-                    if (checkbox.checked) {
-                        const price = parseInt(item.querySelector('.item-total-price').textContent);
-                        total += price;
-                    }
-                });
-                document.getElementById('total-price').textContent = total;
-            }
-    
-            // Xác nhận thanh toán
-            function payTotal() {
-                let totalAmount = document.getElementById('total-price').textContent;
-                // Hiển thị hộp thoại xác nhận
-                let confirmMessage = `Bạn có chắc chắn muốn thanh toán tổng số tiền: ${totalAmount} VNĐ?`;
-                if (confirm(confirmMessage)) {
-                    alert("Thanh toán thành công!");
-                } else {
-                    alert("Hủy thanh toán.");
-                }
-            }
-    
-            
-        </script><script>
-        // Cập nhật tổng tiền khi chọn/bỏ chọn sản phẩm
-        function updateTotalPrice() {
-            let total = 0;
-            document.querySelectorAll('.cart-item').forEach(function(item) {
-                const checkbox = item.querySelector('.item-checkbox');
-                if (checkbox.checked) {
-                    const price = parseInt(item.querySelector('.item-total-price').textContent);
-                    total += price;
-                }
-            });
-            document.getElementById('total-price').textContent = total;
-        }
-    
-        // Hàm thanh toán
-        function payTotal() {
-            // Tính tổng tiền sản phẩm đã chọn  
-            let totalAmount = document.getElementById('total-price').textContent;
-    
-            // Kiểm tra nếu chưa chọn sản phẩm nào
-            if (parseInt(totalAmount) === 0) {
-                alert("Bạn chưa chọn sản phẩm nào để thanh toán!");
-                return;
-            }
-    
-            // Hiển thị hộp thoại xác nhận thanh toán
-            let confirmMessage = `Bạn có chắc chắn muốn thanh toán tổng số tiền: ${totalAmount} VNĐ?`;
-            if (confirm(confirmMessage)) {
-                alert("Thanh toán thành công!");
-    
-                // Xóa các sản phẩm đã được chọn
-                const selectedItems = document.querySelectorAll('.cart-item');
-                selectedItems.forEach(function(item) {
-                    const checkbox = item.querySelector('.item-checkbox');
-                    if (checkbox.checked) {
-                        item.remove();
-                    }
-                });
-    
-                // Cập nhật lại tổng tiền sau khi xóa
-                updateTotalPrice();
-            } else {
-                alert("Hủy thanh toán.");
-            }
-        }
-    </script><script>
-        function loadCart() {
-          let cart = JSON.parse(localStorage.getItem("cart")) || [];
-          let cartTable = document.getElementById("cartTableBody");
-    á
-    let total = 0;
-      
-          cartTable.innerHTML = "";
-      
-          if (cart.length === 0) {
-            cartTable.innerHTML = "<tr><td colspan='4'>Giỏ hàng trống</td></tr>";
-          } else {
-            cart.forEach(item => {
-              let itemTotal = item.price * item.quantity;
-              total += itemTotal;
-      
-              cartTable.innerHTML += `
-                <tr>
-                  <td>${item.title}</td>
-                  <td>${item.price.toLocaleString()}₫</td>
-                  <td>${item.quantity}</td>
-                  <td>${itemTotal.toLocaleString()}₫</td>
-                </tr>
-              `;
-            });
-          }
-      
-          document.getElementById("cartTotal").innerText = total.toLocaleString() + "₫";
-        }
-      
-        window.onload = loadCart;
-      </script>
-      
-    
-    </body>
-    </html>
+      </div>
+    </div>
+  </main>
+
+  <!-- Sản phẩm liên quan -->
+  <section class="container mt-5">
+    <h3>Sản phẩm Liên Quan</h3>
+    <div class="row">
+      {% for p in all_products %}
+      <div class="col-md-3 mb-4">
+        <div class="card h-100">
+          <img src="{{ p.hinhanh or '/static/images/default.jpg' }}" class="product-img" alt="Ảnh sản phẩm">
+          <div class="card-body">
+            <h5 class="product-title">{{ p.tensanpham }}</h5>
+            <p>{{ (p.mota[:80] ~ '...') if p.mota else 'Không có mô tả' }}</p>
+<p class="text-danger fw-bold">{{ "{:,.0f}".format(p.giaban) }} vnđ</p>
+            <a href="{{ url_for('book_detail',
+                                title=p.tensanpham,
+                                img=p.hinhanh,
+                                desc=p.mota,
+                                price=p.giaban,
+                                author=p.tacgia.hovaten if p.tacgia else 'Không rõ',
+                                category=p.theloai.tentheloai if p.theloai else 'Không rõ',
+                                publisher='NXB nào đó',
+                                year=p.namxuatban or 2024) }}" class="btn btn-outline-primary">Chi tiết</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="footer py-4 mt-5">
+    <hr />
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="h5 fw-bold mb-3">BookSach_360.vn</div>
+          <div class="social-icons">
+            <a href="#" class="me-2">Facebook</a>
+            <a href="#" class="me-2">Twitter</a>
+            <a href="#" class="me-2">YouTube</a>
+            <a href="#" class="me-2">Instagram</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-unstyled">
+            <li>Liên hệ: quanlysach_360@gmail.com</li>
+            <li>Quy định giao hàng</li>
+            <li>Quy định trả hàng</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-unstyled">
+            <li>Chính sách hoạt động</li>
+            <li>Chính sách trả hàng</li>
+            <li>Chính sách bảo mật</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+    function addToCart(bookTitle, bookPrice, bookImg) {
+      fetch("/add_to_cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: bookTitle,
+          price: parseFloat(bookPrice),
+          img: bookImg
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+      })
+      .catch(error => {
+        console.error("Lỗi:", error);
+        alert("Có lỗi xảy ra khi thêm vào giỏ hàng.");
+      });
+    }
+
+    function buyNow(bookTitle, bookPrice, bookImg) {
+  fetch("/add_to_cart", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title: bookTitle,
+      price: parseFloat(bookPrice),
+      img: bookImg
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // Đã thêm hoặc đã có rồi => chuyển đến giỏ hàng
+      window.location.href = "/giohang";
+    } else {
+      alert(data.message);
+      if (data.message.includes("đăng nhập")) {
+        window.location.href = "/login"; // Chuyển đến login nếu chưa đăng nhập
+      }
+    }
+  })
+  .catch(error => {
+    console.error("Lỗi:", error);
+    alert("Có lỗi xảy ra khi xử lý mua ngay.");
+  });
+}
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

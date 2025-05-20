@@ -3,6 +3,7 @@ from mysql.connector import connect, Error
 import config
 import uuid
 import random
+import json
 from datetime import datetime
 import re
 from werkzeug.security import generate_password_hash
@@ -27,7 +28,7 @@ class KhachHang(db.Model):
     __tablename__ = 'khachhang'
     makhachhang = db.Column(db.String(50), primary_key=True)
     tendangnhap = db.Column(db.String(100), nullable=False)
-    matkhau = db.Column(db.String(100), nullable=False)  # Cập nhật độ dài
+    matkhau = db.Column(db.String(255), nullable=False)  # Cập nhật độ dài
     hoten = db.Column(db.String(100), nullable=True)
     gioitinh = db.Column(db.String(100), nullable=True)
     diachi = db.Column(db.String(100), nullable=True)
@@ -91,6 +92,57 @@ class DonHang(db.Model):
 
     # Optional relationship (if needed)
     khachhang = db.relationship("KhachHang", backref="donhangs")
+
+class GioHang(db.Model):
+    __tablename__ = 'giohang'
+    idGioHang = db.Column(db.String(50), primary_key=True)
+    makhachhang = db.Column(db.String(50), db.ForeignKey('khachhang.makhachhang'))
+    masanpham = db.Column(db.String(50), db.ForeignKey('sanpham.masanpham'))
+    matheloai = db.Column(db.String(50), db.ForeignKey('theloai.matheloai'))
+    matacgia = db.Column(db.String(50), db.ForeignKey('tacgia.matacgia'))
+    hinhanh = db.Column(db.Text)
+    tensanpham = db.Column(db.String(512))
+    giaban = db.Column(db.Float)
+    soluong = db.Column(db.Integer)
+    # Thêm relationship với TheLoai
+    theloai = db.relationship('TheLoai', backref='giohang_items')
+
+@app.route('/add_to_cart', methods=['POST'])
+def add_to_cart():
+    if 'makhachhang' not in session:
+        return jsonify({'success': False, 'message': 'Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.'}), 401
+
+    data = request.get_json()
+    makhachhang = session['makhachhang']
+    tensanpham = data.get('title')
+    giaban = data.get('price')
+    soluong = 1  # Mặc định 1 cuốn
+
+    # Lấy sản phẩm từ CSDL
+    product = SanPham.query.filter_by(tensanpham=tensanpham).first()
+    if not product:
+        return jsonify({'success': False, 'message': 'Sản phẩm không tồn tại'}), 404
+
+    # Kiểm tra nếu đã tồn tại trong giỏ => tăng số lượng
+    existing_item = GioHang.query.filter_by(makhachhang=makhachhang, masanpham=product.masanpham).first()
+    if existing_item:
+        existing_item.soluong += 1
+    else:
+        item = GioHang(
+            idGioHang='GH' + str(uuid.uuid4())[:8],
+            makhachhang=makhachhang,
+            masanpham=product.masanpham,
+            matheloai=product.matheloai,
+            matacgia=product.matacgia,
+            tensanpham=product.tensanpham,
+            giaban=product.giaban,
+            hinhanh=product.hinhanh,
+            soluong=1
+        )
+        db.session.add(item)
+
+    db.session.commit()
+    return jsonify({'success': True, 'message': 'Đã thêm vào giỏ hàng!'})
 
 @app.route("/")
 def home():
@@ -456,15 +508,78 @@ def logout():
     session.pop('tendangnhap', None)
     return redirect(url_for('home'))
 
+# @app.route('/giohang')
+# def gio_hang():
+#     is_logged_in = 'makhachhang' in session
+#     if not is_logged_in:
+#         flash("Vui lòng đăng nhập để truy cập giỏ hàng.", "danger")
+#         return redirect(url_for('login'))
+    
+#     username = session.get('tendangnhap') if is_logged_in else None
+#     return render_template("GioHang.html", is_logged_in=is_logged_in, username=username)
 @app.route('/giohang')
 def gio_hang():
-    is_logged_in = 'makhachhang' in session
-    if not is_logged_in:
+    if 'makhachhang' not in session:
         flash("Vui lòng đăng nhập để truy cập giỏ hàng.", "danger")
         return redirect(url_for('login'))
     
-    username = session.get('tendangnhap') if is_logged_in else None
-    return render_template("GioHang.html", is_logged_in=is_logged_in, username=username)
+    makhachhang = session['makhachhang']
+    username = session.get('tendangnhap', '')
+
+    # Lấy danh sách sản phẩm trong giỏ hàng của khách hàng
+    giohang_items = GioHang.query.filter_by(makhachhang=makhachhang).all()
+
+    # Tính tổng tiền
+    total_price = sum(item.giaban * item.soluong for item in giohang_items)
+
+    return render_template("GioHang.html", 
+                           is_logged_in=True, 
+                           username=username, 
+                           giohang_items=giohang_items,
+                           total_price=total_price)
+
+
+@app.route('/thanhtoan', methods=['POST'])
+def thanh_toan():
+    if 'makhachhang' not in session:
+        return redirect(url_for('login'))
+    
+    selected_ids = request.form.getlist('selected_items')
+    
+    if selected_ids:
+        # Xoá các mục đã chọn trong giỏ hàng
+        for idGH in selected_ids:
+            item = GioHang.query.filter_by(idGioHang=idGH).first()
+            if item:
+                db.session.delete(item)
+        db.session.commit()
+        flash("Thanh toán thành công!")
+    else:
+        flash("Vui lòng chọn ít nhất một sản phẩm để thanh toán.")
+
+    return redirect(url_for('gio_hang'))
+   
+
+@app.route('/update_quantity', methods=['POST'])
+def update_quantity():
+    try:
+        data = request.get_data(as_text=True)
+        quantities = json.loads(data)
+
+        if 'giohang' not in session:
+            session['giohang'] = {}
+
+        for id_str, qty in quantities.items():
+            id_gh = str(id_str)
+            if qty >= 1:
+                session['giohang'][id_gh] = qty
+            else:
+                session['giohang'].pop(id_gh, None)
+
+        session.modified = True
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 400
 @app.route("/api/orders", methods=["GET"])
 def api_get_orders():
     keyword = request.args.get("keyword", "").strip()

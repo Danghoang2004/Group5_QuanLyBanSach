@@ -1,27 +1,29 @@
-    <!DOCTYPE html>
-    <html lang="vi">
-    <head>
-      <meta charset="UTF-8">
-      <title>Admin Dashboard</title>
-      <link rel="stylesheet" href="/static/sidebars_admin.css">
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    </head>
-    <body>
-      <div class="container">
-        <aside class="sidebar">
-          <div class="logo">😎 Admin</div>
-          <nav>
-            <ul>
-              <li class="active"><a href="{{ url_for('bang_dieu_khien') }}">Bảng điều khiển</a></li>
-              <li><a href="{{ url_for('quan_ly_san_pham') }}">Quản lý sản phẩm</a></li>
-              <li><a href="{{ url_for('quan_ly_nguoi_dung') }}">Quản lý người dùng</a></li>
-              <li><a href="{{ url_for('quan_ly_don_hang') }}">Quản lý đơn hàng</a></li> 
-            </ul>
-          </nav>
-        </aside>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/static/sidebars_admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <!-- Thêm Chart.js từ CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">😎 Admin</div>
+      <nav>
+        <ul>
+          <li class="active"><a href="{{ url_for('bang_dieu_khien') }}">Bảng điều khiển</a></li>
+          <li><a href="{{ url_for('quan_ly_san_pham') }}">Quản lý sản phẩm</a></li>
+          <li><a href="{{ url_for('quan_ly_nguoi_dung') }}">Quản lý người dùng</a></li>
+          <li><a href="{{ url_for('quan_ly_don_hang') }}">Quản lý đơn hàng</a></li> 
+        </ul>
+      </nav>
+    </aside>
 
-        <main class="main-content">
+    <main class="main-content">
       <header class="top-bar">
         <div class="search-controls">
           <input type="text" placeholder="Tìm kiếm">
@@ -34,41 +36,158 @@
         </div>
       </header>
 
-          <section class="dashboard">
-            <h2>Bảng điều khiển</h2>
-            <div class="cards">
-              <div class="card">Thu nhập (Hàng tháng)<br><strong>$40,000</strong></div>
-              <div class="card">Thu nhập (Hàng năm)<br><strong>$215,000</strong></div>
-              <div class="card">Nhiệm vụ<br><strong>50%</strong></div>
-              <div class="card">Yêu cầu đang chờ xử lý<br><strong>18</strong></div>
-            </div>
+      <section class="dashboard">
+        <h2>Bảng điều khiển</h2>
+        <div class="cards">
+          <div class="card">Thu nhập (Hàng tháng)<br><strong>$40,000</strong></div>
+          <div class="card">Thu nhập (Hàng năm)<br><strong>$215,000</strong></div>
+          <div class="card">Nhiệm vụ<br><strong>50%</strong></div>
+          <div class="card">Yêu cầu đang chờ xử lý<br><strong>18</strong></div>
+        </div>
 
-            <div class="charts">
-              <div class="chart">📈 (biểu đồ)</div>
-              <div class="chart">📊 (hình tròn)</div>
-            </div>
+        <div class="charts">
+          <!-- Biểu đồ miền (bên trái) -->
+          <div class="chart">
+            <canvas id="areaChart"></canvas>
+          </div>
+          <!-- Biểu đồ hình tròn (bên phải) -->
+          <div class="chart">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
 
-            <div class="projects">
-              <h3>Projects</h3>
-              <div class="progress">Server Migration <div class="bar red" style="width: 20%;"></div></div>
-              <div class="progress">Sales Tracking <div class="bar yellow" style="width: 40%;"></div></div>
-              <div class="progress">Customer Database <div class="bar blue" style="width: 60%;"></div></div>
-              <div class="progress">Payout Details <div class="bar teal" style="width: 80%;"></div></div>
-              <div class="progress">Account Setup <div class="bar green" style="width: 100%;">Completed</div></div>
-            </div>
+        <div class="projects">
+          <h3>Projects</h3>
+          <div class="progress">Server Migration <div class="bar red" style="width: 20%;"></div></div>
+          <div class="progress">Sales Tracking <div class="bar yellow" style="width: 40%;"></div></div>
+          <div class="progress">Customer Database <div class="bar blue" style="width: 60%;"></div></div>
+          <div class="progress">Payout Details <div class="bar teal" style="width: 80%;"></div></div>
+          <div class="progress">Account Setup <div class="bar green" style="width: 100%;">Completed</div></div>
+        </div>
 
-            <div class="colors">
-              <div class="color-box primary">Primary<br>#4e73df</div>
-              <div class="color-box success">Success<br>#1cc88a</div>
-              <div class="color-box info">Info<br>#36b9cc</div>
-              <div class="color-box warning">Warning<br>#f6c23e</div>
-              <div class="color-box danger">Danger<br>#e74a3b</div>
-              <div class="color-box secondary">Secondary<br>#858796</div>
-              <div class="color-box light">Light<br>#f8f9fc</div>
-              <div class="color-box dark">Dark<br>#5a5c69</div>
-            </div>
-          </section>
-        </main>
-      </div>
-    </body>
-    </html>
+        <div class="colors">
+          <div class="color-box primary">Primary<br>#4e73df</div>
+          <div class="color-box success">Success<br>#1cc88a</div>
+          <div class="color-box info">Info<br>#36b9cc</div>
+          <div class="color-box warning">Warning<br>#f6c23e</div>
+          <div class="color-box danger">Danger<br>#e74a3b</div>
+          <div class="color-box secondary">Secondary<br>#858796</div>
+          <div class="color-box light">Light<br>#f8f9fc</div>
+          <div class="color-box dark">Dark<br>#5a5c69</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- JavaScript để tạo biểu đồ -->
+  <script>
+    // Biểu đồ hình tròn
+    const pieChart = new Chart(document.getElementById('pieChart'), {
+      type: 'pie',
+      data: {
+        labels: ['Sản phẩm A', 'Sản phẩm B', 'Sản phẩm C', 'Khác'],
+        datasets: [{
+          data: [30, 25, 20, 25],
+          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e'],
+          borderColor: '#fff',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: {
+                weight: 'bold',
+                family: 'Roboto'
+              },
+              color: '#000'
+            }
+          },
+          title: {
+            display: true,
+            text: 'Phân bổ doanh thu',
+            font: {
+              size: 16,
+              weight: 'bold',
+              family: 'Roboto'
+            },
+            color: '#000'
+          }
+        }
+      }
+    });
+
+    // Biểu đồ miền
+    const areaChart = new Chart(document.getElementById('areaChart'), {
+      type: 'line',
+      data: {
+        labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'],
+        datasets: [{
+          label: 'Doanh thu ($)',
+          data: [10000, 15000, 20000, 18000, 25000, 30000],
+          fill: true,
+          backgroundColor: 'rgba(78, 115, 223, 0.2)',
+          borderColor: '#4e73df',
+          tension: 0.4,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: {
+                weight: 'bold',
+                family: 'Roboto'
+              },
+              color: '#000'
+            }
+          },
+          title: {
+            display: true,
+            text: 'Doanh thu hàng tháng',
+            font: {
+              size: 16,
+              weight: 'bold',
+              family: 'Roboto'
+            },
+            color: '#000'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: '#000',
+              font: {
+                weight: 'bold',
+                family: 'Roboto'
+              }
+            },
+            grid: {
+              color: '#e9ecef'
+            }
+          },
+          x: {
+            ticks: {
+              color: '#000',
+              font: {
+                weight: 'bold',
+                family: 'Roboto'
+              }
+            },
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

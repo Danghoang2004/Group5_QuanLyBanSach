@@ -211,12 +211,12 @@ body {
 }
 
 .green {
-  color: green;
+  color: rgb(0, 0, 0);
   font-weight: bold;
 }
 
 .blue {
-  color: blue;
+  color: rgb(0, 0, 0);
 }
 
 textarea {

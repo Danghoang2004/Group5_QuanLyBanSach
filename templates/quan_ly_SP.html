@@ -10,7 +10,7 @@
 </head>
 <body>
   <div class="container">
-    <aside class="sidebar">
+    <aside class="sidebar " >
       <div class="logo">😎 Admin</div>
       <nav>
         <ul>
@@ -127,16 +127,16 @@
           <tbody>
             {% for sp in sanphams %}
             <tr class="selectable" data-masanpham="{{ sp.masanpham }}" data-matacgia="{{ sp.matacgia }}" data-matheloai="{{ sp.matheloai }}">
-              <td class="green">{{ sp.masanpham }}</td>
+              <td class="white">{{ sp.masanpham }}</td>
               <td>{{ sp.tensanpham or '(NULL)' }}</td>
-              <td class="blue">{{ sp.tacgia.hovaten if sp.tacgia else sp.matacgia or '(NULL)' }}</td>
+              <td class="white">{{ sp.tacgia.hovaten if sp.tacgia else sp.matacgia or '(NULL)' }}</td>
               <td>{{ sp.namxuatban or '(NULL)' }}</td>
-              <td class="blue">{{ sp.gianhap | round(2) if sp.gianhap else '(NULL)' }}</td>
-              <td class="blue">{{ sp.giagoc | round(2) if sp.giagoc else '(NULL)' }}</td>
-              <td class="blue">{{ sp.giaban | round(2) if sp.giaban else '(NULL)' }}</td>
-              <td class="blue">{{ sp.soluong | int if sp.soluong else '(NULL)' }}</td>
-              <td class="blue">{{ sp.theloai.tentheloai if sp.theloai else sp.matheloai or '(NULL)' }}</td>
-              <td class="green">{{ sp.ngonngu or '(NULL)' }}</td>
+              <td class="white">{{ sp.gianhap | round(2) if sp.gianhap else '(NULL)' }}</td>
+              <td class="white">{{ sp.giagoc | round(2) if sp.giagoc else '(NULL)' }}</td>
+              <td class="white">{{ sp.giaban | round(2) if sp.giaban else '(NULL)' }}</td>
+              <td class="white">{{ sp.soluong | int if sp.soluong else '(NULL)' }}</td>
+              <td class="white">{{ sp.theloai.tentheloai if sp.theloai else sp.matheloai or '(NULL)' }}</td>
+              <td class="white">{{ sp.ngonngu or '(NULL)' }}</td>
               <td><img src="{{ sp.hinhanh or '' }}" alt="Hình ảnh" class="product-img"></td>
               <td>{{ sp.mota or '(NULL)' }}</td>
             </tr>
